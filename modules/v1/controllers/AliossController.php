@@ -1,6 +1,6 @@
 <?php
-namespace mcastingpin\modules\v1\controllers;
 
+namespace mcastingpin\modules\v1\controllers;
 use mcastingpin\common\components\Aliyunoss;
 use yii\web\Controller;
 /**
