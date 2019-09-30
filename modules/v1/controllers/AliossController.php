@@ -45,7 +45,9 @@ class AliossController extends AliossService
         $object_vend_banner="image/".$vend_banner;
 
 
-        $filepath_vend_banner = "E:/Hub/Preomer/Pro/Promer-X/mcastingpin/modules/v1/web/images/upload/image-xinggan-91b2d170414acee47526bbda4f36d885c3d8fac0b037dfdd64ad62ae1f136751.jpg";
+//      $filepath_vend_banner = "E:/Hub/Preomer/Pro/Promer-X/mcastingpin/modules/v1/web/images/upload/image-xinggan-91b2d170414acee47526bbda4f36d885c3d8fac0b037dfdd64ad62ae1f136751.jpg";
+
+	$filepath_vend_banner =  '/data/www/Promer-X/mcastingpin/web/wx0a704dacdf2e7b2e.o6zAJs_3JXJGeT2tlfWN_UeMcIBA.5cdgPfMrPm0Sd001c433e30fd369ea10163bdf808936.jpg';
 
         $vend_banner_url = new Aliyunoss();
         $vend_banner_url->upload($object_vend_banner,$filepath_vend_banner);
