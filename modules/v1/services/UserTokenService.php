@@ -55,7 +55,7 @@ class UserTokenService extends TokenService {
             // 但在系统中的相关查询还是使用自己的uid
         {
 
-            $wechat_user = new WechatUser();
+            $wechat_user = new CastinpinUser();
             $wechat_user->open_id = $openid;
             $wechat_user->save();
             $uid =  $wechat_user->id;
