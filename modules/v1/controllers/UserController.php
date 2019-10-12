@@ -65,6 +65,8 @@ class UserController extends BaseController
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post();
             $user_id = $this->uid;
+            echo 123;
+            die;
             $pvs = new ParamsValidateService();
             $valid = $pvs->validate($data, [
                 [['nick_name', 'avatar_url'], 'required']
@@ -72,8 +74,7 @@ class UserController extends BaseController
             if (!$valid) {
                 return  HttpCode::renderJSON([],$pvs->getErrorSummary(true),'416');
             }
-            echo 123;
-            die;
+
             $wechat_user = new CastinpinUser();
             try {
                 $transaction = \Yii::$app->db->beginTransaction();
