@@ -4,6 +4,7 @@ namespace mcastingpin\modules\v1\services;
 use mcastingpin\common\components\HttpClient;
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\common\helps\ScopeEnum;
+use mcastingpin\common\services\TokenService;
 use mcastingpin\modules\v1\models\CastinpinUser;
 use yii\web\BadRequestHttpException;
 
