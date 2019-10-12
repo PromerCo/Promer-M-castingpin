@@ -70,8 +70,7 @@ class TokenService
     {
         $token = \Yii::$app->request->headers['token'];
         $vars  = \Yii::$app->cache->get($token);
-        print_r($vars);
-        die;
+
         if (!$vars)
         {
             //抛出异常
