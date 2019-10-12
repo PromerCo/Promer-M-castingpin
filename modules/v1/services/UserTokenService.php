@@ -24,6 +24,8 @@ class UserTokenService extends TokenService {
     public function get()
     {
       $result  =  HttpClient::get($this->wxLoginUrl);
+      print_r($result);
+      die;
       $wxResult = json_decode($result, true);// openid  session_key
 
       if (empty($wxResult)) {
