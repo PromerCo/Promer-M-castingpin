@@ -14,7 +14,7 @@ use yii\web\RangeNotSatisfiableHttpException;
 class UserController extends BaseController
 {
 
-    public $modelClass = 'mcastingpin\models\CastingpinUser';
+    public $modelClass = 'mcastingpin\models\CastinpinUser';
 
 
     /**
@@ -67,9 +67,6 @@ class UserController extends BaseController
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post();
             $user_id = $this->uid;
-            print_r();
-            die;
-
             $pvs = new ParamsValidateService();
             $valid = $pvs->validate($data, [
                 [['nick_name', 'avatar_url'], 'required']
