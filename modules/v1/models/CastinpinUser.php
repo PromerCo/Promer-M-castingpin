@@ -23,7 +23,7 @@ use Yii;
  * @property string $create_time
  * @property string $update_time
  */
-class CastinpinUser extends \mcastingpin\models\BaseModel
+class CastinpinUser extends BaseModel
 {
     /**
      * @inheritdoc
