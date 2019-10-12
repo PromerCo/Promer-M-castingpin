@@ -6,17 +6,18 @@ use mhubkol\common\helps\HttpCode;
 use mhubkol\modules\v1\models\HubkolUser;
 use mhubkol\modules\v1\services\UserTokenService;
 use wxphone\WXBizDataCrypt;
+use yii\web\Controller;
 use yii\web\RangeNotSatisfiableHttpException;
 
 /**
  * Site controller
  */
-class UserController extends BaseController
+class UserController extends Controller
 {
 
     public $modelClass = 'mcastingpin\models\CastingpinUser';
-    public  $enableCsrfValidation=false;
-    
+
+
     /**
      * @inheritdoc
      */
