@@ -6,13 +6,12 @@ use mhubkol\common\helps\HttpCode;
 use mhubkol\modules\v1\models\HubkolUser;
 use mhubkol\modules\v1\services\UserTokenService;
 use wxphone\WXBizDataCrypt;
-use yii\web\Controller;
 use yii\web\RangeNotSatisfiableHttpException;
 
 /**
  * Site controller
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
 
     public $modelClass = 'mcastingpin\models\CastingpinUser';
@@ -68,6 +67,8 @@ class UserController extends Controller
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post();
             $user_id = $this->uid;
+            print_r();
+            die;
 
             $pvs = new ParamsValidateService();
             $valid = $pvs->validate($data, [
