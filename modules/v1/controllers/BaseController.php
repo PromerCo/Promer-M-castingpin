@@ -11,8 +11,7 @@ class BaseController extends Controller
    {
 
        $this->uid =TokenService::getCurrentTokenVar('uid');
-       print_r($this->uid);
-       die;
+
 //       if ($this->modules === null) {
 //           throw new InvalidCallException('The "modelClass" property must be set.');
 //       }

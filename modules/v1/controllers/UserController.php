@@ -62,10 +62,12 @@ class UserController extends BaseController
      * 微信授权：将用户基本信息存档
      */
     public function actionAuthorize(){
+        print_r($this->uid);
+        die;
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post();
             $user_id = $this->uid;
-    
+
             $pvs = new ParamsValidateService();
             $valid = $pvs->validate($data, [
                 [['nick_name', 'avatar_url'], 'required']
