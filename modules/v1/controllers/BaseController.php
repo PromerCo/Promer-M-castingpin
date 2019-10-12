@@ -1,7 +1,6 @@
 <?php
 namespace mcastingpin\modules\v1\controllers;
 use mcastingpin\common\services\TokenService;
-use yii\base\InvalidCallException;
 use yii\redis\Connection;
 use yii\rest\Controller;
 
