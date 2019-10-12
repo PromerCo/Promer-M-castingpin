@@ -1,9 +1,10 @@
 <?php
 namespace mcastingpin\modules\v1\controllers;
 use mcastingpin\modules\v1\models\CastinpinUser;
+use mcastingpin\modules\v1\services\ParamsValidateService;
 use mhubkol\common\helps\HttpCode;
 use mhubkol\modules\v1\models\HubkolUser;
-use mhubkol\modules\v1\services\ParamsValidateService;
+
 use mhubkol\modules\v1\services\UserTokenService;
 use wxphone\WXBizDataCrypt;
 use yii\web\RangeNotSatisfiableHttpException;
