@@ -72,6 +72,8 @@ class UserController extends BaseController
             if (!$valid) {
                 return  HttpCode::renderJSON([],$pvs->getErrorSummary(true),'416');
             }
+            echo 123;
+            die;
             $wechat_user = new CastinpinUser();
             try {
                 $transaction = \Yii::$app->db->beginTransaction();
