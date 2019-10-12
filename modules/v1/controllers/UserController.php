@@ -13,7 +13,6 @@ class UserController extends BaseController
 
     public $modelClass = 'mcastingpin\models\CastinpinUser';
 
-
     /**
      * @inheritdoc
      */
