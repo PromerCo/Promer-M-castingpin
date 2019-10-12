@@ -4,7 +4,6 @@ use mcastingpin\modules\v1\models\CastinpinUser;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mhubkol\common\helps\HttpCode;
 use mhubkol\modules\v1\models\HubkolUser;
-
 use mhubkol\modules\v1\services\UserTokenService;
 use wxphone\WXBizDataCrypt;
 use yii\web\RangeNotSatisfiableHttpException;
@@ -32,9 +31,7 @@ class UserController extends BaseController
             ],
         ];
     }
-    public function actionIndex(){
-        echo "用户的ID为：".$this->uid;
-    }
+
     /*
      * 获取用户-手机号
      */
