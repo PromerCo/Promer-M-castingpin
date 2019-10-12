@@ -14,7 +14,7 @@ use yii\web\RangeNotSatisfiableHttpException;
  */
 class UserController extends BaseController
 {
-    public $modelClass = 'mcastingpin\models\CastingpinUser';
+    public  $enableCsrfValidation=false;
     /**
      * @inheritdoc
      */
