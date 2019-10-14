@@ -38,7 +38,7 @@ class CastingpinuserController extends BaseController
 
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post();
-            $user_id = $this->uid;
+            $openId = $this->openId;
             $pvs = new ParamsValidateService();
             $valid = $pvs->validate($data, [
                 [['nick_name', 'avatar_url'], 'required']
@@ -49,7 +49,7 @@ class CastingpinuserController extends BaseController
             $wechat_user = new CastingpinUser();
             try {
                 $transaction = \Yii::$app->db->beginTransaction();
-                $wechat_user->updateAll($data,['id'=>$user_id]);
+                $wechat_user->updateAll($data,['id'=>$openId]);
                 if (!$wechat_user){
                     return  HttpCode::renderJSON([],'update failed','412');
                 }else{
