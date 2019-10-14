@@ -1,7 +1,6 @@
 <?php
-
-
 namespace mcastingpin\modules\v1\controllers;
+
 use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\common\helps\HttpCode;
@@ -9,7 +8,7 @@ use mcastingpin\common\helps\HttpCode;
 /**
  * CastingpinUserController implements the CRUD actions for CastingpinUser model.
  */
-class CastingpinUserController extends BaseController
+class CastingpinuserController extends BaseController
 {
 
     public $modelClass = 'mcastingpin\models\CastingpinUser';
