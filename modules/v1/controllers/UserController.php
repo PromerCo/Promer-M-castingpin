@@ -3,16 +3,13 @@ namespace mcastingpin\modules\v1\controllers;
 use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\common\helps\HttpCode;
-use yii\web\Controller;
 
 /**
  * Site controller
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
-
     public $modelClass = 'mcastingpin\models\CastingpinUser';
-
     /**
      * @inheritdoc
      */
@@ -29,17 +26,14 @@ class UserController extends Controller
         ];
     }
 
-
-
     /*
      * 微信授权：将用户基本信息存档
      */
     public function actionAuthorize(){
-
+        echo 123;
+        die;
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post();
-            print_r($data);
-            die;
             $user_id = $this->uid;
             $pvs = new ParamsValidateService();
             $valid = $pvs->validate($data, [
@@ -48,7 +42,6 @@ class UserController extends Controller
             if (!$valid) {
                 return  HttpCode::renderJSON([],$pvs->getErrorSummary(true),'416');
             }
-
             $wechat_user = new CastingpinUser();
             try {
                 $transaction = \Yii::$app->db->beginTransaction();
@@ -66,5 +59,4 @@ class UserController extends Controller
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
-
 }
