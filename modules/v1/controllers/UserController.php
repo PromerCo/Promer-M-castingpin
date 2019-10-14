@@ -38,6 +38,8 @@ class UserController extends Controller
 
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post();
+            print_r($data);
+            die;
             $user_id = $this->uid;
             $pvs = new ParamsValidateService();
             $valid = $pvs->validate($data, [
