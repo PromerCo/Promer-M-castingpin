@@ -5,12 +5,13 @@ namespace mcastingpin\modules\v1\controllers;
 use mcastingpin\modules\v1\models\CastingpinUser;
 use Yii;
 use yii\data\Pagination;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
  * CastingpinUserController implements the CRUD actions for CastingpinUser model.
  */
-class CastingpinuserController extends BaseController
+class CastingpinuserController extends Controller
 {
 	public $layout = "lte_main";
 
