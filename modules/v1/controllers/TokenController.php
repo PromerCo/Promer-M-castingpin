@@ -1,6 +1,7 @@
 <?php
 
 namespace mcastingpin\modules\v1\controllers;
+
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\common\services\TokenService;
 use mcastingpin\modules\v1\services\UserTokenService;

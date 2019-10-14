@@ -5,7 +5,7 @@ use mcastingpin\common\components\HttpClient;
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\common\helps\ScopeEnum;
 use mcastingpin\common\services\TokenService;
-use mcastingpin\modules\v1\models\CastinpinUser;
+use mcastingpin\modules\v1\models\CastingpinUser;
 use yii\web\BadRequestHttpException;
 
 class UserTokenService extends TokenService {
@@ -48,14 +48,14 @@ class UserTokenService extends TokenService {
         // 如果想要更加安全可以考虑自己生成更复杂的令牌
         // 比如使用JWT并加入盐，如果不加入盐有一定的几率伪造令牌
         $openid = $wxResult['openid'];   //openid 和session_key
-        $user =   CastinpinUser::findOne(['open_id'=>$openid]);
+        $user =   CastingpinUser::findOne(['open_id'=>$openid]);
 
         if (!$user)
             // 借助微信的openid作为用户标识
             // 但在系统中的相关查询还是使用自己的uid
         {
 
-            $wechat_user = new CastinpinUser();
+            $wechat_user = new CastingpinUser();
             $wechat_user->open_id = $openid;
             $wechat_user->save();
             $uid =  $wechat_user->id;
