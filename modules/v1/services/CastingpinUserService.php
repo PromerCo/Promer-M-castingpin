@@ -30,9 +30,7 @@ class CastingpinUserService {
                 //speciality特长
                  $data =   CastingpinActor::find()->where(['open_id'=>$openId])->select(['stage_name','university','stage_name','style','speciality'])->asArray()->one();
                 if (empty($data) || !$data){
-                 $data = [];
-                 $data['material'] = 0;
-                 $data['type'] = $type;
+      
                 }else{
                  $data['material'] = 1;
                  $data['type'] = $type;
