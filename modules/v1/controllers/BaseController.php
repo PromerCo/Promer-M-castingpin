@@ -10,7 +10,7 @@ class BaseController extends Controller
    public function init()
    {
 
-       $this->uid =TokenService::getCurrentTokenVar('uid');
+//       $this->uid =TokenService::getCurrentTokenVar('uid');
 
 //       if ($this->modules === null) {
 //           throw new InvalidCallException('The "modelClass" property must be set.');

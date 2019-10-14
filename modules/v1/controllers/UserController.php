@@ -3,8 +3,6 @@ namespace mcastingpin\modules\v1\controllers;
 use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\common\helps\HttpCode;
-
-
 /**
  * Site controller
  */

@@ -12,7 +12,7 @@ use yii\web\Controller;
  */
 class TokenController extends Controller
 {
-    public $modelClass = 'mcastingpin\models\WechatUser';
+
     public  $enableCsrfValidation=false;
 
     /**

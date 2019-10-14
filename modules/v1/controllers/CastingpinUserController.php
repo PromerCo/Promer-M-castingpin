@@ -2,13 +2,10 @@
 
 namespace mcastingpin\modules\v1\controllers;
 
+use mcastingpin\modules\v1\models\CastingpinUser;
 use Yii;
 use yii\data\Pagination;
-use mcastingpin\modules\v1\models\CastingpinUser;
-use yii\data\ActiveDataProvider;
-use mcastingpin\modules\v1\controllers\BaseController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * CastingpinUserController implements the CRUD actions for CastingpinUser model.
