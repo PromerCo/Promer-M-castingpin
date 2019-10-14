@@ -28,16 +28,16 @@ class CastingpinUserService {
                 //stage_name 艺名
                 //style 风格
                 //speciality特长
-                $data =   CastingpinActor::find()->where(['open_id'=>$openId])->select(['stage_name','university','stage_name','style','speciality'])->asArray()->one();
+                 $data =   CastingpinActor::find()->where(['open_id'=>$openId])->select(['stage_name','university','stage_name','style','speciality'])->asArray()->one();
                 if (empty($data) || !$data){
-                    $data['material'] = 0;
-                    $data['type'] = $type;
+                 $data = [];
+                 $data['material'] = 0;
+                 $data['type'] = $type;
                 }else{
-                    $data['material'] = 1;
-                    $data['type'] = $type;
+                 $data['material'] = 1;
+                 $data['type'] = $type;
                 }
                 return $data;
-
             break;
         }
     }
