@@ -5,7 +5,9 @@ use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\CastingpinUserService;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\common\helps\HttpCode;
-use yii\web\Controller;
+use mcastingpin\modules\v1\services\UserTokenService;
+use wxphone\WXBizDataCrypt;
+use yii\web\RangeNotSatisfiableHttpException;
 
 /**
  * CastingpinUserController implements the CRUD actions for CastingpinUser model.
@@ -64,7 +66,6 @@ class CastingpinuserController extends BaseController
         }
     }
 
-
     /*
      * 获取我的页面数据
     */
@@ -72,6 +73,36 @@ class CastingpinuserController extends BaseController
         $openId =  $this->openId; //获取用户ID
         $types =  CastingpinUser::find()->where(['open_id'=>$openId])->select('capacity')->asArray()->one(); //查询类型(状态)
         return   HttpCode::renderJSON(CastingpinUserService::Blocked($types['capacity'],$openId),'ok','201') ; //返回对应角色数据
+    }
+
+    /*
+     * 获取手机号
+     */
+    /*
+     * 获取用户-手机号
+     */
+    public function actionPhone(){
+        if ((\Yii::$app->request->isPost)) {
+            $iv =    \Yii::$app->request->post('iv');
+            $encryptedData = urldecode(\Yii::$app->request->post('encryptedData'));
+            $code =  \Yii::$app->request->post('code');
+            $app_id = \Yii::$app->params['app_id'];
+            if (empty($iv) || empty($encryptedData) || empty($code) || empty($app_id) ){
+                throw new RangeNotSatisfiableHttpException('缺少参数');
+            }
+            $wx = new UserTokenService($code);
+            $session_key = $wx->getSessionKey();
+            $pc =  new WXBizDataCrypt($app_id,$session_key);
+            $errCode = $pc->decryptData($encryptedData,
+                $iv, $data );
+            if ($errCode == 0){
+                return  HttpCode::renderJSON([],$data,'201');
+            }
+            return  HttpCode::renderJSON([],$errCode,'418');
+
+        }else{
+            return  HttpCode::renderJSON([],'请求方式出错','418');
+        }
     }
 
 
