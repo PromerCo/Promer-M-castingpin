@@ -11,7 +11,7 @@ use yii\web\NotFoundHttpException;
 /**
  * CastingpinUserController implements the CRUD actions for CastingpinUser model.
  */
-class CastingpinuserController extends Controller
+class CastingpinUserController extends Controller
 {
 	public $layout = "lte_main";
 
