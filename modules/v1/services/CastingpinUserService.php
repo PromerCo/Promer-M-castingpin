@@ -33,13 +33,12 @@ class CastingpinUserService {
 
                  $data['material'] = 0;
                  $data['type'] = $type;
-                 print_r($data);
-                 die;
+
                  }else{
                  $data['material'] = 1;
                  $data['type'] = $type;
                  }
-                return $data;
+                return  $data;
             break;
         }
     }
