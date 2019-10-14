@@ -3,10 +3,12 @@ namespace mcastingpin\modules\v1\controllers;
 use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\common\helps\HttpCode;
+use yii\web\Controller;
+
 /**
  * Site controller
  */
-class UserController extends BaseController
+class UserController extends Controller
 {
 
     public $modelClass = 'mcastingpin\models\CastingpinUser';
