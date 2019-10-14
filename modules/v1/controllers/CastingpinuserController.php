@@ -70,6 +70,7 @@ class CastingpinuserController extends BaseController
     */
     public function actionMiexhibit(){
         $openId =  $this->openId; //获取用户ID
+        return $openId;
         $types =  CastingpinUser::find()->where(['open_id'=>$openId])->select('capacity')->asArray()->one(); //查询类型(状态)
         return CastingpinUserService::Blocked($types['capacity'],$openId); //返回对应角色数据
     }
