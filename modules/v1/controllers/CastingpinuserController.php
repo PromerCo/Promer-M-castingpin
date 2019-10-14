@@ -91,6 +91,7 @@ class CastingpinuserController extends BaseController
                 throw new RangeNotSatisfiableHttpException('缺少参数');
             }
             $wx = new UserTokenService($code);
+
             $session_key = $wx->getSessionKey();
             $pc =  new WXBizDataCrypt($app_id,$session_key);
             $errCode = $pc->decryptData($encryptedData,
