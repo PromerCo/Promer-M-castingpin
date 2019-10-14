@@ -30,8 +30,7 @@ class UserController extends BaseController
      * 微信授权：将用户基本信息存档
      */
     public function actionAuthorize(){
-        echo 123;
-        die;
+
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post();
             $user_id = $this->uid;
