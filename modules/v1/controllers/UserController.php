@@ -3,11 +3,12 @@ namespace mcastingpin\modules\v1\controllers;
 use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\common\helps\HttpCode;
+use yii\web\Controller;
 
 /**
  * Site controller
  */
-class UserController extends BaseController
+class UserController extends Controller
 {
     public $modelClass = 'mcastingpin\models\CastingpinUser';
     /**
@@ -30,6 +31,8 @@ class UserController extends BaseController
      * 微信授权：将用户基本信息存档
      */
     public function actionAuthorize(){
+        echo 1;
+        die;
 
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post();
