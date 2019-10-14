@@ -1,6 +1,6 @@
 <?php
 namespace mcastingpin\modules\v1\controllers;
-use mcastingpin\modules\v1\models\CastinpinUser;
+use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\common\helps\HttpCode;
 
@@ -11,7 +11,7 @@ use mcastingpin\common\helps\HttpCode;
 class UserController extends BaseController
 {
 
-    public $modelClass = 'mcastingpin\models\CastinpinUser';
+    public $modelClass = 'mcastingpin\models\CastingpinUser';
 
     /**
      * @inheritdoc
@@ -47,7 +47,7 @@ class UserController extends BaseController
                 return  HttpCode::renderJSON([],$pvs->getErrorSummary(true),'416');
             }
 
-            $wechat_user = new CastinpinUser();
+            $wechat_user = new CastingpinUser();
             try {
                 $transaction = \Yii::$app->db->beginTransaction();
                 $wechat_user->updateAll($data,['id'=>$user_id]);
