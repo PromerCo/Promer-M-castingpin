@@ -4,15 +4,16 @@ namespace mcastingpin\modules\v1\controllers;
 use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\common\helps\HttpCode;
+use yii\web\Controller;
 
 /**
  * CastingpinUserController implements the CRUD actions for CastingpinUser model.
  */
-class CastingpinuserController extends BaseController
+class CastingpinuserController extends Controller
 {
 
     public  $enableCsrfValidation=false;
-    
+
     /**
      * @inheritdoc
      */
