@@ -9,7 +9,7 @@ use yii\web\Controller;
 /**
  * CastingpinUserController implements the CRUD actions for CastingpinUser model.
  */
-class CastingpinuserController extends Controller
+class CastingpinuserController extends BaseController
 {
 
     public  $enableCsrfValidation=false;
