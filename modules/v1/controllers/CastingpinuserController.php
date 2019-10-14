@@ -2,6 +2,7 @@
 namespace mcastingpin\modules\v1\controllers;
 
 use mcastingpin\modules\v1\models\CastingpinUser;
+use mcastingpin\modules\v1\services\CastingpinUserService;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\common\helps\HttpCode;
 use yii\web\Controller;
@@ -68,10 +69,9 @@ class CastingpinuserController extends BaseController
      * 获取我的页面数据
     */
     public function actionMiexhibit(){
-        $uid =  $this->uid; //获取用户ID
-        $types =  CastingpinUser::find()->where(['id'=>$uid])->select('capacity')->asArray()->one(); //查询类型(状态)
-        return  HttpCode::jsonObj($types,'ok','200');
-
+        $openId =  $this->openId; //获取用户ID
+        $types =  CastingpinUser::find()->where(['open_id'=>$openId])->select('capacity')->asArray()->one(); //查询类型(状态)
+        return CastingpinUserService::Blocked($types['capacity'],$openId); //返回对应角色数据
     }
 
 

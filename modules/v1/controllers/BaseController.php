@@ -7,11 +7,11 @@ use yii\web\Controller;
 
 class BaseController extends Controller
 {
-    public $uid;
+    public $openId;
    public function init()
    {
 
-     $this->uid =TokenService::getCurrentTokenVar('uid');
+     $this->openId =TokenService::getCurrentTokenVar('openid');
 //       if ($this->modules === null) {
 //           throw new InvalidCallException('The "modelClass" property must be set.');
 //       }
