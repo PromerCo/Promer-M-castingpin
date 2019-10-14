@@ -1,8 +1,9 @@
 <?php
 namespace mcastingpin\modules\v1\controllers;
+
 use mcastingpin\common\services\TokenService;
 use yii\redis\Connection;
-use yii\rest\Controller;
+use yii\web\Controller;
 
 class BaseController extends Controller
 {
@@ -10,7 +11,7 @@ class BaseController extends Controller
    public function init()
    {
 
-//     $this->uid =TokenService::getCurrentTokenVar('uid');
+     $this->uid =TokenService::getCurrentTokenVar('uid');
 //       if ($this->modules === null) {
 //           throw new InvalidCallException('The "modelClass" property must be set.');
 //       }
