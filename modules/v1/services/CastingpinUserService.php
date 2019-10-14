@@ -18,7 +18,7 @@ class CastingpinUserService {
                 //company 公司
                 //position 职位
                 //city 城市
-                $data = CastingpinArranger::find()->where(['open_id'=>$openId])->select(['industry,company,position,city'])->asArray()->one();
+                $data = CastingpinArranger::find()->where(['open_id'=>$openId])->select(['industry','company','position','city'])->asArray()->one();
                 return $data;
 
             break;
@@ -29,8 +29,14 @@ class CastingpinUserService {
                 //style 风格
                 //speciality特长
                 $data =   CastingpinActor::find()->where(['open_id'=>$openId])->select(['stage_name','university','stage_name','style','speciality'])->asArray()->one();
+                if (empty($data) || !$data){
+                    $data['material'] = 0;
+                    $data['type'] = $type;
+                }else{
+                    $data['material'] = 1;
+                    $data['type'] = $type;
+                }
                 return $data;
-
 
             break;
         }
