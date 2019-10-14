@@ -1,12 +1,15 @@
 <?php
 namespace mcastingpin\modules\v1\services;
 
-use mcastingpin\modules\v1\models\CastinpinUser;
+use mhubkol\common\helps\HttpCode;
+use mhubkol\modules\v1\models\HubkolHub;
+use mhubkol\modules\v1\models\HubkolKol;
+use mhubkol\modules\v1\models\HubkolTags;
 
-class CastingpinUserService extends CastinpinUser {
+
+class CastingpinUserService {
 
     public static function Blocked($type,$uid){
-
 
     }
 

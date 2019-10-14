@@ -35,7 +35,6 @@ class CastingpinuserController extends BaseController
      */
     public function actionAuthorize(){
 
-
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post();
             $user_id = $this->uid;
@@ -63,6 +62,18 @@ class CastingpinuserController extends BaseController
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
+
+
+    /*
+     * 获取我的页面数据
+    */
+    public function actionMiexhibit(){
+        $uid =  $this->uid; //获取用户ID
+        $types =  CastingpinUser::find()->where(['id'=>$uid])->select('capacity')->asArray()->one(); //查询类型(状态)
+        return  HttpCode::jsonObj($types,'ok','200');
+
+    }
+
 
 
 
