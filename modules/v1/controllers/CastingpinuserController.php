@@ -11,7 +11,8 @@ use mcastingpin\common\helps\HttpCode;
 class CastingpinuserController extends BaseController
 {
 
-
+    public  $enableCsrfValidation=false;
+    
     /**
      * @inheritdoc
      */
