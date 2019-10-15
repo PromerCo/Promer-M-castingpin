@@ -43,7 +43,7 @@ class CastingpinactorController extends BaseController
                 return  HttpCode::jsonObj([],'请先授权','416');
             } else {
             $transaction = \Yii::$app->db->beginTransaction();
-            $type = $capacity['$capacity'];
+            $type = $capacity['capacity'];
             switch ($type) {
                     //艺人
                     case 2:
