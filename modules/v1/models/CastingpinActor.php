@@ -43,6 +43,8 @@ class CastingpinActor extends BaseModel
      */
     public function rules()
     {
+
+
         return [
             [['occupation', 'style', 'speciality'], 'integer'],
             [['profile'], 'string'],

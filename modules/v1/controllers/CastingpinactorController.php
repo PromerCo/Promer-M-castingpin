@@ -37,6 +37,8 @@ class CastingpinactorController extends BaseController
 
         if ((\Yii::$app->request->isPost)) {
             $data  =    \Yii::$app->request->post('data');
+            return HttpCode::renderJSON($data, 'ok', '200');
+       
             $openid =   $this->openId;
             $capacity = CastingpinUser::find()->where(['open_id' => $openid])->select(['capacity'])->one();
             if (empty($capacity['capacity'])) {
