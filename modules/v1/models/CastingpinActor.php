@@ -54,7 +54,7 @@ class CastingpinActor extends BaseModel
             [['phone'], 'string', 'max' => 11],
             [['university'], 'string', 'max' => 60],
             [['gender', 'delete_status'], 'string', 'max' => 1],
-            [['birthday', 'height', 'weight', 'bust', 'waist', 'hip'], 'string', 'max' => 3]
+            [[ 'height', 'weight', 'bust', 'waist', 'hip'], 'string', 'max' => 3]
         ];
     }
 

@@ -37,7 +37,7 @@ class CastingpinactorController extends BaseController
 
         if ((\Yii::$app->request->isPost)) {
             $data  =    \Yii::$app->request->post();
-  
+
             $openid =   $this->openId;
             $capacity = CastingpinUser::find()->where(['open_id' => $openid])->select(['capacity'])->one();
             if (empty($capacity['capacity'])) {
@@ -60,7 +60,6 @@ class CastingpinactorController extends BaseController
                                 return  HttpCode::renderJSON([],'ok','200');
                             }
                     } else {
-                            $data['update_time'] = date('Y-m-d H:i:s',time());
                             $is_update = CastingpinActor::updateAll($data, ['open_id' => $openid]);
                     if ($is_update) {
                                 $transaction->commit();
