@@ -69,7 +69,7 @@ class TokenService
     public static function getCurrentTokenVar($key)
     {
         $token = \Yii::$app->request->headers['token'];
-        $vars  = \Yii::$app->cache->get($token);
+        $vars  = \Yii::$app->cache->get($token);  //
 
         if (!$vars)
         {

@@ -75,9 +75,7 @@ class CastingpinuserController extends BaseController
         return   HttpCode::renderJSON(CastingpinUserService::Blocked($types['capacity'],$openId),'ok','201') ; //返回对应角色数据
     }
 
-    /*
-     * 获取手机号
-     */
+
     /*
      * 获取用户-手机号
      */
