@@ -33,10 +33,10 @@ class CastingpinactorController extends BaseController
     /*
      * 保存信息
      */
-    public function actionSaveDate(){
+    public function actionSavedata(){
 
         if ((\Yii::$app->request->isPost)) {
-            $data  = \Yii::$app->request->post();
+            $data  = \Yii::$app->request->post('data');
             $openid = $this->openId;
             $capacity = CastingpinUser::find()->where(['open_id' => $openid])->select(['capacity'])->one();
             if (empty($capacity['$capacity'])) {
