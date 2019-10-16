@@ -50,14 +50,19 @@ class CastingpinconfigController extends Controller
 
     public function  actionMessage(){
         if ((\Yii::$app->request->isPost)) {
+
+            $data = [];
             $valid = CastingpinVersion::find()->select(['version','status'])->asArray()->one();
 
             $cache_msg =  CastingpinConfig::find()->select(['code','name','sort','type','title'])->asArray()->all();
+            $data['valid'] = $valid;
 
-            $list =  Redis::get('castingpin_list');
+            $data['cache_msg'] = $cache_msg;
+
+            $list =  Redis::get('casting_list');
             if (!$list){
-                $list = $cache_msg;
-                Redis::set('castingpin_list',$list);
+                $list = $data;
+                Redis::set('casting_list',$list);
             }
             return  HttpCode::renderJSON($list,'ok',200);
         }else{
