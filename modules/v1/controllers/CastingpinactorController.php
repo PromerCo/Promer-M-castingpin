@@ -36,7 +36,7 @@ class CastingpinactorController extends BaseController
     public function actionSavedata(){
         if ((\Yii::$app->request->isPost)) {
             $data  =    \Yii::$app->request->post('data');
-            
+
             $openid =   $this->openId;
             $capacity = CastingpinUser::find()->where(['open_id' => $openid])->select(['capacity'])->one();
             if (empty($capacity['capacity'])) {
@@ -59,12 +59,13 @@ class CastingpinactorController extends BaseController
                                 return  HttpCode::renderJSON([],'ok','200');
                             }
                     } else {
+
                             $is_update = CastingpinActor::updateAll($data, ['open_id' => $openid]);
-                    if ($is_update) {
+                           if ($is_update) {
                                 $transaction->commit();
                                 return HttpCode::renderJSON([], 'ok', '200');
                             } else {
-                                return HttpCode::renderJSON([], 'update failed', '412');
+                                return HttpCode::renderJSON([], $Actor->errors, '412');
                             }
                         }
                         break;
