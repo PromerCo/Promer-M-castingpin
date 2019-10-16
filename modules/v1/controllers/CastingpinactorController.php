@@ -59,13 +59,12 @@ class CastingpinactorController extends BaseController
                                 return  HttpCode::renderJSON([],'ok','200');
                             }
                     } else {
-
                             $is_update = CastingpinActor::updateAll($data, ['open_id' => $openid]);
-                           if ($is_update) {
+                    if ($is_update) {
                                 $transaction->commit();
                                 return HttpCode::renderJSON([], 'ok', '200');
                             } else {
-                                return HttpCode::renderJSON([], $Actor->errors, '412');
+                                return HttpCode::renderJSON([], 'update failed', '412');
                             }
                         }
                         break;
