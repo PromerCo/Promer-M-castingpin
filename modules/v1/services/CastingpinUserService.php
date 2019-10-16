@@ -23,12 +23,12 @@ class CastingpinUserService {
 
             break;
             case 2:
-                //stage_name 职业
+                //occupation 职业
                 //university 毕业院校
                 //stage_name 艺名
                 //style 风格
                 //speciality特长
-                 $data =   CastingpinActor::find()->where(['open_id'=>$openId])->select(['stage_name','university','stage_name','style','speciality'])->asArray()->one();
+                 $data =   CastingpinActor::find()->where(['open_id'=>$openId])->select(['stage_name','university','occupation','style','speciality'])->asArray()->one();
                  if (empty($data) || !$data){
 
                  $data['material'] = 0;

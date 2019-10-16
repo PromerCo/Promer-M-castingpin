@@ -104,7 +104,6 @@ class CastingpinactorController extends BaseController
                     $actor = CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['wechat','phone','corporation',
                     'email','occupation','woman','university','stage_name','city','birthday','height','weight','speciality','profile'])->asArray()->one();
 
-                    
 
                     return HttpCode::renderJSON($actor, 'ok', '200');
                     break;

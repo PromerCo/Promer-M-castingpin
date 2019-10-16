@@ -6,7 +6,6 @@ use mcastingpin\common\helps\HttpCode;
 use mcastingpin\common\services\TokenService;
 use mcastingpin\modules\v1\services\UserTokenService;
 use yii\web\Controller;
-
 /**
  * Site controller
  */
