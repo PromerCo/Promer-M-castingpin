@@ -18,7 +18,7 @@ class CastingpinUserService {
                 //company 公司
                 //position 职位
                 //city 城市
-                $data = CastingpinArranger::find()->where(['open_id'=>$openId])->select(['industry','company','position','city'])->asArray()->one();
+                $data = CastingpinArranger::find()->where(['open_id'=>$openId])->select(['industry','corporation','position','city'])->asArray()->one();
                 if (empty($data) || !$data){
                     $data['material'] = 0;
                     $data['type'] = $type;
