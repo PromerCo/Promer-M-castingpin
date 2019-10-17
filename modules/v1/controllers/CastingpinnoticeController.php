@@ -32,9 +32,6 @@ class CastingpinnoticeController extends BaseController
     public function actionPush(){
         if ((\Yii::$app->request->isPost)) {
             $data  = \Yii::$app->request->post('data');
-
-            return  HttpCode::renderJSON($data,'ok','201');
-
             $transaction = \Yii::$app->db->beginTransaction();
             $notice = new CastingpinNotice();
             $arranger_id =  CastingpinArranger::find()->where(['open_id'=>$this->openId])->select('id')->asArray()->one();  //外加一个状态 标识切换账号
