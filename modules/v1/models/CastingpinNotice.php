@@ -48,7 +48,7 @@ class CastingpinNotice extends BaseModel
             [['create_time', 'update_time'], 'safe'],
             [['title'], 'string', 'max' => 30],
             [['gender', 'delete_status'], 'string', 'max' => 1],
-            [['age', 'bust', 'waist', 'hip'], 'string', 'max' => 3],
+            [['age', 'bust', 'waist', 'hip'], 'string', 'max' => 8],
             [['convene', 'bystander_number'], 'string', 'max' => 5]
         ];
     }
