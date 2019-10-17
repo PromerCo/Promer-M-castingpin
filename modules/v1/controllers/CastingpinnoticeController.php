@@ -31,7 +31,7 @@ class CastingpinnoticeController extends BaseController
    */
     public function actionPush(){
         if ((\Yii::$app->request->isPost)) {
-            $data  = \Yii::$app->request->post();
+            $data  = \Yii::$app->request->post('data');
 
             return  HttpCode::renderJSON($data,'ok','201');
 
