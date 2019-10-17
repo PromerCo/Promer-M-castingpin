@@ -4,6 +4,7 @@ namespace mcastingpin\modules\v1\controllers;
 
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\modules\v1\models\CastingpinActor;
+use mcastingpin\modules\v1\models\CastingpinArranger;
 use mcastingpin\modules\v1\models\CastingpinUser;
 
 /**
@@ -93,26 +94,24 @@ class CastingpinactorController extends BaseController
             if (empty($capacity['capacity'])) {
                 return  HttpCode::jsonObj([],'请先授权','416');
             } else {
-                $transaction = \Yii::$app->db->beginTransaction();
                 $type = $capacity['capacity'];
                 switch ($type) {
                     //统筹
                     case 1:
-                        break;
+                    $actor = CastingpinArranger::find()->where(['open_id'=>$this->openId])->select(['wechat','phone', 'email',
+                        'industry','company','position','city','profile',])->asArray()->one();
+                    return HttpCode::renderJSON($actor, 'ok', '200');
+                    break;
                     //艺人
                     case 2:
                     $actor = CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['wechat','phone','corporation',
                     'email','occupation','woman','university','stage_name','city','birthday','height','weight','speciality','profile'])->asArray()->one();
-
-
                     return HttpCode::renderJSON($actor, 'ok', '200');
                     break;
                 }
-
             }
-
         }else{
-
+            return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
 
