@@ -37,7 +37,6 @@ class CastingpinactorController extends BaseController
     public function actionSavedata(){
         if ((\Yii::$app->request->isPost)) {
             $data  =    \Yii::$app->request->post('data');
-
             $openid =   $this->openId;
             $capacity = CastingpinUser::find()->where(['open_id' => $openid])->select(['capacity'])->one();
             if (empty($capacity['capacity'])) {
@@ -61,7 +60,7 @@ class CastingpinactorController extends BaseController
                             }
                     } else {
                             $is_update = CastingpinActor::updateAll($data, ['open_id' => $openid]);
-                    if ($is_update) {
+                            if ($is_update) {
                                 $transaction->commit();
                                 return HttpCode::renderJSON([], 'ok', '200');
                             } else {
@@ -71,6 +70,28 @@ class CastingpinactorController extends BaseController
                         break;
                     case 1:
                         //统筹
+                        $Arranger = new CastingpinArranger();
+                        $id    = CastingpinArranger::find()->where(['open_id' => $openid])->select(['id'])->one();
+                        if (!$id) {
+                            $data['open_id'] = $this->openId;
+                            $Arranger->setAttributes($data, false);
+                            if (!$Arranger->save() ) {
+                                return  HttpCode::renderJSON([],$Arranger->errors,'412');
+                            }else{
+                                $transaction->commit();
+                                return  HttpCode::renderJSON([],'ok','200');
+                            }
+                        }else{
+                            $is_update = CastingpinArranger::updateAll($data, ['open_id' => $openid]);
+                            if ($is_update) {
+                                $transaction->commit();
+                                return HttpCode::renderJSON([], 'ok', '200');
+                            } else {
+                                return HttpCode::renderJSON([], 'update failed', '412');
+                            }
+                        }
+                        
+
                         break;
 
                 }
