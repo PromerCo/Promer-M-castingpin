@@ -42,11 +42,11 @@ class CastingpinNotice extends BaseModel
     public function rules()
     {
         return [
-            [[ 'notice_id', 'title', 'occupation', 'gender', 'convene'], 'required'],
+            [[ 'notice_id', 'title', 'occupation', 'gender', 'convene'], 'required',],
             [['notice_id', 'occupation', 'style', 'speciality'], 'integer'],
             [['profile', 'bystander', 'enroll'], 'string'],
             [['create_time', 'update_time'], 'safe'],
-            [['title'], 'string', 'max' => 30],
+            [['title'], 'string', 'max' => 30,'message'=>'剧组名不能超过30个字'],
             [['gender', 'delete_status'], 'string', 'max' => 1],
             [['age', 'bust', 'waist', 'hip'], 'string', 'max' => 3],
             [['convene', 'bystander_number'], 'string', 'max' => 5]
