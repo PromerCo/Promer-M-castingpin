@@ -40,7 +40,7 @@ class CastingpinArranger extends BaseModel
             [['profile'], 'string'],
             [['create_time', 'update_time'], 'safe'],
             [['open_id'], 'string', 'max' => 32],
-            [['wechat', 'email', 'industry', 'company', 'city'], 'string', 'max' => 30],
+            [['wechat', 'email', 'industry', 'corporation', 'city'], 'string', 'max' => 30],
             [['phone'], 'string', 'max' => 11],
             [['delete_status'], 'string', 'max' => 1]
         ];
@@ -58,7 +58,7 @@ class CastingpinArranger extends BaseModel
             'phone' => '手机',
             'email' => '邮箱',
             'industry' => '行业',
-            'company' => '公司',
+            'corporation' => '公司',
             'position' => '职位',
             'city' => '城市',
             'profile' => '简介',
@@ -223,7 +223,7 @@ class CastingpinArranger extends BaseModel
                         'isSort' => true,
 //                         'udc'=>'',
                     ),
-		'company' => array(
+		'corporation' => array(
                         'name' => 'company',
                         'allowNull' => true,
 //                         'autoIncrement' => false,
