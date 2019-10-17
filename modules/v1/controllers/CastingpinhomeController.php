@@ -37,7 +37,8 @@ class CastingpinhomeController extends BaseController
          if (empty($arranger['id'])){
              return  HttpCode::renderJSON([],'参数不能为空','416');
          }else{
-          $data    =  CastingpinNotice::find()->where(['arranger_id'=>$arranger['id']])->select()->asArray()->all();
+          $data    =  CastingpinNotice::find()->where(['arranger_id'=>$arranger['id']])->select(['arranger_id',
+          'notice_id','title','occupation'])->asArray()->all();
           return  HttpCode::renderJSON($data,'ok','201');
 
          }
