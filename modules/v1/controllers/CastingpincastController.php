@@ -29,6 +29,7 @@ class CastingpincastController extends BaseController
     */
     public function actionPush(){
         if ((\Yii::$app->request->isPost)) {
+            $open_id = $this->openId;
             $data        = \Yii::$app->request->post('data');
             $transaction = \Yii::$app->db->beginTransaction();
             $notice      = new CastingpinCast();
@@ -37,6 +38,7 @@ class CastingpincastController extends BaseController
                 return  HttpCode::renderJSON([],'请先完善统筹资料','415');
             }else{
                 $data['arranger_id'] = $arranger_id['id'];
+                $data['open_id'] =     $open_id;
             }
             $notice->setAttributes($data,false);
             if (!$notice->save()){
