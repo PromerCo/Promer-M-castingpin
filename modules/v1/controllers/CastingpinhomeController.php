@@ -60,8 +60,8 @@ castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
 LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id
-where  id = $notice_id")->asArray()->one();
-        
+where  castingpin_notice.id = $notice_id")->asArray()->one();
+        $data['create_time'] = Common::time_tranx($data['create_time'],1);
         return  HttpCode::renderJSON($data,'ok','201');
     }
 
