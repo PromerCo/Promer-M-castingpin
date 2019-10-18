@@ -51,6 +51,7 @@ class CastingpinnoticeController extends BaseController
                 return  HttpCode::renderJSON([],$notice->errors,'412');
             }else{
                 $transaction->commit();
+
                 $info['notice_id']   = $notice->id;
                 return  HttpCode::renderJSON($info,'ok','201');
             }
