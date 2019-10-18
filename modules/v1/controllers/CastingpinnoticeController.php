@@ -4,6 +4,7 @@ namespace mcastingpin\modules\v1\controllers;
 
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\modules\v1\models\CastingpinArranger;
+use mcastingpin\modules\v1\models\CastingpinCast;
 use mcastingpin\modules\v1\models\CastingpinNotice;
 use mcastingpin\modules\v1\models\CastingpinUser;
 
@@ -39,7 +40,11 @@ class CastingpinnoticeController extends BaseController
             if (empty($arranger_id) || !$arranger_id){
                 return  HttpCode::renderJSON([],'请先完善统筹资料','415');
             }else{
-                $data['arranger_id'] = $arranger_id['id'];
+            $cast =     CastingpinCast::find()->where(['arranger_id'=>$arranger_id['id'],'open_id'=>$this->openId])->select('id')->asArray()->one();
+            if (empty($cast) || !$cast){
+                return  HttpCode::renderJSON([],'请先完善剧组资料','415');
+            }
+            $data['arranger_id'] = $arranger_id['id'];
             }
             $notice->setAttributes($data,false);
             if (!$notice->save()){
