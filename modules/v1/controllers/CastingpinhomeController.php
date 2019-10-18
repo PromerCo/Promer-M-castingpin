@@ -42,7 +42,7 @@ class CastingpinhomeController extends BaseController
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
-LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id order castingpin_notice.create_time desc")->asArray()->all();
+LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id")->asArray()->all();
              foreach ($data as $key=>$value){
                  $data[$key]['create_time'] = Common::time_tranx($value['create_time'],1);
              }
