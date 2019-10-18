@@ -39,7 +39,7 @@ class CastingpinhomeController extends BaseController
          }else{
 //          $data    =  CastingpinNotice::find()->where(['arranger_id'=>$arranger['id']])->select(['arranger_id',
 //          'notice_id','title','occupation','age','speciality','convene'])->asArray()->all();
-          $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.notice_id,castingpin_notice.title,
+          $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.notice_id,castingpin_notice.title,
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
