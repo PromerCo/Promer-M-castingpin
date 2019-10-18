@@ -39,7 +39,7 @@ class CastingpinhomeController extends BaseController
              return  HttpCode::renderJSON([],'参数不能为空','416');
          }else{
           $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.notice_id,castingpin_notice.title,
-castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_noticecreate_time
+castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
 LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id")->asArray()->all();
