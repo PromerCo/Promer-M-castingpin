@@ -42,7 +42,7 @@ class CastingpinNotice extends BaseModel
     public function rules()
     {
         return [
-            [[ 'notice_id', 'title', 'occupation', 'gender', 'convene'], 'required'],
+            [[ 'cast_id', 'title', 'occupation', 'gender', 'convene'], 'required'],
 
             [['profile', 'bystander', 'enroll'], 'string'],
             [['create_time', 'update_time'], 'safe'],
@@ -60,7 +60,7 @@ class CastingpinNotice extends BaseModel
     {
         return [
             'id' => 'ID',
-            'notice_id' => '剧组ID',
+            'cast_id' => '剧组ID',
             'title' => '标题',
             'occupation' => '职业',
             'gender' => '性别',
@@ -121,8 +121,8 @@ class CastingpinNotice extends BaseModel
                         'isSort' => true,
 //                         'udc'=>'',
                     ),
-		'notice_id' => array(
-                        'name' => 'notice_id',
+		'cast_id' => array(
+                        'name' => 'cast_id',
                         'allowNull' => false,
 //                         'autoIncrement' => false,
 //                         'comment' => '剧组ID',
