@@ -45,7 +45,7 @@ class CastingpinnoticeController extends BaseController
                 return  HttpCode::renderJSON([],'请先完善剧组资料','415');
             }
             $data['arranger_id'] = $arranger_id['id'];
-            $data['cast_id'] = $arranger_id['cast_id'];
+            $data['cast_id'] = $cast['id'];
             }
             $notice->setAttributes($data,false);
             if (!$notice->save()){
