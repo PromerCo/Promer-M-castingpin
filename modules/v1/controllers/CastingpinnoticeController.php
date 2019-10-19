@@ -38,7 +38,7 @@ class CastingpinnoticeController extends BaseController
 
             $notice = new CastingpinNotice();
 
-            $notice->load(\Yii::$app->request->post());
+            $notice->load(\Yii::$app->request->post('title'));
             if (!$notice->validate()) {
                 return  HttpCode::renderJSON([],$notice->errors,'412');
             }
