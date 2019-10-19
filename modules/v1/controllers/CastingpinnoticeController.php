@@ -40,17 +40,16 @@ class CastingpinnoticeController extends BaseController
 
             $notice = new CastingpinNotice();
 
-            $value = 'Abc';
-            $valid = new RegexValidator([
-                    'method' => ['zh', 'negative'],
-                    'message' => ['必须为中文', '必须为负数']
-            ]);
-            $valid->validate($value, $error);
-            if($error){
-                return  HttpCode::renderJSON($error,'请求方式出错','418');
 
-            }
-
+//            $valid = new RegexValidator([
+//                    'method' => ['zh', 'negative'],
+//                    'message' => ['必须为中文', '必须为负数']
+//            ]);
+//            $valid->validate($data, $error);
+//            if($error){
+//                return  HttpCode::renderJSON($error,'请求方式出错','418');
+//
+//            }
 
             $arranger_id =  CastingpinArranger::find()->where(['open_id'=>$this->openId])->select('id')->asArray()->one();  //外加一个状态 标识切换账号
             if (empty($arranger_id) || !$arranger_id){
