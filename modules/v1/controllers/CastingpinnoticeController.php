@@ -140,10 +140,14 @@ class CastingpinnoticeController extends BaseController
                     }
                     //用户是否报名
 
+                    return  HttpCode::renderJSON([],$this->openId,'200');
+
                     $enrolls =     CastingpinPull::findBySql('SELECT castingpin_pull.is_enroll,castingpin_pull.id as pull_id FROM castingpin_notice
 LEFT JOIN castingpin_pull ON castingpin_notice.id = castingpin_pull.notice_id
 LEFT JOIN castingpin_actor ON   castingpin_actor.id = castingpin_pull.actor_id
 WHERE  castingpin_notice.id = " '.$notice_id.'" AND   castingpin_actor.open_id=" '.$this->openId.'" ')->asArray()->one();
+
+
 
                     if ($enrolls['is_enroll']){
                         RedisLock::unlock($key);  //清空KEY
