@@ -32,9 +32,6 @@ class CastingpincastController extends BaseController
             $open_id = $this->openId;
             $data        = \Yii::$app->request->post('data');
             $transaction = \Yii::$app->db->beginTransaction();
-
-
-
             $notice      = new CastingpinCast();
             $arranger_id = CastingpinArranger::find()->where(['open_id'=>$this->openId])->select('id')->asArray()->one();  //外加一个状态 标识切换账号
             if (empty($arranger_id) || !$arranger_id){
@@ -55,4 +52,19 @@ class CastingpincastController extends BaseController
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
+  /*
+   * 剧组列表
+   */
+    public function actionCast(){
+        if ((\Yii::$app->request->isPost)) {
+            $open_id = $this->openId;
+            $cast_list = CastingpinCast::find()->where(['open_id'=>$open_id])->select(['script','type','theme','city'])->asArray()->all();
+            return  HttpCode::renderJSON($cast_list,'ok','201');
+        }else{
+            return  HttpCode::renderJSON([],'请求方式出错','418');
+        }
+
+    }
+
+
 }
