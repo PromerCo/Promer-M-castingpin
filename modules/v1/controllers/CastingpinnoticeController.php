@@ -228,8 +228,8 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
         if (empty($actor_id)){
             return  HttpCode::renderJSON([],'资料未填写,不记录','200');
         }
-        //SELECT bystander_frequency,id,is_enroll,is_success  FROM hubkol_pull WHERE kol_id = $kol_id AND push_id = $push_id
-        $create_pull =   CastingpinPull::find()->where(['actor_id'=>$actor_id,'notice_id'=>$notice_id])->select(['bystander_frequency','is_enroll','is_success'])->asArray()->one();
+
+        $create_pull =   CastingpinPull::find()->where(['actor_id'=>$actor_id,'notice_id'=>$notice_id])->select(['bystander_frequency','is_enroll','is_success','id'])->asArray()->one();
 
         if ($create_pull){
             $result =  CastingpinPull::updateAll(['bystander_frequency'=>$create_pull['bystander_frequency']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$create_pull['id']]);
