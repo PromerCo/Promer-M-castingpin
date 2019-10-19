@@ -140,12 +140,12 @@ class CastingpinnoticeController extends BaseController
                     }
                     //用户是否报名
 
-         
 
+                    $open_id =  $this->openId;
                     $enrolls =     CastingpinPull::findBySql('SELECT castingpin_pull.is_enroll,castingpin_pull.id as pull_id FROM castingpin_notice
 LEFT JOIN castingpin_pull ON castingpin_notice.id = castingpin_pull.notice_id
 LEFT JOIN castingpin_actor ON   castingpin_actor.id = castingpin_pull.actor_id
-WHERE  castingpin_notice.id = " '.$notice_id.'" AND   castingpin_actor.open_id="otZbI5SNxvRGB94jDx9kZOg-Q4qo" ')->asArray()->one();
+WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'.$open_id.'"')->asArray()->one();
 
 
 
