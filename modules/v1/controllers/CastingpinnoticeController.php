@@ -122,6 +122,8 @@ class CastingpinnoticeController extends BaseController
                     if ($material['capacity'] != 2){
                         return  HttpCode::renderJSON([],'您不是KOL身份','417');
                     }
+                    return  HttpCode::renderJSON([],$is_pull,'417');
+             
 
                     if (!$is_pull){
                         \Yii::$app->db->createCommand()->insert('castingpin_pull', [
