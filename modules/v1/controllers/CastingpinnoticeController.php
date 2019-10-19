@@ -115,9 +115,10 @@ class CastingpinnoticeController extends BaseController
                     if (!$means){
                         return  HttpCode::renderJSON([],'请先填写资料','417');
                     }
+                    return  HttpCode::renderJSON([],$data['notice_id'],'417');
                     //假如用户填写资料
                     $is_pull =   CastingpinPull::find()->where(['notice_id'=>$data['notice_id'],'actor_id'=>$means['id']])->asArray()->count(); //接单
-                    return  HttpCode::renderJSON([],$is_pull,'417');
+
                     $material =  CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['capacity'])->asArray()->one();  //身份标识（0 未填写资料 1 HUB 2KOL
                     if ($material['capacity'] != 2){
                         return  HttpCode::renderJSON([],'您不是KOL身份','417');
