@@ -95,10 +95,10 @@ class CastingpinnoticeController extends BaseController
     */
     public function actionEnroll(){
         if ((\Yii::$app->request->isPost)) {
-            $data  = \Yii::$app->request->post();
+            $notice_id  = \Yii::$app->request->post('notice_id');
 
             $transaction = \Yii::$app->db->beginTransaction();
-            if (empty($data['notice_id'])){
+            if (empty($notice_id)){
                 return  HttpCode::renderJSON([],'参数不能为空','406');
             }
             $key = 'mylock';//加锁
@@ -106,7 +106,7 @@ class CastingpinnoticeController extends BaseController
             if ($is_lock){
                 try {
                     // 入伍人数  入伍人  召集人数
-                    $data = CastingpinNotice::find()->where(['id'=>$data['notice_id']])->select(['enroll','convene','enroll_number'])->asArray()->one();
+                    $data = CastingpinNotice::find()->where(['id'=>$notice_id])->select(['enroll','convene','enroll_number'])->asArray()->one();
                     $enroll =$data['enroll']; //入伍人
                     $enroll_number =$data['enroll_number']; //入伍人数
                     $convene =$data['convene']; //召集人数
@@ -115,16 +115,14 @@ class CastingpinnoticeController extends BaseController
                     if (!$means){
                         return  HttpCode::renderJSON([],'请先填写资料','417');
                     }
-                    return  HttpCode::renderJSON([],$data['notice_id'],'417');
+
                     //假如用户填写资料
-                    $is_pull =   CastingpinPull::find()->where(['notice_id'=>$data['notice_id'],'actor_id'=>$means['id']])->asArray()->count(); //接单
+                    $is_pull =   CastingpinPull::find()->where(['notice_id'=>$notice_id,'actor_id'=>$means['id']])->asArray()->count(); //接单
 
                     $material =  CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['capacity'])->asArray()->one();  //身份标识（0 未填写资料 1 HUB 2KOL
                     if ($material['capacity'] != 2){
                         return  HttpCode::renderJSON([],'您不是KOL身份','417');
                     }
-
-
 
                     if (!$is_pull){
                         \Yii::$app->db->createCommand()->insert('castingpin_pull', [
@@ -132,6 +130,7 @@ class CastingpinnoticeController extends BaseController
                         'actor_id' => $means['id'], 'notice_id'=>$data['notice_id']
                         ])->execute();
                     }
+                    return  HttpCode::renderJSON([],$is_pull,'200');
                     //报名人数是否达到
                     if ($enroll_number > $convene ){
                         RedisLock::unlock($key);  //清空KEY
