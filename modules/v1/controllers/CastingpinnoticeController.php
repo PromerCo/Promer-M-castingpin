@@ -137,7 +137,7 @@ class CastingpinnoticeController extends BaseController
                         return  HttpCode::renderJSON([],'报名人数已达到','200');
                     }
                     //用户是否报名
-                    $openId = $this->openId;
+                    $openId = "$this->openId";
                     $enrolls =     CastingpinPull::findBySql("SELECT castingpin_pull.is_enroll,castingpin_pull.id as pull_id FROM castingpin_notice
 LEFT JOIN castingpin_pull ON castingpin_notice.id = castingpin_pull.notice_id
 LEFT JOIN castingpin_actor ON   castingpin_actor.id = castingpin_pull.actor_id
