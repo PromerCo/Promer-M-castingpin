@@ -112,6 +112,7 @@ class CastingpinnoticeController extends BaseController
                     $convene =$data['convene']; //召集人数
                     //查看用户是否填写资料
                     $means =    CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id','wechat'])->asArray()->one();
+                    return  HttpCode::renderJSON([],$means,'200');
                     if (!$means){
                         return  HttpCode::renderJSON([],'请先填写资料','417');
                     }
@@ -130,7 +131,7 @@ class CastingpinnoticeController extends BaseController
                         'actor_id' => $means['id'], 'notice_id'=>$data['notice_id']
                         ])->execute();
                     }
-                    return  HttpCode::renderJSON([],$is_pull,'200');
+
                     //报名人数是否达到
                     if ($enroll_number > $convene ){
                         RedisLock::unlock($key);  //清空KEY
