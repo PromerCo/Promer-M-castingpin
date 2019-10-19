@@ -262,11 +262,12 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
             /*
              * 更新收藏
              */
-            return  HttpCode::jsonObj($notice_id.$actor_id['id'],'OK','416');
+
             $is_update = CastingpinPull::updateAll(['is_collect' => $collect, 'update_time' => date('Y-m-d H:i:s', time())], [
                 'actor_id' => $notice_id,
                 'notice_id'=>$actor_id['id']
             ]);
+            return  HttpCode::jsonObj($is_update,'OK','416');
             if ($is_update){
                 $transaction->commit();
                 return  HttpCode::jsonObj($collect,'OK','201');
