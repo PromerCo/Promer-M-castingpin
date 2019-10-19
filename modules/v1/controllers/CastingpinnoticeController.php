@@ -3,6 +3,7 @@
 namespace mcastingpin\modules\v1\controllers;
 
 use mcastingpin\common\components\RedisLock;
+use mcastingpin\common\helps\Common;
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\modules\v1\models\CastingpinActor;
 use mcastingpin\modules\v1\models\CastingpinArranger;
@@ -110,27 +111,21 @@ class CastingpinnoticeController extends BaseController
                     $convene =$data['convene']; //召集人数
                     //查看用户是否填写资料
                     $means =    CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id','wechat'])->asArray()->one();
-
                     if (!$means){
                         return  HttpCode::renderJSON([],'请先填写资料','417');
                     }
-
                     //假如用户填写资料
                     $is_pull =   CastingpinPull::find()->where(['notice_id'=>$notice_id,'actor_id'=>$means['id']])->asArray()->count(); //接单
-
                     $material =  CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['capacity'])->asArray()->one();  //身份标识（0 未填写资料 1 HUB 2KOL
                     if ($material['capacity'] != 2){
                         return  HttpCode::renderJSON([],'您不是KOL身份','417');
                     }
-
                     if (!$is_pull){
                        $pull_inster =  \Yii::$app->db->createCommand()->insert('castingpin_pull', [
                         'bystander_frequency' => '1',
                         'actor_id' => $means['id'],
                         'notice_id'=>$notice_id
                         ])->execute();
-
-
                     }
                     $transaction = \Yii::$app->db->beginTransaction();
                     //报名人数是否达到
@@ -144,7 +139,6 @@ class CastingpinnoticeController extends BaseController
 LEFT JOIN castingpin_pull ON castingpin_notice.id = castingpin_pull.notice_id
 LEFT JOIN castingpin_actor ON   castingpin_actor.id = castingpin_pull.actor_id
 WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'.$open_id.'"')->asArray()->one();
-
                     if ($enrolls['is_enroll']){
                         RedisLock::unlock($key);  //清空KEY
                         return  HttpCode::renderJSON([],'您已经报名','200');
@@ -156,8 +150,7 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
                         $enroll_add['gender'] =      $user_info['gender'];
                         $enroll_add['wechat'] =      $means['wechat'];
                         $enroll_add['actor_id'] =
-                            CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one()['id']; //网红ID
-
+                        CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one()['id']; //网红ID
                         $enroll_add = json_encode($enroll_add);
                         $bm         = json_decode($enroll,true);
                         $bm = str_replace(array('[',']'), array('', ''), $bm);
@@ -168,14 +161,11 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
                         }
                         //更新报名信息 (后期替换关联更新)
                         $push_update =    CastingpinNotice::updateAll(['enroll_number'=>$enroll_number+1,'enroll'=>$json_msg,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$notice_id]);
-
                         $pull_update =    CastingpinPull::updateAll(['is_enroll'=>'1','is_success'=>'1','update_time'=>date('Y-m-d H:i:s',time())],['id'=>$enrolls['pull_id']]);
-
                         if ($push_update && $pull_update){
                             RedisLock::unlock($key);  //清空KEY
                             $transaction->commit();  //提交事务
                             return  HttpCode::renderJSON($user_info['avatar_url'],'报名成功','201');
-
                         }else{
                             RedisLock::unlock($key);  //清空KEY
                             return  HttpCode::renderJSON([],'报名失败','416');
@@ -190,6 +180,70 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
             }
         }else{
             return  HttpCode::jsonObj([],'请求方式出错','418');
+        }
+    }
+
+    //记录浏览量
+    /*
+ * 记录用户浏览量
+ */
+    public function actionPageviews(){
+
+        $notice_id =  \Yii::$app->request->post('notice_id');  //发布活动ID
+        /*
+          * 查看用户是否浏览
+        */
+        if (empty($notice_id)){
+            return  HttpCode::renderJSON([],'参数不能为空','406');
+        }
+        $bystander = CastingpinNotice::find()->where(['id'=>$notice_id])->select(['bystander','bystander_number'])->asArray()->one();
+        $bystander_number = $bystander['bystander_number'];
+        $transaction = \Yii::$app->db->beginTransaction();
+        if (!$bystander['bystander']){
+            /*
+             * 没有人浏览 （新增一条）
+             */
+            //存储 ID （转json）
+            $bystander_add['open_id'] = $this->openId;
+            $bystander_add = json_encode($bystander_add);
+            $json_msg   = '['.$bystander_add.']';
+            CastingpinNotice::updateAll(['bystander_number'=>$bystander_number+1,'bystander'=>$json_msg,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$notice_id]);
+        }else{
+            $bystander = $bystander['bystander'];
+            $bystander = json_decode($bystander);
+            $uids      = json_decode($bystander,true);
+            $serach_user =  Common::deep_in_array($this->openId,$uids);  // 搜索用户
+
+            if (!$serach_user){
+                $bm = str_replace(array('[',']'), array('', ''), $bystander);
+                $bystander_add['uid'] = $this->openId;
+                $bystander_add = json_encode($bystander_add);
+                $json_msg   = '['.$bm.','.$bystander_add.']';
+                // 用户不存在  （插入一条）
+                CastingpinNotice::updateAll(['bystander_number'=>$bystander_number+1,'bystander'=>$json_msg,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$notice_id]);
+            }
+        }
+        $actor_id =  CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one()['id'];
+
+        if (empty($actor_id)){
+            return  HttpCode::renderJSON([],'资料未填写,不记录','200');
+        }
+        //SELECT bystander_frequency,id,is_enroll,is_success  FROM hubkol_pull WHERE kol_id = $kol_id AND push_id = $push_id
+        $create_pull =   CastingpinPull::find()->where(['actor_id'=>$actor_id,'notice_id'=>$notice_id])->select(['bystander_frequency','is_enroll','is_success'])->asArray()->one();
+
+        if ($create_pull){
+            $result =  CastingpinPull::updateAll(['bystander_frequency'=>$create_pull['bystander_frequency']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$create_pull['id']]);
+        }else{
+            $result =   \Yii::$app->db->createCommand()->insert('hubkol_pull', [
+                'bystander_frequency' => '1',
+                'actor_id' => $actor_id,
+                'notice_id'=>$notice_id
+            ])->execute();
+        }
+
+        if ($result){
+            $transaction->commit();
+            return  HttpCode::renderJSON([],'ok','201');
         }
     }
 
