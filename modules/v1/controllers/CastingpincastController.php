@@ -32,6 +32,9 @@ class CastingpincastController extends BaseController
             $open_id = $this->openId;
             $data        = \Yii::$app->request->post('data');
             $transaction = \Yii::$app->db->beginTransaction();
+
+
+
             $notice      = new CastingpinCast();
             $arranger_id = CastingpinArranger::find()->where(['open_id'=>$this->openId])->select('id')->asArray()->one();  //外加一个状态 标识切换账号
             if (empty($arranger_id) || !$arranger_id){

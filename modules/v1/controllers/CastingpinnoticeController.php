@@ -37,6 +37,13 @@ class CastingpinnoticeController extends BaseController
             $transaction = \Yii::$app->db->beginTransaction();
 
             $notice = new CastingpinNotice();
+
+            $notice->load(\Yii::$app->request->post());
+            if (!$notice->validate()) {
+                return  HttpCode::renderJSON([],$notice->errors,'412');
+            }
+
+
             $arranger_id =  CastingpinArranger::find()->where(['open_id'=>$this->openId])->select('id')->asArray()->one();  //外加一个状态 标识切换账号
             if (empty($arranger_id) || !$arranger_id){
                 return  HttpCode::renderJSON([],'请先完善统筹资料','415');
