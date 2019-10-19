@@ -55,11 +55,13 @@ LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open
     */
     public function actionDetails(){
         $notice_id = \Yii::$app->request->post('notice_id');
-        $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_user.nick_name,castingpin_arranger.position,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
+        $data = CastingpinNotice::findBySql("SELECT  castingpin_pull.is_enroll,castingpin_pull.is_collect,castingpin_user.avatar_url,castingpin_user.nick_name,castingpin_arranger.position,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.profile,castingpin_notice.enroll,castingpin_notice.enroll_number,castingpin_notice.bystander_number,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
 LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id
+LEFT JOIN castingpin_pull  ON castingpin_pull.notice_id = castingpin_notice.id
+
 where  castingpin_notice.id = $notice_id")->asArray()->one();
         $data['create_time'] = Common::time_tranx($data['create_time'],1);
         return  HttpCode::renderJSON($data,'ok','201');
