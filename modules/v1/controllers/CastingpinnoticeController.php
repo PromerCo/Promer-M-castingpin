@@ -124,11 +124,13 @@ class CastingpinnoticeController extends BaseController
                     }
 
                     if (!$is_pull){
-                        \Yii::$app->db->createCommand()->insert('castingpin_pull', [
+                       $pull_inster =  \Yii::$app->db->createCommand()->insert('castingpin_pull', [
                         'bystander_frequency' => '1',
                         'actor_id' => $means['id'],
                         'notice_id'=>$notice_id
                         ])->execute();
+
+
                     }
                     $transaction = \Yii::$app->db->beginTransaction();
                     //报名人数是否达到
@@ -141,9 +143,10 @@ class CastingpinnoticeController extends BaseController
                     $enrolls =     CastingpinPull::findBySql('SELECT castingpin_pull.is_enroll,castingpin_pull.id as pull_id FROM castingpin_notice
 LEFT JOIN castingpin_pull ON castingpin_notice.id = castingpin_pull.notice_id
 LEFT JOIN castingpin_actor ON   castingpin_actor.id = castingpin_pull.actor_id
-WHERE  castingpin_notice.id = 3 AND   castingpin_actor.open_id=" '.$this->openId.'" ')->asArray()->one();
+WHERE  castingpin_notice.id = " '.$notice_id.'" AND   castingpin_actor.open_id=" '.$this->openId.'" ')->asArray()->one();
 
 
+                    return  HttpCode::renderJSON([],$enrolls,'200');
 
                     if ($enrolls['is_enroll']){
                         RedisLock::unlock($key);  //清空KEY
