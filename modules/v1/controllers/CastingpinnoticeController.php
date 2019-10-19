@@ -152,10 +152,11 @@ WHERE  castingpin_notice.id = 3 AND   castingpin_actor.open_id=" '.$this->openId
                         $user_info = CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['avatar_url','nick_name','gender'])->asArray()->one();
                         //微信号
                         $enroll_add['avatar_url'] =  $user_info['avatar_url'];
-                        $enroll_add['nick_name'] =  $user_info['nick_name'];
-                        $enroll_add['gender'] =    $user_info['gender'];
-                        $enroll_add['wechat'] =   $means['wechat'];
-                        $enroll_add['kol_id'] =  CastingpinNotice::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one()['id']; //网红ID
+                        $enroll_add['nick_name'] =   $user_info['nick_name'];
+                        $enroll_add['gender'] =      $user_info['gender'];
+                        $enroll_add['wechat'] =      $means['wechat'];
+                        $enroll_add['actor_id'] =
+                            CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one()['id']; //网红ID
 
                         $enroll_add = json_encode($enroll_add);
                         $bm         = json_decode($enroll,true);
