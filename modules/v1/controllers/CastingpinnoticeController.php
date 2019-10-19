@@ -142,6 +142,8 @@ LEFT JOIN castingpin_pull ON castingpin_notice.id = castingpin_pull.notice_id
 LEFT JOIN castingpin_actor ON   castingpin_actor.id = castingpin_pull.actor_id
 WHERE  castingpin_notice.id = $notice_id AND   castingpin_actor.open_id=$this->openId")->asArray()->one();
 
+                    return  HttpCode::renderJSON($enrolls,'您已经报名','200');
+
                     if ($enrolls['is_enroll']){
                         RedisLock::unlock($key);  //清空KEY
                         return  HttpCode::renderJSON([],'您已经报名','200');
