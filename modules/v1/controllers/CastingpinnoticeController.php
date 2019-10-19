@@ -68,7 +68,7 @@ class CastingpinnoticeController extends BaseController
 
                  $err_msg = [];
                   foreach ($notice->errors as $key =>$val){
-                      array_push($err_msg,$key);
+                      array_push($err_msg,$val);
                   }
                 return  HttpCode::renderJSON([],$err_msg,'412');
             }else{
