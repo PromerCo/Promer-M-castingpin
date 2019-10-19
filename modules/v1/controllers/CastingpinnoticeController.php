@@ -233,7 +233,7 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
         if ($create_pull){
             $result =  CastingpinPull::updateAll(['bystander_frequency'=>$create_pull['bystander_frequency']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$create_pull['id']]);
         }else{
-            $result =   \Yii::$app->db->createCommand()->insert('hubkol_pull', [
+            $result =   \Yii::$app->db->createCommand()->insert('castingpin_pull', [
                 'bystander_frequency' => '1',
                 'actor_id' => $actor_id,
                 'notice_id'=>$notice_id
