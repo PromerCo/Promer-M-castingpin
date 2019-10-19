@@ -112,13 +112,15 @@ class CastingpinnoticeController extends BaseController
                     $convene =$data['convene']; //召集人数
                     //查看用户是否填写资料
                     $means =    CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id','wechat'])->asArray()->one();
-                    return  HttpCode::renderJSON([],$means,'200');
+
                     if (!$means){
                         return  HttpCode::renderJSON([],'请先填写资料','417');
                     }
 
                     //假如用户填写资料
                     $is_pull =   CastingpinPull::find()->where(['notice_id'=>$notice_id,'actor_id'=>$means['id']])->asArray()->count(); //接单
+
+                    return  HttpCode::renderJSON([],$is_pull,'200');
 
                     $material =  CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['capacity'])->asArray()->one();  //身份标识（0 未填写资料 1 HUB 2KOL
                     if ($material['capacity'] != 2){
