@@ -96,8 +96,6 @@ class CastingpinnoticeController extends BaseController
     public function actionEnroll(){
         if ((\Yii::$app->request->isPost)) {
             $notice_id  = \Yii::$app->request->post('notice_id');
-
-            $transaction = \Yii::$app->db->beginTransaction();
             if (empty($notice_id)){
                 return  HttpCode::renderJSON([],'参数不能为空','406');
             }
@@ -126,13 +124,13 @@ class CastingpinnoticeController extends BaseController
                     }
 
                     if (!$is_pull){
-                       $pull_inster=  \Yii::$app->db->createCommand()->insert('castingpin_pull', [
+                        \Yii::$app->db->createCommand()->insert('castingpin_pull', [
                         'bystander_frequency' => '1',
                         'actor_id' => $means['id'],
                         'notice_id'=>$notice_id
                         ])->execute();
-                        return  HttpCode::renderJSON([],$pull_inster,'200');
                     }
+                    $transaction = \Yii::$app->db->beginTransaction();
                     //报名人数是否达到
                     if ($enroll_number > $convene ){
                         RedisLock::unlock($key);  //清空KEY
