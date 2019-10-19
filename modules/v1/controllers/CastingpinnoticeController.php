@@ -168,8 +168,9 @@ WHERE  castingpin_notice.id = 3 AND   castingpin_actor.open_id=" '.$this->openId
                         }
                         //更新报名信息 (后期替换关联更新)
                         $push_update =    CastingpinNotice::updateAll(['enroll_number'=>$enroll_number+1,'enroll'=>$json_msg,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$notice_id]);
-                        return  HttpCode::renderJSON([],$push_update,'416');
-                        $pull_update =    CastingpinPull::updateAll(['is_enroll'=>'1','is_success'=>'1','update_time'=>date('Y-m-d H:i:s',time())],['id'=>$enrolls['pull_id']]);
+
+                        $pull_update =    CastingpinPull::updateAll(['is_enroll'=>1,'is_success'=>1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$enrolls['pull_id']]);
+                        return  HttpCode::renderJSON([],$pull_update,'416');
                         if ($push_update && $pull_update){
                             RedisLock::unlock($key);  //清空KEY
                             $transaction->commit();  //提交事务
