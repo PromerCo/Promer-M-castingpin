@@ -128,7 +128,7 @@ class CastingpinnoticeController extends BaseController
                     if (!$is_pull){
                         \Yii::$app->db->createCommand()->insert('castingpin_pull', [
                         'bystander_frequency' => '1',
-                        'actor_id' => $means['id'], 'notice_id'=>$data['notice_id']
+                        'actor_id' => $means['id'], 'notice_id'=>$notice_id
                         ])->execute();
                     }
 
