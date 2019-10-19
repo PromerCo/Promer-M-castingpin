@@ -258,16 +258,21 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
             if (empty($actor_id['id'])) {
                 return HttpCode::jsonObj([], '资料不全', '416');
             }
-
+            $transaction = \Yii::$app->db->beginTransaction();
             /*
              * 更新收藏
              */
-            CastingpinPull::updateAll(['is_collect' => $collect], [
+            return  HttpCode::jsonObj($notice_id.$actor_id['id'],'OK','416');
+            $is_update = CastingpinPull::updateAll(['is_collect' => $collect, 'update_time' => date('Y-m-d H:i:s', time())], [
                 'actor_id' => $notice_id,
                 'notice_id'=>$actor_id['id']
             ]);
-            return  HttpCode::jsonObj($collect,'OK','201');
-
+            if ($is_update){
+                $transaction->commit();
+                return  HttpCode::jsonObj($collect,'OK','201');
+            }else{
+                return  HttpCode::jsonObj([],'error','416');
+            }
         }else{
             return  HttpCode::jsonObj([],'请求方式出错','418');
         }
