@@ -7,6 +7,8 @@ use mcastingpin\modules\v1\models\CastingpinArranger;
 use mcastingpin\modules\v1\models\CastingpinCast;
 use mcastingpin\modules\v1\models\CastingpinNotice;
 use mcastingpin\modules\v1\models\CastingpinUser;
+use mcastingpin\modules\v1\validate\RegexValidator;
+use mhubkol\modules\v1\services\ParamsValidateService;
 
 /**
  * CastingpinNoticeController implements the CRUD actions for CastingpinNotice model.
@@ -38,9 +40,15 @@ class CastingpinnoticeController extends BaseController
 
             $notice = new CastingpinNotice();
 
-            $notice->load(\Yii::$app->request->post('title'));
-            if (!$notice->validate()) {
-                return  HttpCode::renderJSON([],$notice->errors,'412');
+            $value = 'Abc';
+            $valid = new RegexValidator([
+                    'method' => ['zh', 'negative'],
+                    'message' => ['必须为中文', '必须为负数']
+            ]);
+            $valid->validate($value, $error);
+            if($error){
+                return  HttpCode::renderJSON($error,'请求方式出错','418');
+
             }
 
 
