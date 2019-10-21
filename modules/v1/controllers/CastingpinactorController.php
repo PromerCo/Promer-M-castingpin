@@ -241,24 +241,23 @@ class CastingpinactorController extends BaseController
                     if ($userinfo['capacity'] == 1){
                         //统筹是否填写资料
                         $arranger_id = CastingpinArranger::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one();
-                        if (!empty($arranger_id['id'])){
-                            $invites =   CastingpinActor::find()->where(['id'=>$arranger_id])->select(['invite','invite_number'])->asArray()->one();
+                        if (!empty($arranger_id['id'])) {
+                            $invites = CastingpinActor::find()->where(['id' => $arranger_id])->select(['invite', 'invite_number'])->asArray()->one();
                             //查看邀请人数
-                            if (!empty($invites['invite'])){
+                            if (!empty($invites['invite'])) {
                                 $invite = $invites['invite'];
-                                $invite_data = json_decode(json_decode($invite,true),true);
-                                foreach ($invite_data as $key =>$value){
-                                    if ($value['hub_id'] == $arranger_id['id'] ){
+                                $invite_data = json_decode(json_decode($invite, true), true);
+                                foreach ($invite_data as $key => $value) {
+                                    if ($value['hub_id'] == $arranger_id['id']) {
 
-                                        return  HttpCode::renderJSON([],'您已经邀请过了','200');
+                                        return HttpCode::renderJSON([], '您已经邀请过了', '200');
                                     }
                                 }
-                                $invite_json = json_decode($invite,true);
-                                $bm = str_replace(array('[',']'), array('', ''), $invite_json);
-                            }else{
+                                $invite_json = json_decode($invite, true);
+                                $bm = str_replace(array('[', ']'), array('', ''), $invite_json);
+                            } else {
                                 $bm = null;
                             }
-
 
                         //没有邀请 -》 获取HUB 头像和ID
                         $user_kol['avatar_url']  = $userinfo['avatar_url'];
@@ -270,6 +269,7 @@ class CastingpinactorController extends BaseController
                         }else{
                             $json_msg   = '['.$bm.','.$add_kol.']';
                         }
+
                         //更新网红信息
                         $is_update =   CastingpinActor::updateAll(['invite'=>$json_msg,'invite_number'=>$invites['invite_number']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
                         //邀请人数
@@ -280,7 +280,9 @@ class CastingpinactorController extends BaseController
                         }else{
                             return  HttpCode::renderJSON([],'邀请失败','416');
                         }
-
+                        }else{
+                            return  HttpCode::renderJSON([],'请先填写资料','412');
+                        }
                     }else{
                         return  HttpCode::renderJSON([],'您不是统筹身份','412');
                     }
