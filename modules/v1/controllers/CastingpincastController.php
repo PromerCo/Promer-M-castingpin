@@ -59,7 +59,6 @@ class CastingpincastController extends BaseController
         if ((\Yii::$app->request->isPost)) {
             $cast_list = CastingpinCast::findBySql("select castingpin_cast.id,castingpin_cast.script,castingpin_cast.type,castingpin_cast.theme,castingpin_cast.city,castingpin_user.avatar_url from castingpin_cast LEFT JOIN castingpin_user ON castingpin_cast.open_id = castingpin_user.
 open_id ")->asArray()->all();
-
             return  HttpCode::renderJSON($cast_list,'ok','201');
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
