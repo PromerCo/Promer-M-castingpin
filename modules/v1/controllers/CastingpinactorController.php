@@ -165,7 +165,7 @@ class CastingpinactorController extends BaseController
            }else{
                $data['status']  = 0;
            }
-           
+
             return HttpCode::renderJSON($data, 'ok', '200');
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
@@ -215,7 +215,7 @@ class CastingpinactorController extends BaseController
                     $transaction->commit();
                     return  HttpCode::renderJSON($status,'ok','201');
                 }else{
-                    return  HttpCode::renderJSON([],'error','412');
+                    return  HttpCode::renderJSON(['关注失败'],'error','412');
                 }
             }
         }else{
