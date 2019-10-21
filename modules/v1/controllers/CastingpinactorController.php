@@ -95,7 +95,6 @@ class CastingpinactorController extends BaseController
             }
                 //1 统筹  2.艺人
                 //分别插入数据（更新数据）
-
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
@@ -118,7 +117,6 @@ class CastingpinactorController extends BaseController
                     $actor = CastingpinArranger::find()->where(['open_id'=>$this->openId])->select(['wechat','phone', 'email',
                         'industry','corporation','position','city','profile'])->asArray()->one();
                     return HttpCode::renderJSON($actor, 'ok', '200');
-
                     break;
                     //艺人
                     case 2:
@@ -148,6 +146,23 @@ class CastingpinactorController extends BaseController
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
+    }
+    /*
+ * 艺人详情
+    */
+    public function actionDetails(){
+
+        if ((\Yii::$app->request->isPost)) {
+            $cast_id = \Yii::$app->request->post('cast_id');
+            $data =  CastingpinActor::find()->where(['height','stage_name','phone','cover_video','cover_img','profile','speciality' .
+                ''])->select()->asArray()->all();
+            return HttpCode::renderJSON($data, 'ok', '200');
+
+
+        }else{
+            return  HttpCode::renderJSON([],'请求方式出错','418');
+        }
+
 
     }
 
