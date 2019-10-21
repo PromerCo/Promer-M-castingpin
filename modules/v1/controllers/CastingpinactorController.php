@@ -2,6 +2,7 @@
 
 namespace mcastingpin\modules\v1\controllers;
 
+use mcastingpin\common\components\RedisLock;
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\modules\v1\models\CastingpinActor;
 use mcastingpin\modules\v1\models\CastingpinArranger;
@@ -178,9 +179,7 @@ class CastingpinactorController extends BaseController
     */
     public function actionFollow(){
         if ((\Yii::$app->request->isPost)) {
-
             $arranger_id = \Yii::$app->request->post('arranger_id');//被关注人ID
-
             $status = \Yii::$app->request->post('status')??1;  //0未关注  1已关注
             if (empty($arranger_id)){
                 return  HttpCode::renderJSON([],'参数不能为空','406');
@@ -222,6 +221,80 @@ class CastingpinactorController extends BaseController
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
+    }
+
+    /*
+    * 邀请KOL
+    */
+    public function actionInvite(){
+        if ((\Yii::$app->request->isPost)) {
+            $arranger_id  = \Yii::$app->request->post('arranger_id');
+            $open_id = $this->openId;
+            $transaction = \Yii::$app->db->beginTransaction();
+            if (empty($arranger_id)){
+                return  HttpCode::renderJSON([],'参数不能为空','406');
+            }
+            $key = 'mylock';//加锁
+            $is_lock = RedisLock::lock($key);
+            if ($is_lock){
+                try{
+                    $userinfo =   CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['capacity','avatar_url'])->asArray()->one();
+                    if ($userinfo['capacity'] == 1){
+                        //统筹是否填写资料
+                        $arranger_id = CastingpinArranger::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one();
+                        if (!empty($arranger_id['id'])){
+                            $invites =   CastingpinActor::find()->where(['id'=>$arranger_id])->select(['invite','invite_number'])->asArray()->one();
+                            //查看邀请人数
+                            if (!empty($invites['invite'])){
+                                $invite = $invites['invite'];
+                                $invite_data = json_decode(json_decode($invite,true),true);
+                                foreach ($invite_data as $key =>$value){
+                                    if ($value['hub_id'] == $arranger_id['id'] ){
+                                        return  HttpCode::renderJSON([],'您已经邀请过了','200');
+                                    }
+                                }
+                                $invite_json = json_decode($invite,true);
+                                $bm = str_replace(array('[',']'), array('', ''), $invite_json);
+                                    }
+                                }else{
+                                    $bm = null;
+                                }
+                        //没有邀请 -》 获取HUB 头像和ID
+                        $user_kol['avatar_url']  = $userinfo['avatar_url'];
+                        $user_kol['arranger_id']  = $arranger_id['id'];  //统筹
+                        $add_kol = json_encode($user_kol);
+                        if (!$bm){
+                            $json_msg   = '['.$bm.$add_kol.']';
+                        }else{
+                            $json_msg   = '['.$bm.','.$add_kol.']';
+                        }
+                        //更新网红信息
+                        $is_update =   CastingpinActor::updateAll(['invite'=>$json_msg,'invite_number'=>$invites['invite_number']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
+                        //邀请人数
+                        if ($is_update){
+                            RedisLock::unlock($key);  //清空KEY
+                            $transaction->commit();  //提交事务
+                            return  HttpCode::renderJSON($userinfo['avatar_url'],'邀请成功','201');
+                        }else{
+                            return  HttpCode::renderJSON([],'邀请失败','416');
+                        }
+
+                    }else{
+                        return  HttpCode::renderJSON([],'您不是统筹身份','412');
+                    }
+
+                }catch (\ErrorException $e){
+                    $transaction->rollBack();
+                    throw $e;
+                }
+
+            } else{
+                return  HttpCode::renderJSON([],'请稍后再试','412');
+            }
+        }else{
+            return  HttpCode::jsonObj([],'请求方式出错','418');
+        }
+
     }
 
 
