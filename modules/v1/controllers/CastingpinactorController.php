@@ -212,6 +212,7 @@ class CastingpinactorController extends BaseController
                     }else{
                         CastingpinActor::updateAll(['follow_number'=>intval($follow_number)-1,'update_time'=>date('Y-m-d H:i:s',time())],['open_id'=>$this->openId]);
                     }
+                    
                     $transaction->commit();
                     return  HttpCode::renderJSON($status,'ok','201');
                 }else{
