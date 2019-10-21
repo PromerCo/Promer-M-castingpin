@@ -156,7 +156,7 @@ class CastingpinactorController extends BaseController
 
         if ((\Yii::$app->request->isPost)) {
             $cast_id = \Yii::$app->request->post('cast_id');
-            $data =  CastingpinActor::find()->where(['id'=>$cast_id])->select(['height','stage_name','phone','cover_video','cover_img','profile'
+            $data =  CastingpinActor::find()->where(['open_id'=>$cast_id])->select(['height','stage_name','phone','cover_video','cover_img','profile'
                 ,'speciality','occupation','woman','id','open_id'])->asArray()->one();
             //查看是否被关注
 
