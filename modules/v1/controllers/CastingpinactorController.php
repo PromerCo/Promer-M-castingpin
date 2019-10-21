@@ -249,19 +249,22 @@ class CastingpinactorController extends BaseController
                                 $invite_data = json_decode(json_decode($invite,true),true);
                                 foreach ($invite_data as $key =>$value){
                                     if ($value['hub_id'] == $arranger_id['id'] ){
+
                                         return  HttpCode::renderJSON([],'您已经邀请过了','200');
                                     }
                                 }
                                 $invite_json = json_decode($invite,true);
                                 $bm = str_replace(array('[',']'), array('', ''), $invite_json);
-                                    }
-                                }else{
-                                    $bm = null;
-                                }
+                            }else{
+                                $bm = null;
+                            }
+
+
                         //没有邀请 -》 获取HUB 头像和ID
                         $user_kol['avatar_url']  = $userinfo['avatar_url'];
                         $user_kol['arranger_id']  = $arranger_id['id'];  //统筹
                         $add_kol = json_encode($user_kol);
+
                         if (!$bm){
                             $json_msg   = '['.$bm.$add_kol.']';
                         }else{
