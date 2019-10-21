@@ -90,10 +90,7 @@ class CastingpinactorController extends BaseController
                                 return HttpCode::renderJSON([], 'update failed', '412');
                             }
                         }
-
-
                         break;
-
                 }
             }
                 //1 统筹  2.艺人
@@ -102,7 +99,6 @@ class CastingpinactorController extends BaseController
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
-
     }
 
     /*
@@ -136,6 +132,27 @@ class CastingpinactorController extends BaseController
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
+    /*
+     * 艺人列表
+     */
+    public function actionList(){
+        if ((\Yii::$app->request->isPost)) {
+            $openid =   $this->openId;
+            $capacity = CastingpinUser::find()->where(['open_id' => $openid])->select(['capacity'])->one();
+            if (empty($capacity['capacity'])) {
+                return  HttpCode::jsonObj([],'请先授权','416');
+            } else {
+                $actor = CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id','cover_img'])->asArray()->one();
+            }
+            return HttpCode::renderJSON($actor, 'ok', '200');
+        }else{
+            return  HttpCode::renderJSON([],'请求方式出错','418');
+        }
+
+    }
+
+
+
 
 
 }
