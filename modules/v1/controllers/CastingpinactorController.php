@@ -157,7 +157,7 @@ class CastingpinactorController extends BaseController
         if ((\Yii::$app->request->isPost)) {
             $cast_id = \Yii::$app->request->post('cast_id');
             $data =  CastingpinActor::find()->where(['id'=>$cast_id])->select(['height','stage_name','phone','cover_video','cover_img','profile'
-                ,'speciality','occupation','woman','id'])->asArray()->one();
+                ,'speciality','occupation','woman','id','open_id'])->asArray()->one();
             return HttpCode::renderJSON($data, 'ok', '200');
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
@@ -171,8 +171,9 @@ class CastingpinactorController extends BaseController
     public function actionFollow(){
         if ((\Yii::$app->request->isPost)) {
             $open_id =  $this->openId;
-            $actor_id  =  CastingpinUser::find()->where(['open_id'=>$open_id])->select(['id'])->one()['id'];
+            $actor_id  =  CastingpinUser::find()->where(['open_id'=>$open_id])->select(['id'])->one()['id']; //统筹 ID
             $arranger_id = \Yii::$app->request->post('arranger_id');//关注人ID
+
             $status = \Yii::$app->request->post('status')??1;  //0未关注  1已关注
             if (empty($arranger_id)){
                 return  HttpCode::renderJSON([],'参数不能为空','406');
