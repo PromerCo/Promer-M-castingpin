@@ -159,9 +159,13 @@ class CastingpinactorController extends BaseController
             $data =  CastingpinActor::find()->where(['open_id'=>$cast_id])->select(['height','stage_name','phone','cover_video','cover_img','profile'
                 ,'speciality','occupation','woman','id','open_id'])->asArray()->one();
             //查看是否被关注
-
-
-
+           $is_follow =   CastingpinCarefor::find()->where(['actor_id'=>$this->openId,'arranger_id'=>$cast_id])->select('id')->one();
+           if ($is_follow){
+               $data['status']  = 1;
+           }else{
+               $data['status']  = 0;
+           }
+           
             return HttpCode::renderJSON($data, 'ok', '200');
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
