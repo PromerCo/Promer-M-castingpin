@@ -142,7 +142,7 @@ class CastingpinactorController extends BaseController
             if (empty($capacity['capacity'])) {
                 return  HttpCode::jsonObj([],'请先授权','419');
             } else {
-                $actor = CastingpinActor::find()->select(['id','cover_img','cover_video'])->asArray()->all();
+                $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
             }
             return HttpCode::renderJSON($actor, 'ok', '200');
         }else{
@@ -158,6 +158,9 @@ class CastingpinactorController extends BaseController
             $cast_id = \Yii::$app->request->post('cast_id');
             $data =  CastingpinActor::find()->where(['id'=>$cast_id])->select(['height','stage_name','phone','cover_video','cover_img','profile'
                 ,'speciality','occupation','woman','id','open_id'])->asArray()->one();
+            //查看是否被关注
+
+
 
             return HttpCode::renderJSON($data, 'ok', '200');
         }else{
