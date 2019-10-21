@@ -224,12 +224,11 @@ class CastingpinactorController extends BaseController
     }
 
     /*
-    * 邀请KOL
+    * 邀请网红
     */
     public function actionInvite(){
         if ((\Yii::$app->request->isPost)) {
             $arranger_id  = \Yii::$app->request->post('arranger_id');
-            $open_id = $this->openId;
             $transaction = \Yii::$app->db->beginTransaction();
             if (empty($arranger_id)){
                 return  HttpCode::renderJSON([],'参数不能为空','406');
