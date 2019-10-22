@@ -248,8 +248,7 @@ class CastingpinactorController extends BaseController
                                 $invite = $invites['invite'];
                                 $invite_data = json_decode(json_decode($invite, true), true);
                                 foreach ($invite_data as $key => $value) {
-                                    if ($value['hub_id'] == $arranger_id['id']) {
-
+                                    if ($value['arranger_id'] == $arranger_id['id']) {
                                         return HttpCode::renderJSON([], '您已经邀请过了', '200');
                                     }
                                 }
@@ -258,18 +257,15 @@ class CastingpinactorController extends BaseController
                             } else {
                                 $bm = null;
                             }
-
                         //没有邀请 -》 获取HUB 头像和ID
                         $user_kol['avatar_url']  = $userinfo['avatar_url'];
                         $user_kol['arranger_id']  = $arranger_id['id'];  //统筹
                         $add_kol = json_encode($user_kol);
-
                         if (!$bm){
                             $json_msg   = '['.$bm.$add_kol.']';
                         }else{
                             $json_msg   = '['.$bm.','.$add_kol.']';
                         }
-
                         //更新网红信息
                         $is_update =   CastingpinActor::updateAll(['invite'=>$json_msg,'invite_number'=>$invites['invite_number']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
                         //邀请人数
@@ -286,7 +282,6 @@ class CastingpinactorController extends BaseController
                     }else{
                         return  HttpCode::renderJSON([],'您不是统筹身份','412');
                     }
-
                 }catch (\ErrorException $e){
                     $transaction->rollBack();
                     throw $e;
