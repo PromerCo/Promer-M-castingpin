@@ -1,5 +1,6 @@
 <?php
 namespace mcastingpin\modules\v1\controllers;
+use Codeception\Module\Yii1;
 use mcastingpin\common\helps\Common;
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\modules\v1\models\CastingpinActor;
@@ -36,15 +37,18 @@ class CastingpinhomeController extends Controller
      * 首页列表
      */
     public function actionHome(){
-          $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
+
+              $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
 LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id")->asArray()->all();
+
+
              foreach ($data as $key=>$value){
                  $data[$key]['create_time'] = Common::time_tranx($value['create_time'],1);
              }
-          return  HttpCode::renderJSON($data,'ok','201');
+          return  HttpCode::renderJSON([],'ok','201');
 
     }
 
