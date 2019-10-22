@@ -6,11 +6,12 @@ use mcastingpin\modules\v1\models\CastingpinActor;
 use mcastingpin\modules\v1\models\CastingpinArranger;
 use mcastingpin\modules\v1\models\CastingpinNotice;
 use mcastingpin\modules\v1\models\CastingpinPull;
+use yii\web\Controller;
 
 /**
  * CastingpinUserController implements the CRUD actions for CastingpinUser model.
  */
-class CastingpinhomeController extends BaseController
+class CastingpinhomeController extends Controller
 {
 
     public  $enableCsrfValidation=false;
