@@ -274,7 +274,7 @@ class CastingpinactorController extends BaseController
                             $transaction->commit();  //提交事务
                             return  HttpCode::renderJSON($userinfo['avatar_url'],'邀请成功','201');
                         }else{
-                            return  HttpCode::renderJSON([],'邀请失败','416');
+                            return  HttpCode::renderJSON([],'邀请失败','418');
                         }
                         }else{
                             return  HttpCode::renderJSON([],'请先填写资料','412');
