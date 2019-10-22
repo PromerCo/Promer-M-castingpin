@@ -288,7 +288,7 @@ class CastingpinactorController extends BaseController
                 }
 
             } else{
-                return  HttpCode::renderJSON([],'请稍后再试','412');
+                return  HttpCode::renderJSON([],'请稍后再试','418');
             }
         }else{
             return  HttpCode::jsonObj([],'请求方式出错','418');
