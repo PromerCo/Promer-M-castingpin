@@ -325,7 +325,6 @@ class CastingpinactorController extends BaseController
             if (!empty($data)){
                 foreach ($data as $key => $value){
                     $data[$key]['pro_id'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['id'])->one()['id'];
-                    $data[$key]['wechat'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['wechat'])->one()['wechat'];
                     $data[$key]['stage_name'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['stage_name'])->one()['stage_name'];
                     $data[$key]['occupation'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['occupation'])->one()['occupation'];
                 }
@@ -336,6 +335,10 @@ class CastingpinactorController extends BaseController
         }else{
             //粉丝
             $data =   CastingpinUser::findBySql("SELECT open_id,avatar_url,nick_name,IF(capacity = 1,'统筹','艺人') as capacity,id FROM  castingpin_user WHERE  id in(SELECT actor_id FROM castingpin_carefor WHERE arranger_id = $this->uid  and status = 1)")->asArray()->all();
+            foreach ($data as $key => $value){
+                $data[$key]['position'] = CastingpinArranger::find()->where(['open_id'=>$value['open_id']])->select(['position'])->one()['position'];
+
+            }
         }
         return  HttpCode::jsonObj($data,'ok','201');
     }
