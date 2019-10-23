@@ -243,13 +243,19 @@ class CastingpinactorController extends BaseController
             $is_lock = RedisLock::lock($key);
             if ($is_lock){
                 try{
+                    //获取用户身份 及其头像
                     $userinfo =   CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['capacity','avatar_url'])->asArray()->one();
+
                     if ($userinfo['capacity'] == 1){
                         //统筹是否填写资料
                         $arranger_id = CastingpinArranger::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one();
+                        //已经填写资料
                         if (!empty($arranger_id['id'])) {
+                            //查看（艺人）受邀人数
                             $invites = CastingpinActor::find()->where(['id' => $arranger_id])->select(['invite', 'invite_number'])->asArray()->one();
-                            //查看邀请人数
+
+                            return  HttpCode::renderJSON($invites,'邀请失败','418');
+
                             if (!empty($invites['invite'])) {
                                 $invite = $invites['invite'];
                                 $invite_data = json_decode(json_decode($invite, true), true);
