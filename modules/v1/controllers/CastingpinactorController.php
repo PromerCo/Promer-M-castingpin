@@ -325,6 +325,9 @@ class CastingpinactorController extends BaseController
             if (!empty($data)){
                 foreach ($data as $key => $value){
                     $data[$key]['pro_id'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['id'])->one()['id'];
+                    $data[$key]['wechat'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['wechat'])->one()['wechat'];
+                    $data[$key]['stage_name'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['wechat'])->one()['stage_name'];
+                    $data[$key]['occupation'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['wechat'])->one()['occupation'];
                 }
             }else{
                 $data = [];
