@@ -197,7 +197,7 @@ class CastingpinactorController extends BaseController
             //查看是否关注过
             $follow_status =   CastingpinCarefor::find()->where(['actor_id'=>$this->uid,'arranger_id'=>$arranger_id])->select(['status'])->asArray()->one();
             //查看网红关注总人数
-            $follow_number = CastingpinActor::find()->where(['id'=>$arranger_id])->select(['follow_number'])->asArray()->one()['follow_number'];
+            $follow_number = CastingpinActor::find()->where(['id'=>$yir_id])->select(['follow_number'])->asArray()->one()['follow_number'];
             if (!$follow_status){
                 //没有关注过(插入)
                 $is_success  =   \Yii::$app->db->createCommand()->insert('castingpin_carefor', [
@@ -206,7 +206,7 @@ class CastingpinactorController extends BaseController
                     'actor_id'=>$this->uid
                 ])->execute();
                 if ($is_success){
-                    CastingpinActor::updateAll(['follow_number'=>$follow_number+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
+                    CastingpinActor::updateAll(['follow_number'=>$follow_number+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$yir_id]);
                     $transaction->commit();
                     return  HttpCode::renderJSON($status,'create is success','201');
                 }else{
@@ -216,11 +216,10 @@ class CastingpinactorController extends BaseController
                 $cancel_follow =    CastingpinCarefor::updateAll(['status'=>$status,'update_time'=>date('Y-m-d H:i:s',time())],['actor_id'=>$this->uid,'arranger_id'=>$arranger_id]);
                 if ($cancel_follow){
 
-
                     if ($status == 1){
-                         CastingpinActor::updateAll(['follow_number'=>intval($follow_number)+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
+                         CastingpinActor::updateAll(['follow_number'=>intval($follow_number)+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$yir_id]);
                     }else{
-                        CastingpinActor::updateAll(['follow_number'=>intval($follow_number)-1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
+                        CastingpinActor::updateAll(['follow_number'=>intval($follow_number)-1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$yir_id]);
                     }
 
                     $transaction->commit();
