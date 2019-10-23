@@ -265,6 +265,7 @@ class CastingpinactorController extends BaseController
                                 $invite_json = json_decode($invite, true);
                                 $bm = str_replace(array('[', ']'), array('', ''), $invite_json);
                             } else {
+                                $invites['invite_number'] = 0;
                                 $bm = null;
                             }
                         //没有邀请 -》 获取HUB 头像和ID
