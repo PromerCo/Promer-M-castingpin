@@ -296,6 +296,29 @@ class CastingpinactorController extends BaseController
 
     }
 
+    /*
+       * 我关注（粉丝）
+       */
+    public function actionFoluser(){
+        $type = \Yii::$app->request->post('type');
+        if ($type == 0){
+            //关注
+            $data =   CastingpinUser::findBySql("SELECT avatar_url,nick_name,IF(capacity = 1,'HUB','KOL') as capacity,id FROM  hubkol_user WHERE  id  in(SELECT kol_id FROM hubkol_carefor WHERE hub_id = $this->uid and  status = 1)")->asArray()->all();
+            if (!empty($data)){
+                foreach ($data as $key => $value){
+                    $data[$key]['pro_id'] = CastingpinActor::find()->where(['uid'=>$value['id']])->select(['id'])->one()['id'];
+                }
+            }else{
+                $data = [];
+            }
+
+        }else{
+            //粉丝
+            $data =   HubkolUser::findBySql("SELECT avatar_url,nick_name,IF(capacity = 1,'HUB','KOL') as capacity,id FROM  hubkol_user WHERE  id in(SELECT hub_id FROM hubkol_carefor WHERE kol_id = $this->uid  and status = 1)")->asArray()->all();
+        }
+        return  HttpCode::jsonObj($data,'ok','201');
+    }
+
 
 
 
