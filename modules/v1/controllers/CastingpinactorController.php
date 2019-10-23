@@ -200,7 +200,7 @@ class CastingpinactorController extends BaseController
                     'actor_id'=>$this->openId
                 ])->execute();
                 if ($is_success){
-                    CastingpinActor::updateAll(['follow_number'=>$follow_number+1,'update_time'=>date('Y-m-d H:i:s',time())],['open_id'=>$this->openId]);
+                    CastingpinActor::updateAll(['follow_number'=>$follow_number+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
                     $transaction->commit();
                     return  HttpCode::renderJSON($status,'create is success','201');
                 }else{
@@ -210,9 +210,9 @@ class CastingpinactorController extends BaseController
                 $cancel_follow =    CastingpinCarefor::updateAll(['status'=>$status,'update_time'=>date('Y-m-d H:i:s',time())],['actor_id'=>$this->openId,'arranger_id'=>$arranger_id]);
                 if ($cancel_follow){
                     if ($status == 1){
-                         CastingpinActor::updateAll(['follow_number'=>intval($follow_number)+1,'update_time'=>date('Y-m-d H:i:s',time())],['open_id'=>$this->openId]);
+                         CastingpinActor::updateAll(['follow_number'=>intval($follow_number)+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
                     }else{
-                        CastingpinActor::updateAll(['follow_number'=>intval($follow_number)-1,'update_time'=>date('Y-m-d H:i:s',time())],['open_id'=>$this->openId]);
+                        CastingpinActor::updateAll(['follow_number'=>intval($follow_number)-1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
                     }
 
                     $transaction->commit();
@@ -227,11 +227,11 @@ class CastingpinactorController extends BaseController
     }
 
     /*
-    * 邀请网红
+    * 邀请艺人
     */
     public function actionInvite(){
         if ((\Yii::$app->request->isPost)) {
-            $arranger_id  = \Yii::$app->request->post('arranger_id');
+            $arranger_id  = \Yii::$app->request->post('arranger_id'); //艺人ID
             $transaction = \Yii::$app->db->beginTransaction();
             if (empty($arranger_id)){
                 return  HttpCode::renderJSON([],'参数不能为空','406');
@@ -306,7 +306,7 @@ class CastingpinactorController extends BaseController
         $type = \Yii::$app->request->post('type');
         if ($type == 0){
             //关注
-            $data =   CastingpinUser::findBySql("SELECT avatar_url,nick_name,IF(capacity = 1,'HUB','KOL') as capacity,id FROM  hubkol_user WHERE  id  in(SELECT kol_id FROM hubkol_carefor WHERE hub_id = $this->uid and  status = 1)")->asArray()->all();
+            $data =   CastingpinUser::findBySql("SELECT avatar_url,nick_name,IF(capacity = 1,'HUB','KOL') as capacity,id FROM  hubkol_user WHERE  id  in(SELECT kol_id FROM hubkol_carefor WHERE actor_id = $this->openId and  status = 1)")->asArray()->all();
             if (!empty($data)){
                 foreach ($data as $key => $value){
                     $data[$key]['pro_id'] = CastingpinActor::find()->where(['uid'=>$value['id']])->select(['id'])->one()['id'];
