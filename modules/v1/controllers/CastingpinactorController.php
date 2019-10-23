@@ -270,7 +270,7 @@ class CastingpinactorController extends BaseController
                         //没有邀请 -》 获取HUB 头像和ID
                         $user_kol['avatar_url']  = $userinfo['avatar_url'];
                         $user_kol['arranger_id']  = $arranger_id['id'];  //统筹
-                        $add_kol = json_encode($user_kol);
+                        $add_kol = $user_kol;
                         if (!$bm){
                             $json_msg   = '['.$bm.$add_kol.']';
                         }else{
