@@ -270,13 +270,13 @@ class CastingpinactorController extends BaseController
                         //没有邀请 -》 获取HUB 头像和ID
                         $user_kol['avatar_url']  = $userinfo['avatar_url'];
                         $user_kol['arranger_id']  = $arranger_id['id'];  //统筹
-                        $add_kol = $user_kol;
+                        $add_kol = json_encode($user_kol);
                         if (!$bm){
                             $json_msg   = '['.$bm.$add_kol.']';
                         }else{
                             $json_msg   = '['.$add_kol.']';
                         }
-                            return  HttpCode::renderJSON($json_msg,'邀请失败','418');
+                            return  HttpCode::jsonObj($json_msg,'邀请失败','418');
                         //更新网红信息
                         $is_update =   CastingpinActor::updateAll(['invite'=>$json_msg,'invite_number'=>$invites['invite_number']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
                         //邀请人数
