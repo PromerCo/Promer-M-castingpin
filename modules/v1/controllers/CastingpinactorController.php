@@ -248,9 +248,9 @@ class CastingpinactorController extends BaseController
 
                     if ($userinfo['capacity'] == 1){
                         //统筹是否填写资料
-                        $arranger_id = CastingpinArranger::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one();
+                        $arranger = CastingpinArranger::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one();
                         //已经填写资料
-                        if (!empty($arranger_id['id'])) {
+                        if (!empty($arranger['id'])) {
                             //查看（艺人）受邀人数
                             $invites = CastingpinActor::find()->where(['id' => $arranger_id])->select(['invite', 'invite_number'])->asArray()->one();
 
@@ -258,7 +258,7 @@ class CastingpinactorController extends BaseController
                                 $invite = $invites['invite'];
                                 $invite_data = json_decode(json_decode($invite, true), true);
                                 foreach ($invite_data as $key => $value) {
-                                    if ($value['arranger_id'] == $arranger_id['id']) {
+                                    if ($value['arranger_id'] == $arranger['id']) {
                                         return HttpCode::renderJSON([], '您已经邀请过了', '200');
                                     }
                                 }
@@ -269,7 +269,7 @@ class CastingpinactorController extends BaseController
                             }
                         //没有邀请 -》 获取HUB 头像和ID
                         $user_kol['avatar_url']  = $userinfo['avatar_url'];
-                        $user_kol['arranger_id']  = $arranger_id['id'];  //统筹
+                        $user_kol['arranger_id']  = $arranger['id'];  //统筹
                         $add_kol = json_encode($user_kol);
                         if (!$bm){
                             $json_msg   = '['.$bm.$add_kol.']';
@@ -278,9 +278,8 @@ class CastingpinactorController extends BaseController
                         }
 
                         //更新网红信息
-                        $is_update =   CastingpinActor::updateAll(['invite'=>$json_msg,'invite_number'=>$invites['invite_number']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>5]);
+                        $is_update =   CastingpinActor::updateAll(['invite'=>$json_msg,'invite_number'=>$invites['invite_number']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
 
-                            return  HttpCode::renderJSON($is_update,'邀请失败','418');
                         //邀请人数
                         if ($is_update){
                             RedisLock::unlock($key);  //清空KEY
