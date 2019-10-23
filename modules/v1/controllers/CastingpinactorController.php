@@ -198,7 +198,7 @@ class CastingpinactorController extends BaseController
                 $is_success  =   \Yii::$app->db->createCommand()->insert('castingpin_carefor', [
                     'status' => $status,
                     'arranger_id' => $arranger_id,
-                    'actor_id'=>$this->openId
+                    'actor_id'=>$this->uid
                 ])->execute();
                 if ($is_success){
                     CastingpinActor::updateAll(['follow_number'=>$follow_number+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
