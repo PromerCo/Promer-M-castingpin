@@ -317,10 +317,10 @@ class CastingpinactorController extends BaseController
         $type = \Yii::$app->request->post('type');
         if ($type == 0){
             //关注
-            $data =   CastingpinUser::findBySql("SELECT avatar_url,nick_name,IF(capacity = 1,'HUB','KOL') as capacity,id FROM  hubkol_user WHERE  id  in(SELECT kol_id FROM hubkol_carefor WHERE actor_id = $this->openId and  status = 1)")->asArray()->all();
+            $data =   CastingpinUser::findBySql("SELECT open_id,avatar_url,nick_name,IF(capacity = 1,'统筹','艺人') as capacity,id FROM  castingpin_user WHERE  id  in(SELECT arranger_id FROM castingpin_carefor WHERE actor_id = $this->uid and  status = 1)")->asArray()->all();
             if (!empty($data)){
                 foreach ($data as $key => $value){
-                    $data[$key]['pro_id'] = CastingpinActor::find()->where(['uid'=>$value['id']])->select(['id'])->one()['id'];
+                    $data[$key]['pro_id'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['id'])->one()['id'];
                 }
             }else{
                 $data = [];
@@ -328,7 +328,7 @@ class CastingpinactorController extends BaseController
 
         }else{
             //粉丝
-            $data =   HubkolUser::findBySql("SELECT avatar_url,nick_name,IF(capacity = 1,'HUB','KOL') as capacity,id FROM  hubkol_user WHERE  id in(SELECT hub_id FROM hubkol_carefor WHERE kol_id = $this->uid  and status = 1)")->asArray()->all();
+            $data =   CastingpinUser::findBySql("SELECT open_id,avatar_url,nick_name,IF(capacity = 1,'统筹','艺人') as capacity,id FROM  castingpin_user WHERE  id in(SELECT actor_id FROM castingpin_carefor WHERE arranger_id = $this->uid  and status = 1)")->asArray()->all();
         }
         return  HttpCode::jsonObj($data,'ok','201');
     }

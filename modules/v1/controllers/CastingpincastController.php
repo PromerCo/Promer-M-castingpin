@@ -63,8 +63,8 @@ open_id ")->asArray()->all();
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
-
     }
+
 
 
 }
