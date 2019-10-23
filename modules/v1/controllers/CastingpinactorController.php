@@ -184,11 +184,15 @@ class CastingpinactorController extends BaseController
     public function actionFollow(){
         if ((\Yii::$app->request->isPost)) {
 
-            $arranger_id = \Yii::$app->request->post('arranger_id');//被关注人ID
+            $yir_id = \Yii::$app->request->post('arranger_id');//被关注人ID（艺人）
+
             $status = \Yii::$app->request->post('status')??1;  //0未关注  1已关注
-            if (empty($arranger_id)){
+            if (empty($yir_id)){
                 return  HttpCode::renderJSON([],'参数不能为空','406');
             }
+            $open_id =  CastingpinActor::find()->where(['id'=>$yir_id])->select(['open_id'])->asArray()->one()['open_id'];  // 艺人OpenId
+            $arranger_id =   CastingpinUser::find()->where(['open_id'=>$open_id])->select(['id'])->asArray()->one()['id'];  //艺人ID
+
             $transaction = \Yii::$app->db->beginTransaction();
             //查看是否关注过
             $follow_status =   CastingpinCarefor::find()->where(['actor_id'=>$this->uid,'arranger_id'=>$arranger_id])->select(['status'])->asArray()->one();
