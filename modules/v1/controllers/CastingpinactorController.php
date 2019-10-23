@@ -182,6 +182,7 @@ class CastingpinactorController extends BaseController
     */
     public function actionFollow(){
         if ((\Yii::$app->request->isPost)) {
+
             $arranger_id = \Yii::$app->request->post('arranger_id');//被关注人ID
             $status = \Yii::$app->request->post('status')??1;  //0未关注  1已关注
             if (empty($arranger_id)){
@@ -189,7 +190,7 @@ class CastingpinactorController extends BaseController
             }
             $transaction = \Yii::$app->db->beginTransaction();
             //查看是否关注过
-            $follow_status =   CastingpinCarefor::find()->where(['actor_id'=>$this->openId,'arranger_id'=>$arranger_id])->select(['status'])->asArray()->one();
+            $follow_status =   CastingpinCarefor::find()->where(['actor_id'=>$this->uid,'arranger_id'=>$arranger_id])->select(['status'])->asArray()->one();
             //查看网红关注总人数
             $follow_number = CastingpinActor::find()->where(['id'=>$arranger_id])->select(['follow_number'])->asArray()->one()['follow_number'];
             if (!$follow_status){
@@ -209,7 +210,7 @@ class CastingpinactorController extends BaseController
             }else{
                 $cancel_follow =    CastingpinCarefor::updateAll(['status'=>$status,'update_time'=>date('Y-m-d H:i:s',time())],['actor_id'=>$this->openId,'arranger_id'=>$arranger_id]);
                 if ($cancel_follow){
-                    return  HttpCode::renderJSON($follow_number,'ok','201');
+
 
                     if ($status == 1){
                          CastingpinActor::updateAll(['follow_number'=>intval($follow_number)+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
