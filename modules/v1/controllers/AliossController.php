@@ -2,6 +2,7 @@
 
 namespace mcastingpin\modules\v1\controllers;
 
+use Codeception\Module\Yii1;
 use mcastingpin\common\components\AliOss;
 use yii\web\Controller;
 
@@ -27,11 +28,19 @@ class AliossController extends  Controller
 
     public function  actionIndex(){
 
-        $tmp_name = $_FILES['file']['tmp_name'];
+        $type =\Yii::$app->request->post('type')??0; //0 图片  1 视频  2音频
 
         $oss = new AliOss();
-        $req = $oss->uploadImage($tmp_name);
 
+        $tmp_name = $_FILES['file']['tmp_name'];
+
+        if ($type == 0){
+            $req = $oss->uploadImage($tmp_name);
+        } elseif ($type == 1){
+            $req = $oss->uploadVideo($tmp_name);
+        }elseif ($type == 2){
+            $req = $oss->uploadAudio($tmp_name);
+        }
         return $req;
     }
 
