@@ -51,7 +51,7 @@ class CastingpinuserController extends BaseController
             $wechat_user = new CastingpinUser();
             try {
                 $transaction = \Yii::$app->db->beginTransaction();
-                $wechat_user->updateAll($data,['id'=>$openId]);
+                $wechat_user->updateAll($data,['open_id'=>$openId]);
                 if (!$wechat_user){
                     return  HttpCode::renderJSON([],'update failed','412');
                 }else{
