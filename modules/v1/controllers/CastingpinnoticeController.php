@@ -116,9 +116,9 @@ class CastingpinnoticeController extends BaseController
                     }
                     //假如用户填写资料
                     $is_pull =   CastingpinPull::find()->where(['notice_id'=>$notice_id,'actor_id'=>$means['id']])->asArray()->count(); //接单
-                    $material =  CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['capacity'])->asArray()->one();  //身份标识（0 未填写资料 1 HUB 2KOL
+                    $material =  CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['capacity'])->asArray()->one();  //身份标识（0 未填写资料 1 统筹 2 艺人
                     if ($material['capacity'] != 2){
-                        return  HttpCode::renderJSON([],'您不是KOL身份','417');
+                        return  HttpCode::renderJSON([],'您不是统筹身份','417');
                     }
                     if (!$is_pull){
                        $pull_inster =  \Yii::$app->db->createCommand()->insert('castingpin_pull', [
