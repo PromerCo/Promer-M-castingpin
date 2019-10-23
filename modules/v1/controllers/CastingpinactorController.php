@@ -191,7 +191,7 @@ class CastingpinactorController extends BaseController
             //查看是否关注过
             $follow_status =   CastingpinCarefor::find()->where(['actor_id'=>$this->openId,'arranger_id'=>$arranger_id])->select(['status'])->asArray()->one();
             //查看网红关注总人数
-            $follow_number = CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['follow_number'])->asArray()->one()['follow_number'];
+            $follow_number = CastingpinActor::find()->where(['id'=>$arranger_id])->select(['follow_number'])->asArray()->one()['follow_number'];
             if (!$follow_status){
                 //没有关注过(插入)
                 $is_success  =   \Yii::$app->db->createCommand()->insert('castingpin_carefor', [
