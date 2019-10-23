@@ -278,7 +278,7 @@ class CastingpinactorController extends BaseController
                         }
 
                         //更新网红信息
-                        $is_update =   CastingpinActor::updateAll(['invite'=>$json_msg,'invite_number'=>$invites['invite_number']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
+                        $is_update =   CastingpinActor::updateAll(['invite'=>$json_msg,'invite_number'=>$invites['invite_number']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>5]);
 
                             return  HttpCode::renderJSON($is_update,'邀请失败','418');
                         //邀请人数
