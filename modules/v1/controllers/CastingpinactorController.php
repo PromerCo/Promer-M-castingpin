@@ -254,8 +254,6 @@ class CastingpinactorController extends BaseController
                             //查看（艺人）受邀人数
                             $invites = CastingpinActor::find()->where(['id' => $arranger_id])->select(['invite', 'invite_number'])->asArray()->one();
 
-                            return  HttpCode::renderJSON($invites,'邀请失败','418');
-
                             if (!empty($invites['invite'])) {
                                 $invite = $invites['invite'];
                                 $invite_data = json_decode(json_decode($invite, true), true);
@@ -276,8 +274,9 @@ class CastingpinactorController extends BaseController
                         if (!$bm){
                             $json_msg   = '['.$bm.$add_kol.']';
                         }else{
-                            $json_msg   = '['.$bm.','.$add_kol.']';
+                            $json_msg   = '['.$add_kol.']';
                         }
+                            return  HttpCode::renderJSON($json_msg,'邀请失败','418');
                         //更新网红信息
                         $is_update =   CastingpinActor::updateAll(['invite'=>$json_msg,'invite_number'=>$invites['invite_number']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$arranger_id]);
                         //邀请人数
