@@ -208,7 +208,7 @@ class CastingpinactorController extends BaseController
                     return  HttpCode::renderJSON([],'error','412');
                 }
             }else{
-                $cancel_follow =    CastingpinCarefor::updateAll(['status'=>$status,'update_time'=>date('Y-m-d H:i:s',time())],['actor_id'=>$this->openId,'arranger_id'=>$arranger_id]);
+                $cancel_follow =    CastingpinCarefor::updateAll(['status'=>$status,'update_time'=>date('Y-m-d H:i:s',time())],['actor_id'=>$this->uid,'arranger_id'=>$arranger_id]);
                 if ($cancel_follow){
 
 
