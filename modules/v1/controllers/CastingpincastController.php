@@ -5,6 +5,7 @@ namespace mcastingpin\modules\v1\controllers;
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\modules\v1\models\CastingpinArranger;
 use mcastingpin\modules\v1\models\CastingpinCast;
+use mcastingpin\modules\v1\models\CastingpinNotice;
 
 /**
  * CastingpinCastController implements the CRUD actions for CastingpinCast model.
@@ -64,6 +65,20 @@ open_id ")->asArray()->all();
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
+
+    /*
+     *  通告列表(剧组对应通告)
+     */
+    public function actionAnnounce(){
+        if ((\Yii::$app->request->isPost)) {
+            $cast_id = \Yii::$app->request->post('cast_id');
+            $cast_list = CastingpinNotice::find()->where(['cast_id'=>$cast_id])->select(['title','style','speciality'])->asArray()->all();
+            return  HttpCode::renderJSON($cast_list,'ok','201');
+        }else{
+            return  HttpCode::renderJSON([],'请求方式出错','418');
+        }
+    }
+
 
 
 
