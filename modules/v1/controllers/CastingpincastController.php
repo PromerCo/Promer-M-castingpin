@@ -43,6 +43,10 @@ class CastingpincastController extends BaseController
             }
             $notice->setAttributes($data,false);
             if (!$notice->save()){
+                $err_msg = [];
+                foreach ($notice->errors as $key =>$val){
+                    array_push($err_msg,$val);
+                }
                 return  HttpCode::renderJSON([],$notice->errors,'412');
             }else{
                 $transaction->commit();
