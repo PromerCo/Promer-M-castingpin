@@ -51,7 +51,7 @@ class CastingpinactorController extends BaseController
                     //艺人
                     case 2:
                         $Actor = new CastingpinActor();
-                        $id    = CastingpinActor::find()->where(['open_id' => $openid])->select(['id'])->one();
+                        $id    = CastingpinActor::find()->where(['open_id' => $openid])->select(['id'])->one(); //基本资料
                         if (!$id) {
                             $data['open_id'] = $this->openId;
                             $Actor->setAttributes($data, false);
@@ -124,7 +124,7 @@ class CastingpinactorController extends BaseController
                     //艺人
                     case 2:
                     $actor = CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['wechat','phone','corporation',
-                    'email','occupation','woman','university','stage_name','city','birthday','height','weight','speciality','profile','cover_img'])->asArray()->one();
+                    'cover_video','occupation','woman','university','stage_name','city','birthday','height','weight','speciality','profile','cover_img'])->asArray()->one();
                     //地址
 
 
@@ -147,11 +147,7 @@ class CastingpinactorController extends BaseController
                 return  HttpCode::jsonObj([],'请先授权','419');
             } else {
                 $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
-                foreach ($actor as $key =>$value){
-                 if (empty($value['cover_img']) || empty($value['cover_video'])){
-                      unset($actor[$key]);
-                 }
-                }
+
             }
             return HttpCode::renderJSON($actor, 'ok', '200');
         }else{
