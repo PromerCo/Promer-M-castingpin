@@ -148,6 +148,12 @@ class CastingpinactorController extends BaseController
             } else {
                 $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
 
+                foreach ($actor as $key=>$value){
+                    if (empty($value['cover_video']) || empty($value['cover_video'])){
+                           unset($actor[$key]);
+                    }
+                }
+
             }
             return HttpCode::renderJSON($actor, 'ok', '200');
         }else{
