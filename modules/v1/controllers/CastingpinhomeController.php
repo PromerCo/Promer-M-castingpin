@@ -49,11 +49,17 @@ LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arra
 LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id")->asArray()->all();
              }else{
                  $arranger_id =    CastingpinCast::find()->where(['type'=>$type])->select(['arranger_id'])->asArray()->one()['arranger_id'];
-                 $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
+                 if ($arranger_id){
+                     $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
 LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.arranger_id = $arranger_id")->asArray()->all();
+                 }else{
+                     $data = [];
+                 }
+
+
              }
 
              foreach ($data as $key=>$value){
