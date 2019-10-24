@@ -36,7 +36,7 @@ class CastingpinCast extends BaseModel
     {
         return [
             [['arranger_id'], 'required'],
-            [['arranger_id', 'type', 'theme', 'city'], 'integer'],
+            [['arranger_id', 'type', 'theme'], 'integer'],
             [['team', 'profile'], 'string'],
             [['create_time', 'update_time'], 'safe'],
             [['open_id'], 'string', 'max' => 32],
