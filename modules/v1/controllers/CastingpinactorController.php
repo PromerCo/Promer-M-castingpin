@@ -142,6 +142,7 @@ class CastingpinactorController extends BaseController
     public function actionList(){
         if ((\Yii::$app->request->isPost)) {
             $style = \Yii::$app->request->post('style')??100400;
+            
             $openid =   $this->openId;
             $capacity = CastingpinUser::find()->where(['open_id' => $openid])->select(['capacity'])->one();
             if (empty($capacity['capacity'])) {
