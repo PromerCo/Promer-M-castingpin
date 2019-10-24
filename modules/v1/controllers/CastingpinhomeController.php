@@ -5,6 +5,7 @@ use mcastingpin\common\helps\Common;
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\modules\v1\models\CastingpinActor;
 use mcastingpin\modules\v1\models\CastingpinArranger;
+use mcastingpin\modules\v1\models\CastingpinCast;
 use mcastingpin\modules\v1\models\CastingpinNotice;
 use mcastingpin\modules\v1\models\CastingpinPull;
 use yii\web\Controller;
@@ -47,14 +48,14 @@ FROM castingpin_notice
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
 LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id")->asArray()->all();
              }else{
-                 $arranger_id =    CastingpinActor::find()->where(['type'=>$type])->select(['arranger_id'])->asArray()->one()['arranger_id'];
+                 $arranger_id =    CastingpinCast::find()->where(['type'=>$type])->select(['arranger_id'])->asArray()->one()['arranger_id'];
                  $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
 LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.arranger_id = $arranger_id")->asArray()->all();
              }
-             
+
              foreach ($data as $key=>$value){
                  $data[$key]['create_time'] = Common::time_tranx($value['create_time'],1);
              }
