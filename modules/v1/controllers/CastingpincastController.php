@@ -47,7 +47,7 @@ class CastingpincastController extends BaseController
                 foreach ($notice->errors as $key =>$val){
                     array_push($err_msg,$val);
                 }
-                return  HttpCode::renderJSON([],$notice->errors,'412');
+                return  HttpCode::renderJSON([],$err_msg,'412');
             }else{
                 $transaction->commit();
                 $info['arranger_id']   = $notice->id;
