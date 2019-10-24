@@ -141,14 +141,18 @@ class CastingpinactorController extends BaseController
      */
     public function actionList(){
         if ((\Yii::$app->request->isPost)) {
+            $style = \Yii::$app->request->post('style')??100400;
             $openid =   $this->openId;
             $capacity = CastingpinUser::find()->where(['open_id' => $openid])->select(['capacity'])->one();
             if (empty($capacity['capacity'])) {
                 return  HttpCode::jsonObj([],'请先授权','419');
             } else {
-                $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
-
-                foreach ($actor as $key=>$value){
+            if ($style == 100400){
+                    $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
+             }else{
+                    $actor = CastingpinActor::find()->where(['style'=>$style])->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
+             }
+             foreach ($actor as $key=>$value){
                     if (empty($value['cover_video']) || empty($value['cover_video'])){
                            unset($actor[$key]);
                     }
