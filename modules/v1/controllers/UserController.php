@@ -8,7 +8,7 @@ use yii\web\Controller;
 /**
  * Site controller
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
     public $modelClass = 'mcastingpin\models\CastingpinUser';
     /**
