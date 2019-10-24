@@ -11,7 +11,7 @@ use yii\web\Controller;
 /**
  * Site controller
  */
-class AliossController extends  BaseController
+class AliossController extends  Controller
 {
     public  $enableCsrfValidation=false;
     public function actions()
