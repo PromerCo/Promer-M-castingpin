@@ -52,14 +52,14 @@ class CastingpinconfigController extends Controller
         if ((\Yii::$app->request->isPost)) {
             $data = [];
             $valid = CastingpinVersion::find()->select(['version','status'])->asArray()->one();
-            $cache_msg =  CastingpinConfig::find()->select(['code','name','sort','type','title'])->asArray()->all();
+            $cache_msg =  CastingpinConfig::find()->select(['code','name','sort','type','title'])->orderBy('code asc')->asArray()->all();
             $data['valid'] = $valid;
             $data['cache_msg'] = $cache_msg;
-            $list =  Redis::get('casting_list');
-            if (!$list){
-                $list = $data;
-                Redis::set('casting_list',$list);
-            }
+//            $list =  Redis::get('casting_list');
+//            if (!$list){
+//                $list = $data;
+//                Redis::set('casting_list',$list);
+//            }
             return  HttpCode::renderJSON($data,'ok',200);
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
