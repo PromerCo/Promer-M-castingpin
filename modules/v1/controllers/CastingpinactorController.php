@@ -147,6 +147,11 @@ class CastingpinactorController extends BaseController
                 return  HttpCode::jsonObj([],'请先授权','419');
             } else {
                 $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
+                foreach ($actor as $key =>$value){
+                 if (empty($value['cover_img']) || empty($value['cover_video'])){
+                      unset($actor[$key]);
+                 }
+                }
             }
             return HttpCode::renderJSON($actor, 'ok', '200');
         }else{
@@ -221,7 +226,6 @@ class CastingpinactorController extends BaseController
                     }else{
                         CastingpinActor::updateAll(['follow_number'=>intval($follow_number)-1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$yir_id]);
                     }
-
                     $transaction->commit();
                     return  HttpCode::renderJSON($status,'ok','201');
                 }else{

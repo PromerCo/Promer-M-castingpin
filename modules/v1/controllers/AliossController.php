@@ -4,13 +4,14 @@ namespace mcastingpin\modules\v1\controllers;
 
 use Codeception\Module\Yii1;
 use mcastingpin\common\components\AliOss;
+use mcastingpin\modules\v1\models\CastingpinActor;
 use yii\web\Controller;
 
 
 /**
  * Site controller
  */
-class AliossController extends  Controller
+class AliossController extends  BaseController
 {
     public  $enableCsrfValidation=false;
     public function actions()
@@ -29,11 +30,8 @@ class AliossController extends  Controller
     public function  actionIndex(){
 
         $type =\Yii::$app->request->post('type')??0; //0 图片  1 视频  2音频
-
         $oss = new AliOss();
-
         $tmp_name = $_FILES['file']['tmp_name'];
-
         if ($type == 0){
             $req = $oss->uploadImage($tmp_name);
         } elseif ($type == 1){
@@ -41,6 +39,8 @@ class AliossController extends  Controller
         }elseif ($type == 2){
             $req = $oss->uploadAudio($tmp_name);
         }
+
+
         return $req;
     }
 
