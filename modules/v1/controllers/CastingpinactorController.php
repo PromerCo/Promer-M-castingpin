@@ -158,6 +158,8 @@ class CastingpinactorController extends BaseController
                            unset($actor[$key]);
                     }
                 }
+                $actor =    array_values($actor);
+
 
             }
             return HttpCode::renderJSON($actor, 'ok', '200');
