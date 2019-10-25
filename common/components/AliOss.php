@@ -25,6 +25,7 @@ class AliOss
         $fileType = Yii::$app->params['oss']['fileType']['image'];
         $fielName = Uuid::uuid();
         $object = $fileType .'/'.$fielName;
+        return $object;
         try {
             $req = self::$oss->multiuploadFile(self::$bucket, $object, $file);
             return $this->resp($req);
