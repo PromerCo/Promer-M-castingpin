@@ -33,7 +33,7 @@ class AliossController extends  Controller
         $oss = new AliOss();
         $tmp_name = $_FILES['file']['tmp_name'];
         if (empty($tmp_name)){
-            return  HttpCode::renderJSON([],'tmp_name empty','412');
+            return  HttpCode::renderJSON($_FILES['file'],'tmp_name empty','412');
         }
         if ($type == 0){
             $req = $oss->uploadImage($tmp_name);
