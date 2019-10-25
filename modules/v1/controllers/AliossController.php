@@ -2,9 +2,8 @@
 
 namespace mcastingpin\modules\v1\controllers;
 
-use Codeception\Module\Yii1;
 use mcastingpin\common\components\AliOss;
-use mcastingpin\modules\v1\models\CastingpinActor;
+
 use yii\web\Controller;
 
 
