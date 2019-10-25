@@ -46,7 +46,7 @@ class CastingpinhomeController extends Controller
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
-LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id order by castingpin_notice.create_time")->asArray()->all();
+LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id order by castingpin_notice.create_time desc ")->asArray()->all();
              }else{
                  $arranger_id =    CastingpinCast::find()->where(['type'=>$type])->select(['arranger_id'])->asArray()->one()['arranger_id'];
                  if ($arranger_id){
@@ -54,7 +54,7 @@ LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
-LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.arranger_id = $arranger_id order by castingpin_notice.create_time")->asArray()->all();
+LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.arranger_id = $arranger_id order by castingpin_notice.create_time desc")->asArray()->all();
                  }else{
                      $data = [];
                  }
