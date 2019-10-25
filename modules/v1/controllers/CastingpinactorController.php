@@ -141,7 +141,7 @@ class CastingpinactorController extends BaseController
      */
     public function actionList(){
         if ((\Yii::$app->request->isPost)) {
-            $style = \Yii::$app->request->post('style')??100400;
+            $occupation= \Yii::$app->request->post('style')??100200;
 
             $openid =   $this->openId;
             $capacity = CastingpinUser::find()->where(['open_id' => $openid])->select(['capacity'])->one();
@@ -151,7 +151,7 @@ class CastingpinactorController extends BaseController
             if ($style == 100400){
                     $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
              }else{
-                    $actor = CastingpinActor::find()->where(['style'=>$style])->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
+                    $actor = CastingpinActor::find()->where(['occupation'=>$occupation])->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
              }
              foreach ($actor as $key=>$value){
                     if (empty($value['cover_video']) || empty($value['cover_video'])){
