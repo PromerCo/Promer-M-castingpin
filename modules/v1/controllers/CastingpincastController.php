@@ -83,6 +83,25 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
         }
     }
 
+    /*
+     * 查看是否填写剧组资料
+     */
+    public function actionCastms(){
+        if ((\Yii::$app->request->isPost)) {
+            $open_id = $this->openId;
+            $data =  CastingpinCast::find()->where(['open_id'=>$open_id])->count();
+            if ($data){
+                return  HttpCode::renderJSON([],'ok','201');
+            }else{
+                return  HttpCode::renderJSON([],'ok','204');
+            }
+
+        }else{
+            return  HttpCode::renderJSON([],'请求方式出错','418');
+        }
+
+    }
+
 
 
 
