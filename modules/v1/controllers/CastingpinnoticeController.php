@@ -60,7 +60,7 @@ class CastingpinnoticeController extends BaseController
             }else{
                 $transaction->commit();
                 $info['cast_id']   = $arranger_id['id'];
-        
+
                 return  HttpCode::renderJSON($info,'ok','201');
             }
         }else{
