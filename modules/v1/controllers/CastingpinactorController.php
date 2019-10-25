@@ -148,7 +148,7 @@ class CastingpinactorController extends BaseController
             if (empty($capacity['capacity'])) {
                 return  HttpCode::jsonObj([],'请先授权','419');
             } else {
-            if ($occupation == 100400){
+            if ($occupation == 100200){
                     $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
              }else{
                     $actor = CastingpinActor::find()->where(['occupation'=>$occupation])->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
