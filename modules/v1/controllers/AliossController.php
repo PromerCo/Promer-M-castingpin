@@ -4,6 +4,7 @@ namespace mcastingpin\modules\v1\controllers;
 
 use mcastingpin\common\components\AliOss;
 
+use mcastingpin\common\helps\HttpCode;
 use yii\web\Controller;
 
 
@@ -31,6 +32,9 @@ class AliossController extends  Controller
         $type =\Yii::$app->request->post('type')??0; //0 图片  1 视频  2音频
         $oss = new AliOss();
         $tmp_name = $_FILES['file']['tmp_name'];
+        if (empty($tmp_name)){
+            return  HttpCode::renderJSON([],'tmp_name empty','412');
+        }
         if ($type == 0){
             $req = $oss->uploadImage($tmp_name);
         } elseif ($type == 1){

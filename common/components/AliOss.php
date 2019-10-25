@@ -31,7 +31,7 @@ class AliOss
         } catch (OssException $e) {
 //            printf(__FUNCTION__ . ": FAILED\n");
 //            printf($e->getMessage() . "\n");Y
-            return $e;
+            return $e->getMessage();
         }
     }
 
