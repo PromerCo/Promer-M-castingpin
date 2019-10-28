@@ -130,7 +130,7 @@ class CardController extends  Controller
                 $start_y = $start_y + $pic_h + $space_y;
             }
             $pathInfo = pathinfo($pic_path);
-            
+
             print_r($pathInfo);
 
             switch (strtolower($pathInfo['extension'])) {
@@ -148,6 +148,8 @@ class CardController extends  Controller
                     break;
             }
         }
+
+        die;
         $resource   = $imagecreatefromjpeg($pic_path);
         imagecopyresized($background,$resource,$start_x,$start_y,0,0,$pic_w,$pic_h,imagesx($resource),imagesy($resource));
         $start_x    = $start_x + $pic_w + $space_x;
