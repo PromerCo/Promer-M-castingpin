@@ -60,8 +60,6 @@ LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open
                  }else{
                      $data = [];
                  }
-
-
              }
 
              foreach ($data as $key=>$value){
