@@ -45,7 +45,6 @@ class AliossController extends  Controller
             $req = $oss->uploadAudio($tmp_name);
         }
 
-
         return $req;
     }
 
