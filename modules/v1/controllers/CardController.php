@@ -39,6 +39,8 @@ class CardController extends  Controller
             'https://ss3.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=0cc74ef9a3773912db268361c8188675/9922720e0cf3d7ca810f3732f81fbe096a63a9fd.jpg',
             'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=ad628627aacc7cd9e52d32d909032104/32fa828ba61ea8d3fcd2e9ce9e0a304e241f5803.jpg'
         );
+        print_r($pic_list);
+        die;
     $pic_list    = array_slice($pic_list, 0, 9); // 只操作前6个图片
     $bg_w    = 150; // 背景图片宽度
     $bg_h    = 150; // 背景图片高度
@@ -51,8 +53,7 @@ class CardController extends  Controller
     $space_x    = 3;
     $space_y    = 3;
     $line_x    = 0;
-        print_r($pic_list);
-        die;
+
 
         switch($pic_count) {
             case 1: // 正中间
