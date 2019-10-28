@@ -41,12 +41,14 @@ class CardController extends  Controller
         );
 
     $pic_list    = array_slice($pic_list, 0, 9); // 只操作前6个图片
-    $bg_w    = 150; // 背景图片宽度
-    $bg_h    = 150; // 背景图片高度
-    $background = imagecreatetruecolor($bg_w,$bg_h); // 背景图片
-    $color   = imagecolorallocate($background, 202, 201, 201); // 为真彩色画布创建白色背景，再设置为透明
-    print_r($color);
-      die;
+
+     $img = imagecreatetruecolor(100,100);    //创建真彩图像资源
+        $color = imagecolorAllocate($img,200,200,200);   //分配一个灰色
+        imagefill($img,0,0,$color);                 // 从左上角开始填充灰色
+        header('content-type:image/jpeg');   //jpg格式
+        imagejpeg($img);
+
+
 
 //    imagefill($background, 0, 0, $color);
 //    imageColorTransparent($background, $color);
