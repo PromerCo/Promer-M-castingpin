@@ -49,7 +49,7 @@ class CardController extends  Controller
      imagefill($img,0,0,$color);                 // 从左上角开始填充灰色
 
 
-//        header('content-type:image/jpeg');   //jpg格式
+        header('content-type:image/jpeg');   //jpg格式
    
         imagejpeg($img);
 
