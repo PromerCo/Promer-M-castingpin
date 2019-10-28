@@ -51,6 +51,8 @@ class CardController extends  Controller
     $space_x    = 3;
     $space_y    = 3;
     $line_x    = 0;
+        print_r($pic_list);
+        die;
 
         switch($pic_count) {
             case 1: // 正中间
@@ -123,8 +125,7 @@ class CardController extends  Controller
                 $line_x  = 5;
                 break;
         }
-        print_r($pic_list);
-        die;
+
         foreach( $pic_list as $k=>$pic_path ) {
             $kk = $k + 1;
             if (in_array($kk, $lineArr)) {
