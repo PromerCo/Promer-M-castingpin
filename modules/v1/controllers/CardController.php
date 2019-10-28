@@ -126,38 +126,34 @@ class CardController extends  Controller
                 break;
         }
 
-        print_r($pic_list);
-        die;
 
-//        foreach( $pic_list as $k=>$pic_path ) {
-//            $kk = $k + 1;
-//            if (in_array($kk, $lineArr)) {
-//                $start_x = $line_x;
-//                $start_y = $start_y + $pic_h + $space_y;
-//            }
-//            $pathInfo = pathinfo($pic_path);
-//
-//
-//
-//            switch (strtolower($pathInfo['extension'])) {
-//                case 'jpg':
-//                case 'jpeg':
-//                    $imagecreatefromjpeg = 'imagecreatefromjpeg';
-//                    break;
-//                case 'png':
-//                    $imagecreatefromjpeg = 'imagecreatefrompng';
-//                    break;
-//                case 'gif':
-//                default:
-//                    $imagecreatefromjpeg = 'imagecreatefromstring';
-//                    $pic_path = file_get_contents($pic_path);
-//                    break;
-//            }
-//        }
-//        $resource   = $imagecreatefromjpeg($pic_path);
-//        imagecopyresized($background,$resource,$start_x,$start_y,0,0,$pic_w,$pic_h,imagesx($resource),imagesy($resource));
-//        $start_x    = $start_x + $pic_w + $space_x;
-//        imagejpeg($background);
+        foreach( $pic_list as $k=>$pic_path ) {
+            $kk = $k + 1;
+            if (in_array($kk, $lineArr)) {
+                $start_x = $line_x;
+                $start_y = $start_y + $pic_h + $space_y;
+            }
+            $pathInfo = pathinfo($pic_path);
+
+            switch (strtolower($pathInfo['extension'])) {
+                case 'jpg':
+                case 'jpeg':
+                    $imagecreatefromjpeg = 'imagecreatefromjpeg';
+                    break;
+                case 'png':
+                    $imagecreatefromjpeg = 'imagecreatefrompng';
+                    break;
+                case 'gif':
+                default:
+                    $imagecreatefromjpeg = 'imagecreatefromstring';
+                    $pic_path = file_get_contents($pic_path);
+                    break;
+            }
+        }
+        $resource   = $imagecreatefromjpeg($pic_path);
+        imagecopyresized($background,$resource,$start_x,$start_y,0,0,$pic_w,$pic_h,imagesx($resource),imagesy($resource));
+        $start_x    = $start_x + $pic_w + $space_x;
+        imagejpeg($background);
 
 
 }
