@@ -123,6 +123,8 @@ class CardController extends  Controller
                 $line_x  = 5;
                 break;
         }
+        print_r($pic_list);
+        die;
         foreach( $pic_list as $k=>$pic_path ) {
             $kk = $k + 1;
             if (in_array($kk, $lineArr)) {
@@ -131,8 +133,7 @@ class CardController extends  Controller
             }
             $pathInfo = pathinfo($pic_path);
 
-            print_r($pathInfo['extension']);
-            die;
+
 
             switch (strtolower($pathInfo['extension'])) {
                 case 'jpg':
