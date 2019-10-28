@@ -41,12 +41,14 @@ class CastingpinhomeController extends Controller
 
         $type =  \Yii::$app->request->post('type')??100600;  //剧组ID
 
+        $start_page = \Yii::$app->request->post('start_page')??0; //页数
+
              if($type == 100600 ){
                  $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
-LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id order by castingpin_notice.create_time desc ")->asArray()->all();
+LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id order by castingpin_notice.create_time desc limit $start_page,5")->asArray()->all();
              }else{
                  $arranger_id =    CastingpinCast::find()->where(['type'=>$type])->select(['arranger_id'])->asArray()->one()['arranger_id'];
                  if ($arranger_id){
@@ -54,7 +56,7 @@ LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
-LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.arranger_id = $arranger_id order by castingpin_notice.create_time desc")->asArray()->all();
+LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.arranger_id = $arranger_id order by castingpin_notice.create_time desc limit $start_page,5")->asArray()->all();
                  }else{
                      $data = [];
                  }
