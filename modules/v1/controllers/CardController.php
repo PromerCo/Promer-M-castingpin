@@ -150,6 +150,7 @@ class CardController extends  Controller
         }
 
         die;
+        
         $resource   = $imagecreatefromjpeg($pic_path);
         imagecopyresized($background,$resource,$start_x,$start_y,0,0,$pic_w,$pic_h,imagesx($resource),imagesy($resource));
         $start_x    = $start_x + $pic_w + $space_x;
