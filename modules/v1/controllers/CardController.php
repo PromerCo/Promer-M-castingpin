@@ -132,6 +132,7 @@ class CardController extends  Controller
             $pathInfo = pathinfo($pic_path);
 
             print_r($pathInfo['extension']);
+            die;
 
             switch (strtolower($pathInfo['extension'])) {
                 case 'jpg':
