@@ -45,9 +45,10 @@ class CardController extends  Controller
      $img = @imagecreatetruecolor(100,100);    //创建真彩图像资源
 
      $color = imagecolorAllocate($img,200,200,200);   //分配一个灰色
-        print_r($color);
-        exit;
+
        imagefill($img,0,0,$color);                 // 从左上角开始填充灰色
+        print_r($img);
+        exit;
         header('content-type:image/jpeg');   //jpg格式
         imagejpeg($img);
 
