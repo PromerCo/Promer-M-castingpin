@@ -27,7 +27,7 @@ class CardController extends  Controller
      *  合成图片
     */
     public function actionCompose(){
-        header("Content-type: image/jpg");
+
         $pic_list       = array(
         'https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg',
         'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=05b297ad39fa828bce239be3cd1e41cd/0eb30f2442a7d9337119f7dba74bd11372f001e0.jpg',
@@ -121,8 +121,7 @@ class CardController extends  Controller
         $resource   = $imagecreatefromjpeg($pic_path);
         imagecopyresized($background,$resource,$start_x,$start_y,0,0,$pic_w,$pic_h,imagesx($resource),imagesy($resource)); // 最后两个参数为原始图片宽度和高度，倒数两个参数为copy时的图片宽度和高度
         $start_x    = $start_x + $pic_w + $space_x;
-        print_r($background);
-        die;
+        header("Content-Type:image/jpg");
         imagejpeg($background);
 
 
