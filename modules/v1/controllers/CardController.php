@@ -44,12 +44,10 @@ class CardController extends  Controller
     $bg_w    = 150; // 背景图片宽度
     $bg_h    = 150; // 背景图片高度
     $background = imagecreatetruecolor($bg_w,$bg_h); // 背景图片
-    imagejpeg($background);
+    $color   = imagecolorallocate($background, 202, 201, 201); // 为真彩色画布创建白色背景，再设置为透明
+    print_r($color);
+      die;
 
-
-
-
-//    $color   = imagecolorallocate($background, 202, 201, 201); // 为真彩色画布创建白色背景，再设置为透明
 //    imagefill($background, 0, 0, $color);
 //    imageColorTransparent($background, $color);
 //    $pic_count  = count($pic_list);
