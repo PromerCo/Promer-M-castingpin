@@ -42,9 +42,11 @@ class CardController extends  Controller
 
     $pic_list    = array_slice($pic_list, 0, 9); // 只操作前6个图片
 
-     $img = imagecreatetruecolor(100,100);    //创建真彩图像资源
-        $color = imagecolorAllocate($img,200,200,200);   //分配一个灰色
-        imagefill($img,0,0,$color);                 // 从左上角开始填充灰色
+     $img = @imagecreatetruecolor(100,100);    //创建真彩图像资源
+        print_r($img);
+        exit;
+     $color = imagecolorAllocate($img,200,200,200);   //分配一个灰色
+       imagefill($img,0,0,$color);                 // 从左上角开始填充灰色
         header('content-type:image/jpeg');   //jpg格式
         imagejpeg($img);
 
