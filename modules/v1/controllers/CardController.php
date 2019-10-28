@@ -121,8 +121,10 @@ class CardController extends  Controller
         $resource   = $imagecreatefromjpeg($pic_path);
         imagecopyresized($background,$resource,$start_x,$start_y,0,0,$pic_w,$pic_h,imagesx($resource),imagesy($resource)); // 最后两个参数为原始图片宽度和高度，倒数两个参数为copy时的图片宽度和高度
         $start_x    = $start_x + $pic_w + $space_x;
+        print_r($background);
+        die;
         imagejpeg($background);
-    
+
 
 
 
