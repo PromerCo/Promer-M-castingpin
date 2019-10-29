@@ -69,7 +69,7 @@ class CardController extends  Controller
 
         switch($pic_count) {
 
-            case 1: // 正中间
+            case 1: // 最左边
 
                 $start_x = 0; // 开始位置X
 
@@ -83,7 +83,7 @@ class CardController extends  Controller
 
             case 2: // 中间位置并排
 
-                $start_x = 200;
+                $start_x = 50;
 
                 $start_y = 0;
 
@@ -91,7 +91,7 @@ class CardController extends  Controller
 
                 $pic_h = intval($bg_h/2);
 
-       
+
 
                 break;
 //
