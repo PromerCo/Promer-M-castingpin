@@ -41,7 +41,7 @@ class CardController extends  Controller
 //        'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=ad628627aacc7cd9e52d32d909032104/32fa828ba61ea8d3fcd2e9ce9e0a304e241f5803.jpg'
         );
 
-        $pic_list = array_slice($pic_list, 0, 2); // 只操作前9个图片
+        $pic_list = array_slice($pic_list, 0, 1); // 只操作前9个图片
 
         $bg_w = 600; // 背景图片宽度
 
