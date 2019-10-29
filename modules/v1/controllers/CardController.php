@@ -87,7 +87,7 @@ class CardController extends  Controller
 
                 $start_y = 0;
 
-                $pic_w = intval($bg_w/2) - 5;
+                $pic_w = intval($bg_w/3) - 5;
 
                 $pic_h =  intval($bg_h/3) - 5;
 
@@ -102,9 +102,9 @@ class CardController extends  Controller
 
                 $start_y = 5; // 开始位置Y
 
-                $pic_w = intval($bg_w/2) - 5; // 宽度
+                $pic_w = intval($bg_w/3) - 5; // 宽度
 
-                $pic_h = intval($bg_h/2) - 5; // 高度
+                $pic_h = intval($bg_h/3) - 5; // 高度
 
                 $lineArr = array(2);
 
