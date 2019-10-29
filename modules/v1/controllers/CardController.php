@@ -41,7 +41,7 @@ class CardController extends  Controller
 //        'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=ad628627aacc7cd9e52d32d909032104/32fa828ba61ea8d3fcd2e9ce9e0a304e241f5803.jpg'
         );
 
-        $pic_list = array_slice($pic_list, 0, 2); // 只操作前9个图片
+        $pic_list = array_slice($pic_list, 0, 3); // 只操作前9个图片
 
         $bg_w = 600; // 背景图片宽度
 
@@ -89,28 +89,28 @@ class CardController extends  Controller
 
                 $pic_w = intval($bg_w/2) - 5;
 
-                $pic_h =  intval($bg_h/2) - 5;
+                $pic_h =  intval($bg_h/3) - 5;
 
                 $space_x = 5;
 
 
                 break;
-//
-//            case 3:
-//
-//                $start_x = 40; // 开始位置X
-//
-//                $start_y = 5; // 开始位置Y
-//
-//                $pic_w = intval($bg_w/2) - 5; // 宽度
-//
-//                $pic_h = intval($bg_h/2) - 5; // 高度
-//
-//                $lineArr = array(2);
-//
-//                $line_x = 4;
-//
-//                break;
+
+            case 3:
+
+                $start_x = 40; // 开始位置X
+
+                $start_y = 5; // 开始位置Y
+
+                $pic_w = intval($bg_w/2) - 5; // 宽度
+
+                $pic_h = intval($bg_h/2) - 5; // 高度
+
+                $lineArr = array(2);
+
+                $line_x = 4;
+
+                break;
 //
 //            case 4:
 //
