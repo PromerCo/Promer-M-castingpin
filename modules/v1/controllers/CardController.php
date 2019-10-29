@@ -71,9 +71,9 @@ class CardController extends  Controller
 
             case 1: // 最左边
 
-                $start_x = intval($bg_w/4); // 开始位置X
+                $start_x = 0; // 开始位置X
 
-                $start_y = intval($bg_h/4); // 开始位置Y
+                $start_y = 0; // 开始位置Y
 
                 $pic_w = intval($bg_w/3); // 宽度
 
