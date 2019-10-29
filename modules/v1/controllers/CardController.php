@@ -71,9 +71,9 @@ class CardController extends  Controller
 
             case 1: // 正中间
 
-                $start_x = 0; // 开始位置X
+                $start_x = 3; // 开始位置X
 
-                $start_y = 0; // 开始位置Y
+                $start_y = 3; // 开始位置Y
 
                 $pic_w = intval($bg_w/3); // 宽度
 
@@ -81,67 +81,67 @@ class CardController extends  Controller
 
                 break;
 
-            case 2: // 中间位置并排
-
-                $start_x = 2;
-
-                $start_y = 0;
-
-                $pic_w = intval($bg_w/3);
-
-                $pic_h = intval($bg_h/2);
-
-                $space_x = 5;
-
-                break;
-
-            case 3:
-
-                $start_x = 40; // 开始位置X
-
-                $start_y = 5; // 开始位置Y
-
-                $pic_w = intval($bg_w/2) - 5; // 宽度
-
-                $pic_h = intval($bg_h/2) - 5; // 高度
-
-                $lineArr = array(2);
-
-                $line_x = 4;
-
-                break;
-
-            case 4:
-
-                $start_x = 4; // 开始位置X
-
-                $start_y = 5; // 开始位置Y
-
-                $pic_w = intval($bg_w/2) - 5; // 宽度
-
-                $pic_h = intval($bg_h/2) - 5; // 高度
-
-                $lineArr = array(3);
-
-                $line_x = 4;
-
-                break;
-
-            case 5:
-
-                $start_x = 30; // 开始位置X
-
-                $start_y = 30; // 开始位置Y
-
-                $pic_w = intval($bg_w/3) - 5; // 宽度
-
-                $pic_h = intval($bg_h/3) - 5; // 高度
-
-                $lineArr = array(3);
-
-                $line_x = 5;
-
-                break;
+//            case 2: // 中间位置并排
+//
+//                $start_x = 2;
+//
+//                $start_y = 0;
+//
+//                $pic_w = intval($bg_w/3);
+//
+//                $pic_h = intval($bg_h/2);
+//
+//                $space_x = 5;
+//
+//                break;
+//
+//            case 3:
+//
+//                $start_x = 40; // 开始位置X
+//
+//                $start_y = 5; // 开始位置Y
+//
+//                $pic_w = intval($bg_w/2) - 5; // 宽度
+//
+//                $pic_h = intval($bg_h/2) - 5; // 高度
+//
+//                $lineArr = array(2);
+//
+//                $line_x = 4;
+//
+//                break;
+//
+//            case 4:
+//
+//                $start_x = 4; // 开始位置X
+//
+//                $start_y = 5; // 开始位置Y
+//
+//                $pic_w = intval($bg_w/2) - 5; // 宽度
+//
+//                $pic_h = intval($bg_h/2) - 5; // 高度
+//
+//                $lineArr = array(3);
+//
+//                $line_x = 4;
+//
+//                break;
+//
+//            case 5:
+//
+//                $start_x = 30; // 开始位置X
+//
+//                $start_y = 30; // 开始位置Y
+//
+//                $pic_w = intval($bg_w/3) - 5; // 宽度
+//
+//                $pic_h = intval($bg_h/3) - 5; // 高度
+//
+//                $lineArr = array(3);
+//
+//                $line_x = 5;
+//
+//                break;
 
         }
 
