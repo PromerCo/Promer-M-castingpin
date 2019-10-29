@@ -89,7 +89,7 @@ class CardController extends  Controller
 
                 $pic_w = 200;
 
-                $pic_h = 150;
+                $pic_h = 50;
 
 
 
