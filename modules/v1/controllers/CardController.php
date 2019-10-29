@@ -45,7 +45,7 @@ class CardController extends  Controller
 
         $bg_w = 600; // 背景图片宽度
 
-        $bg_h = 300; // 背景图片高度
+        $bg_h = 400; // 背景图片高度
 
 
 
