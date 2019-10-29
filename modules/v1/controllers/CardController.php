@@ -71,26 +71,27 @@ class CardController extends  Controller
 
             case 1: // 最左边
 
-                $start_x = 0; // 开始位置X
+                $start_x = intval($bg_w/4); // 开始位置X
 
-                $start_y = 0; // 开始位置Y
+                $start_y = intval($bg_h/4); // 开始位置Y
 
                 $pic_w = intval($bg_w/3); // 宽度
 
-                $pic_h = 300; // 高度
+                $pic_h = intval($bg_h); // 高度
 
                 break;
 
             case 2: // 中间位置并排
 
-                $start_x = 0;
+                $start_x = 2;
 
-                $start_y = 0;
+                $start_y = intval($bg_h/4) + 3;
 
-                $pic_w = 200;
+                $pic_w = intval($bg_w/2) - 5;
 
-                $pic_h = 150;
+                $pic_h =  intval($bg_h/2) - 5;
 
+                $space_x = 5;
 
 
                 break;
