@@ -73,7 +73,7 @@ class CardController extends  Controller
 
                 $start_x = 0; // 开始位置X
 
-                $start_y = 3; // 开始位置Y
+                $start_y = 0; // 开始位置Y
 
                 $pic_w = intval($bg_w/3); // 宽度
 
