@@ -69,8 +69,8 @@ class CardController extends  Controller
 
         switch($pic_count) {
             case 1: // 正中间
-                $start_x = intval($bg_w/4); // 开始位置X
-                $start_y = intval($bg_h/4); // 开始位置Y
+                $start_x = 5; // 开始位置X
+                $start_y = 5; // 开始位置Y
                 $pic_w = intval($bg_w/2); // 宽度
                 $pic_h = intval($bg_h/2); // 高度
                 break;
