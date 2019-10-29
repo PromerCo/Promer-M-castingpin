@@ -45,7 +45,7 @@ class CardController extends  Controller
 
         $bg_w = 600; // 背景图片宽度
 
-        $bg_h = 200; // 背景图片高度
+        $bg_h = 300; // 背景图片高度
 
 
 
@@ -71,9 +71,9 @@ class CardController extends  Controller
 
             case 1: // 正中间
 
-                $start_x = intval($bg_w/3); // 开始位置X
+                $start_x = 0; // 开始位置X
 
-                $start_y = intval($bg_h/1); // 开始位置Y
+                $start_y = 0; // 开始位置Y
 
                 $pic_w = intval($bg_w/3); // 宽度
 
@@ -85,7 +85,7 @@ class CardController extends  Controller
 
                 $start_x = 2;
 
-                $start_y = intval($bg_h/3) + 3;
+                $start_y = 0;
 
                 $pic_w = intval($bg_w/3);
 
