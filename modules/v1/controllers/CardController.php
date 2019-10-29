@@ -83,7 +83,7 @@ class CardController extends  Controller
 
             case 2: // 中间位置并排
 
-                $start_x = 50;
+                $start_x = 0;
 
                 $start_y = 0;
 
