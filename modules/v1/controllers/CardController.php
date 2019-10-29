@@ -31,15 +31,19 @@ class CardController extends  Controller
     */
     public function actionCompose(){
 
+       $img_list = \Yii::$app->request->post('image');
+
+       $pic_list = explode(",", $img_list);
 
        // header("Content-type:image/jpg");
-        $pic_list       = array(
-        'https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg',
-         'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=05b297ad39fa828bce239be3cd1e41cd/0eb30f2442a7d9337119f7dba74bd11372f001e0.jpg',
-         'https://ss3.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=0cc74ef9a3773912db268361c8188675/9922720e0cf3d7ca810f3732f81fbe096a63a9fd.jpg',
-         'http://c.hiphotos.baidu.com/image/h%3D300/sign=ebc877f839d3d539de3d09c30a87e927/ae51f3deb48f8c54b6cc922935292df5e0fe7f9c.jpg',
-        'https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=d985fb87d81b0ef473e89e5eedc551a1/b151f8198618367aa7f3cc7424738bd4b31ce525.jpg',
-        );
+//        $pic_list       = array(
+//        'https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg',
+//         'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=05b297ad39fa828bce239be3cd1e41cd/0eb30f2442a7d9337119f7dba74bd11372f001e0.jpg',
+//         'https://ss3.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=0cc74ef9a3773912db268361c8188675/9922720e0cf3d7ca810f3732f81fbe096a63a9fd.jpg',
+//         'http://c.hiphotos.baidu.com/image/h%3D300/sign=ebc877f839d3d539de3d09c30a87e927/ae51f3deb48f8c54b6cc922935292df5e0fe7f9c.jpg',
+//        'https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=d985fb87d81b0ef473e89e5eedc551a1/b151f8198618367aa7f3cc7424738bd4b31ce525.jpg',
+//        );
+
         $pic_list = array_slice($pic_list, 0, 5); // 只操作前9个图片
         $bg_w = 410; // 背景图片宽度
         $bg_h = 204; // 背景图片高度
