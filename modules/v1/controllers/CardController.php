@@ -89,7 +89,7 @@ class CardController extends  Controller
 
                 $pic_w = intval($bg_w/3);
 
-                $pic_h = intval($bg_h/2);
+                $pic_h = 150;
 
 
 
