@@ -71,7 +71,7 @@ class CardController extends  Controller
 
             case 1: // 正中间
 
-                $start_x = 3; // 开始位置X
+                $start_x = 0; // 开始位置X
 
                 $start_y = 0; // 开始位置Y
 
