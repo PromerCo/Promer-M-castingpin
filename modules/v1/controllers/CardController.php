@@ -77,7 +77,7 @@ class CardController extends  Controller
 
                 $pic_w = intval($bg_w/3); // 宽度
 
-                $pic_h = intval($bg_h); // 高度
+                $pic_h = 300; // 高度
 
                 break;
 
@@ -89,7 +89,7 @@ class CardController extends  Controller
 
                 $pic_w = 200;
 
-                $pic_h = 50;
+                $pic_h = 150;
 
 
 
