@@ -35,19 +35,17 @@ class CardController extends  Controller
         'https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=0d33eab267224f4a4899751339f69044/b3b7d0a20cf431ad7427dfad4136acaf2fdd98a9.jpg',
         'https://ss3.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=0cc74ef9a3773912db268361c8188675/9922720e0cf3d7ca810f3732f81fbe096a63a9fd.jpg',
         'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=ad628627aacc7cd9e52d32d909032104/32fa828ba61ea8d3fcd2e9ce9e0a304e241f5803.jpg',
-        'https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=d985fb87d81b0ef473e89e5eedc551a1/b151f8198618367aa7f3cc7424738bd4b31ce525.jpg',
-        'https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=0d33eab267224f4a4899751339f69044/b3b7d0a20cf431ad7427dfad4136acaf2fdd98a9.jpg',
-        'https://ss3.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=0cc74ef9a3773912db268361c8188675/9922720e0cf3d7ca810f3732f81fbe096a63a9fd.jpg',
-        'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=ad628627aacc7cd9e52d32d909032104/32fa828ba61ea8d3fcd2e9ce9e0a304e241f5803.jpg'
+//        'https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=d985fb87d81b0ef473e89e5eedc551a1/b151f8198618367aa7f3cc7424738bd4b31ce525.jpg',
+//        'https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=0d33eab267224f4a4899751339f69044/b3b7d0a20cf431ad7427dfad4136acaf2fdd98a9.jpg',
+//        'https://ss3.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=0cc74ef9a3773912db268361c8188675/9922720e0cf3d7ca810f3732f81fbe096a63a9fd.jpg',
+//        'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=ad628627aacc7cd9e52d32d909032104/32fa828ba61ea8d3fcd2e9ce9e0a304e241f5803.jpg'
         );
 
-        $pic_list = array_slice($pic_list, 0, 9); // 只操作前9个图片
+        $pic_list = array_slice($pic_list, 0, 5); // 只操作前9个图片
 
+        $bg_w = 600; // 背景图片宽度
 
-
-        $bg_w = 150; // 背景图片宽度
-
-        $bg_h = 150; // 背景图片高度
+        $bg_h = 200; // 背景图片高度
 
 
 
@@ -58,8 +56,6 @@ class CardController extends  Controller
         imagefill($background, 0, 0, $color);
 
         imageColorTransparent($background, $color);
-
-
 
         $pic_count = count($pic_list);
 
@@ -75,13 +71,13 @@ class CardController extends  Controller
 
             case 1: // 正中间
 
-                $start_x = intval($bg_w/4); // 开始位置X
+                $start_x = intval($bg_w/3); // 开始位置X
 
-                $start_y = intval($bg_h/4); // 开始位置Y
+                $start_y = intval($bg_h/1); // 开始位置Y
 
-                $pic_w = intval($bg_w/2); // 宽度
+                $pic_w = intval($bg_w/3); // 宽度
 
-                $pic_h = intval($bg_h/2); // 高度
+                $pic_h = intval($bg_h); // 高度
 
                 break;
 
@@ -89,11 +85,11 @@ class CardController extends  Controller
 
                 $start_x = 2;
 
-                $start_y = intval($bg_h/4) + 3;
+                $start_y = intval($bg_h/3) + 3;
 
-                $pic_w = intval($bg_w/2) - 5;
+                $pic_w = intval($bg_w/3);
 
-                $pic_h = intval($bg_h/2) - 5;
+                $pic_h = intval($bg_h/2);
 
                 $space_x = 5;
 
@@ -147,70 +143,6 @@ class CardController extends  Controller
 
                 break;
 
-            case 6:
-
-                $start_x = 5; // 开始位置X
-
-                $start_y = 30; // 开始位置Y
-
-                $pic_w = intval($bg_w/3) - 5; // 宽度
-
-                $pic_h = intval($bg_h/3) - 5; // 高度
-
-                $lineArr = array(4);
-
-                $line_x = 5;
-
-                break;
-
-            case 7:
-
-                $start_x = 53; // 开始位置X
-
-                $start_y = 5; // 开始位置Y
-
-                $pic_w = intval($bg_w/3) - 5; // 宽度
-
-                $pic_h = intval($bg_h/3) - 5; // 高度
-
-                $lineArr = array(2,5);
-
-                $line_x = 5;
-
-                break;
-
-            case 8:
-
-                $start_x = 30; // 开始位置X
-
-                $start_y = 5; // 开始位置Y
-
-                $pic_w = intval($bg_w/3) - 5; // 宽度
-
-                $pic_h = intval($bg_h/3) - 5; // 高度
-
-                $lineArr = array(3,6);
-
-                $line_x = 5;
-
-                break;
-
-            case 9:
-
-                $start_x = 5; // 开始位置X
-
-                $start_y = 5; // 开始位置Y
-
-                $pic_w = intval($bg_w/3) - 5; // 宽度
-
-                $pic_h = intval($bg_h/3) - 5; // 高度
-
-                $lineArr = array(4,7);
-
-                $line_x = 5;
-
-                break;
-
         }
 
         foreach( $pic_list as $k=>$pic_path ) {
@@ -257,11 +189,6 @@ class CardController extends  Controller
 
             $resource = $imagecreatefromjpeg($pic_path);
 
-            // $start_x,$start_y copy图片在背景中的位置
-
-            // 0,0 被copy图片的位置
-
-            // $pic_w,$pic_h copy后的高度和宽度
 
             imagecopyresized($background,$resource,$start_x,$start_y,0,0,$pic_w,$pic_h,imagesx($resource),imagesy($resource)); // 最后两个参数为原始图片宽度和高度，倒数两个参数为copy时的图片宽度和高度
 
