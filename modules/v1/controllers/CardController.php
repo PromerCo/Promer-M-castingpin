@@ -76,6 +76,7 @@ class CardController extends  Controller
         }elseif ($type == 1){
 
             $pic_list = array_slice($pic_list, 0, 3); // 只操作前9个图片
+
             $bg_w = 400; // 背景图片宽度
             $bg_h = 500; // 背景图片高度
 
@@ -134,6 +135,8 @@ class CardController extends  Controller
         $space_x = 3;
         $space_y = 3;
         $line_x = 0;
+        
+        return  HttpCode::renderJSON($pic_list,'ok','201');
 
         foreach( $pic_list as $k=>$pic_path ) {
             $kk = $k + 1;
@@ -197,7 +200,7 @@ class CardController extends  Controller
        $server_nmae =  $_SERVER['SERVER_NAME'];
        $file_name = './image/'.uniqid().time().'.jpg';
        $img =  imagejpeg($background,$file_name);
-        return  HttpCode::renderJSON($img,'ok','201');
+
        if ($img){
            $image_url = $server_nmae.''.$file_name;
            return  HttpCode::renderJSON($image_url,'ok','201');
