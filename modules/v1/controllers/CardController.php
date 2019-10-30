@@ -43,7 +43,6 @@ class CardController extends  Controller
 //            'https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=d985fb87d81b0ef473e89e5eedc551a1/b151f8198618367aa7f3cc7424738bd4b31ce525.jpg',
 //        );
 
-
         if ($type == 0){
             $pic_list = array_slice($pic_list, 0, 5); // 只操作前9个图片
             $bg_w = 410; // 背景图片宽度
@@ -125,7 +124,7 @@ class CardController extends  Controller
 
         }
 
-
+        return  HttpCode::renderJSON($pic_list,'ok','201');
         $background = imagecreatetruecolor($bg_w,$bg_h); // 背景图片
         $color = imagecolorallocate($background, 255, 255, 255); // 为真彩色画布创建白色背景，再设置为透明
         imagefill($background, 0, 0, $color);
@@ -192,7 +191,7 @@ class CardController extends  Controller
             imagecopyresized($background,$resource,$start_x,$start_y,0,0,$pic_w,$pic_h,imagesx($resource),imagesy($resource)); // 最后两个参数为原始图片宽度和高度，倒数两个参数为copy时的图片宽度和高度
             $start_x = $start_x + $pic_w + $space_x;
         }
-  
+
 
        $server_nmae =  $_SERVER['SERVER_NAME'];
        $file_name = './image/'.uniqid().time().'.jpg';
