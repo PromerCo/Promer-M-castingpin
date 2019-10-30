@@ -76,7 +76,7 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
     public function actionAnnounce(){
         if ((\Yii::$app->request->isPost)) {
             $cast_id = \Yii::$app->request->post('cast_id');
-            $cast_list = CastingpinNotice::find()->where(['cast_id'=>$cast_id])->select(['title','style','speciality'])->asArray()->all();
+            $cast_list = CastingpinNotice::find()->where(['cast_id'=>$cast_id])->select(['title','style','speciality','id'])->asArray()->all();
             return  HttpCode::renderJSON($cast_list,'ok','201');
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
