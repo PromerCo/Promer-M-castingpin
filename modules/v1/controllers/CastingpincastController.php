@@ -89,9 +89,9 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
     public function actionCastms(){
         if ((\Yii::$app->request->isPost)) {
             $open_id = $this->openId;
-            $data =  CastingpinCast::find()->where(['open_id'=>$open_id])->count();
+            $data =  CastingpinCast::find()->where(['open_id'=>$open_id])->select(['script'])->asArray()->all();
             if ($data){
-                return  HttpCode::renderJSON([],'ok','201');
+                return  HttpCode::renderJSON($data,'ok','201');
             }else{
                 return  HttpCode::renderJSON([],'ok','204');
             }

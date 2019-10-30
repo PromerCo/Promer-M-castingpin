@@ -13,13 +13,17 @@ class UserTokenService extends TokenService {
     protected $wxLoginUrl;
     protected $wxAppID;
     protected $wxAppSecret;
-    function __construct($code)
+    protected $access_token_url;
+    function __construct($code='')
     {
         $this->code = $code;
         $this->wxAppID =  \Yii::$app->params['app_id'];
         $this->wxAppSecret = \Yii::$app->params['app_secret'];
         $this->wxLoginUrl = sprintf(
             \Yii::$app->params['login_url'], $this->wxAppID, $this->wxAppSecret, $this->code);
+
+        $this->access_token_url = sprintf(
+            \Yii::$app->params['access_token_url'], $this->wxAppID, $this->wxAppSecret);
     }
     public function get()
     {
@@ -90,8 +94,11 @@ class UserTokenService extends TokenService {
         return $key;
     }
 
+    /*
+     * 获取session_key
+     */
     public function getSessionKey(){
-        $result  =  HttpClient::get($this->wxLoginUrl);
+        $result  =  HttpClient::get( $this->wxLoginUrl);
         // 注意json_decode的第一个参数true
         // 这将使字符串被转化为数组而非对象
         $wxResult = json_decode($result, true);
@@ -103,6 +110,25 @@ class UserTokenService extends TokenService {
         }
         else {
             return $wxResult['session_key'];
+        }
+    }
+    /*
+     * 获取access_token
+     */
+    public function getAccessToken(){
+        $result  =  HttpClient::get($this->access_token_url);
+        // 注意json_decode的第一个参数true
+        // 这将使字符串被转化为数组而非对象
+        $wxResult = json_decode($result, true);
+
+        if (empty($wxResult)) {
+            // 为什么以empty判断是否错误，这是根据微信返回
+            // 规则摸索出来的
+            // 这种情况通常是由于传入不合法的code
+            throw new  BadRequestHttpException('获取session_key及openID时异常，微信内部错误');
+        }
+        else {
+            return $wxResult['access_token'];
         }
     }
 
