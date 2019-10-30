@@ -87,7 +87,7 @@ class CardController extends  Controller
 
         }elseif ($type == 1){
             $pic_list = array_slice($pic_list, 0, 4); // 只操作前4个图片
-            $pic_list[0] =$pic_list[0].'?x-oss-process=image/resize,h_298/quality,q_80';   //第一张图片宽度396 高198
+            $pic_list[0] =$pic_list[0].'?x-oss-process=image/resize,h_298/quality,q_80/crop,h_396,w_298,g_center';   //第一张图片宽度396 高198
             $pic_list[1] =$pic_list[1].'?x-oss-process=image/resize,h_298/quality,q_80/crop,h_298,w_198,g_center';   //第一张图片宽度396 高198
             $pic_list[2] =$pic_list[2].'?x-oss-process=image/resize,h_298/quality,q_80/crop,h_298,w_198,g_center';   //第一张图片宽度396 高198
             $pic_list[3] =$pic_list[3].'?x-oss-process=image/resize,h_298/quality,q_80/crop,h_298,w_396,g_center';   //第一张图片宽度396 高198
