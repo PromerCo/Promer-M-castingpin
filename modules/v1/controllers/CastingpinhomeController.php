@@ -54,16 +54,12 @@ LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open
                  if ($arranger_id){
                      $first_names = array_column($arranger_id, 'id');
                      $cast_id = implode(",", $first_names);
-                     print_r($cast_id);
-                     die;
-
-
 
                      $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
-LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.arranger_id = $arranger_id order by castingpin_notice.create_time desc limit $start_page,5")->asArray()->all();
+LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.cast_id in ($cast_id) order by castingpin_notice.create_time desc limit $start_page,5")->asArray()->all();
                  }else{
                      $data = [];
                  }
