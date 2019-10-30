@@ -134,7 +134,7 @@ class CardController extends  Controller
         $space_x = 3;
         $space_y = 3;
         $line_x = 0;
-        return  HttpCode::renderJSON($pic_list,'ok','201');
+
         foreach( $pic_list as $k=>$pic_path ) {
             $kk = $k + 1;
             switch($kk) {
@@ -197,6 +197,7 @@ class CardController extends  Controller
        $server_nmae =  $_SERVER['SERVER_NAME'];
        $file_name = './image/'.uniqid().time().'.jpg';
        $img =  imagejpeg($background,$file_name);
+        return  HttpCode::renderJSON($img,'ok','201');
        if ($img){
            $image_url = $server_nmae.''.$file_name;
            return  HttpCode::renderJSON($image_url,'ok','201');
