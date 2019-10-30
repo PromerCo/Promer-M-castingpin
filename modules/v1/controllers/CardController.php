@@ -135,8 +135,8 @@ class CardController extends  Controller
         $space_x = 3;
         $space_y = 3;
         $line_x = 0;
-        
-        return  HttpCode::renderJSON($pic_list,'ok','201');
+
+
 
         foreach( $pic_list as $k=>$pic_path ) {
             $kk = $k + 1;
@@ -177,6 +177,8 @@ class CardController extends  Controller
                 $start_y = $start_y + $pic_h + $space_y;
             }
             $pathInfo = pathinfo($pic_path);
+            return  HttpCode::renderJSON($pathInfo,'ok','201');
+
             switch( strtolower($pathInfo['extension']) ) {
                 case 'jpg':
                 case 'jpeg':
