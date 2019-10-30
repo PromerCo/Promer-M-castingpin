@@ -36,7 +36,7 @@ class CardController extends  Controller
 //      header("Content-type:image/jpg");
         $img_list = \Yii::$app->request->post('image');
         $pic_list = explode(",", $img_list);
-        $type =  \Yii::$app->request->get('type')??0;
+        $type =  \Yii::$app->request->get('type')??1;
 //        $pic_list  = array(
 //        'http://sbs-cp.oss-cn-beijing.aliyuncs.com/image/3791133a-4bd9-3ca1-bbe8-0dfd120cc1e7',
 //        'http://sas-cp.oss-cn-beijing.aliyuncs.com/image/66790fa4-b330-37b5-8c12-6075e296a251',
