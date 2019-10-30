@@ -30,19 +30,12 @@ class CardController extends  Controller
      *  合成图片
     */
     public function actionCompose(){
-        //1.5
-
-
-
+//
       $img_list = \Yii::$app->request->post('image');
-
       $pic_list = explode(",", $img_list);
-
-      $type =  \Yii::$app->request->get('type')??0; // 5张 , 3张 , 6张
-
-
-        header("Content-type:image/jpg");
-//        $pic_list  = array(
+      $type =  \Yii::$app->request->get('type')??0; // 5张  , 3张  ,  6张
+      header("Content-type:image/jpg");
+//    $pic_list  = array(
 //            'https://ss1.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a9e671b9a551f3dedcb2bf64a4eff0ec/4610b912c8fcc3cef70d70409845d688d53f20f7.jpg',
 //            'https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=05b297ad39fa828bce239be3cd1e41cd/0eb30f2442a7d9337119f7dba74bd11372f001e0.jpg',
 //            'https://ss3.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=0cc74ef9a3773912db268361c8188675/9922720e0cf3d7ca810f3732f81fbe096a63a9fd.jpg',
@@ -50,6 +43,7 @@ class CardController extends  Controller
 //            'https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=d985fb87d81b0ef473e89e5eedc551a1/b151f8198618367aa7f3cc7424738bd4b31ce525.jpg',
 //        );
         return $pic_list;
+
         if ($type == 0){
             $pic_list = array_slice($pic_list, 0, 5); // 只操作前9个图片
             $bg_w = 410; // 背景图片宽度
