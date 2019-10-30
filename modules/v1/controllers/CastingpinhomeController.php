@@ -53,10 +53,10 @@ LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open
                  $arranger_id =    CastingpinCast::find()->where(['type'=>$type])->select(['id'])->asArray()->all(); //剧组ID
                  if ($arranger_id){
                      $first_names = array_column($arranger_id, 'id');
-
-                     print_r($first_names);
+                     $cast_id = implode(",", $first_names);
+                     print_r($cast_id);
                      die;
-                     $cast_id = implode(",", $arranger_id);
+
 
 
                      $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
