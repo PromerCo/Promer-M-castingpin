@@ -174,8 +174,8 @@ class CardController extends  Controller
 
 
        $oss = new AliOss();
-       $server_nmae =  $_SERVER['SERVER_NAME'];
-       $file_name = './image/'.uniqid().time().'.jpg';
+       $server_nmae =  'https://'.$_SERVER['SERVER_NAME'];
+       $file_name = '/image/'.uniqid().time().'.jpg';
        $img =  imagejpeg($background,$file_name);
        if ($img){
            $image_url = $server_nmae.''.$file_name;
