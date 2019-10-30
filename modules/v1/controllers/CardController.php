@@ -33,15 +33,16 @@ class CardController extends  Controller
      *  合成图片
     */
     public function actionCompose(){
-//      header("Content-type:image/jpg");
+ //       header("Content-type:image/jpg");
         $img_list = \Yii::$app->request->post('image');
         $pic_list = explode(",", $img_list);
         $type =  \Yii::$app->request->get('type')??1;
+
 //        $pic_list  = array(
 //        'http://sbs-cp.oss-cn-beijing.aliyuncs.com/image/3791133a-4bd9-3ca1-bbe8-0dfd120cc1e7',
 //        'http://sas-cp.oss-cn-beijing.aliyuncs.com/image/66790fa4-b330-37b5-8c12-6075e296a251',
 //        'http://sas-cp.oss-cn-beijing.aliyuncs.com/image/5c681fd4-d54b-3d67-a564-f5f8d69b5f1b',
-//        'http://sas-cp.oss-cn-beijing.aliyuncs.com/image/6f329565-4cb7-3947-bf28-12770ec84e69',
+//        'http://sbs-cp.oss-cn-beijing.aliyuncs.com/image/d6a8ccd0-c1ca-3019-aee9-61827a7c5b59',
 //        'http://sbs-cp.oss-cn-beijing.aliyuncs.com/image/3791133a-4bd9-3ca1-bbe8-0dfd120cc1e7',
 //        'http://sbs-cp.oss-cn-beijing.aliyuncs.com/image/3791133a-4bd9-3ca1-bbe8-0dfd120cc1e7',
 //        );
@@ -90,7 +91,7 @@ class CardController extends  Controller
             $pic_list[0] =$pic_list[0].'?x-oss-process=image/resize,h_298/quality,q_80/crop,h_396,w_298,g_center';   //第一张图片宽度396 高198
             $pic_list[1] =$pic_list[1].'?x-oss-process=image/resize,h_298/quality,q_80/crop,h_298,w_198,g_center';   //第一张图片宽度396 高198
             $pic_list[2] =$pic_list[2].'?x-oss-process=image/resize,h_298/quality,q_80/crop,h_298,w_198,g_center';   //第一张图片宽度396 高198
-            $pic_list[3] =$pic_list[3].'?x-oss-process=image/resize,h_298/quality,q_80/crop,h_298,w_396,g_center';   //第一张图片宽度396 高198
+            $pic_list[3] =$pic_list[3].'?x-oss-process=image/resize,w_396/quality,q_80/crop,w_396,h_298,g_center';   //第一张图片宽度396 高198
             $bg_w = 400; // 背景图片宽度
             $bg_h = 900; // 背景图片高度
             //第一个图片
@@ -173,7 +174,7 @@ class CardController extends  Controller
         }
 
 
-       $oss = new AliOss();
+//     $oss = new AliOss();
        $server_nmae =  'https://'.$_SERVER['SERVER_NAME'];
        $file_name = './image/'.uniqid().time().'.jpg';
        $img =  imagejpeg($background,$file_name);
