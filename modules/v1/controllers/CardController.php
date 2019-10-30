@@ -174,7 +174,7 @@ class CardController extends  Controller
 
 
        $oss = new AliOss();
-       $server_nmae =  $_SERVER['DOCUMENT_ROOT'];
+       $server_nmae =  $_SERVER['SERVER_NAME'];
        $file_name = '/image/'.uniqid().time().'.jpg';
        $img =  imagejpeg($background,$file_name);
        if ($img){
