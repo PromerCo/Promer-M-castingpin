@@ -124,7 +124,7 @@ class CardController extends  Controller
 
         }
 
-        return  HttpCode::renderJSON($pic_list,'ok','201');
+
         $background = imagecreatetruecolor($bg_w,$bg_h); // 背景图片
         $color = imagecolorallocate($background, 255, 255, 255); // 为真彩色画布创建白色背景，再设置为透明
         imagefill($background, 0, 0, $color);
@@ -134,6 +134,7 @@ class CardController extends  Controller
         $space_x = 3;
         $space_y = 3;
         $line_x = 0;
+        return  HttpCode::renderJSON($pic_list,'ok','201');
         foreach( $pic_list as $k=>$pic_path ) {
             $kk = $k + 1;
             switch($kk) {
