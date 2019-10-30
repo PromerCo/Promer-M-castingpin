@@ -181,7 +181,7 @@ class CardController extends  Controller
            $image_url = $server_nmae.''.$file_name;
 //           $req = $oss->uploadImage($image_url);
 //           if ($req){
-                   unlink($image_url);
+//                   unlink($image_url);
                    return  HttpCode::renderJSON($image_url,'ok','201');
 //           }
 
