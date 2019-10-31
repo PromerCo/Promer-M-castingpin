@@ -155,13 +155,11 @@ class CastingpinactorController extends BaseController
                     $actor = CastingpinActor::find()->where(['occupation'=>$occupation])->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
              }
              foreach ($actor as $key=>$value){
-                    if (empty($value['cover_video']) || empty($value['cover_video'])){
+                    if (empty($value['cover_img'])){
                            unset($actor[$key]);
                     }
                 }
                 $actor =    array_values($actor);
-
-
             }
             return HttpCode::renderJSON($actor, 'ok', '200');
         }else{
@@ -177,9 +175,11 @@ class CastingpinactorController extends BaseController
         $cast_id = \Yii::$app->request->post('cast_id');
         $data =  CastingpinActor::find()->where(['open_id'=>$cast_id])->select(['height','stage_name','phone','cover_video','cover_img','profile'
         ,'speciality','occupation','woman','id','open_id','invite','invite_number','follow_number','weight','style'])->asArray()->one();
-        
+
         //查看是否被关注
         $is_follow =   CastingpinCarefor::find()->where(['actor_id'=>$this->uid,'arranger_id'=>$data['id']])->select('status')->one();
+        //关注我的人（粉丝）
+
         if (empty($is_follow)){
         $data['status']  = 0;
          }else{
