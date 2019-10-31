@@ -8,6 +8,7 @@ use mcastingpin\modules\v1\models\CastingpinActor;
 use mcastingpin\modules\v1\models\CastingpinArranger;
 use mcastingpin\modules\v1\models\CastingpinCarefor;
 use mcastingpin\modules\v1\models\CastingpinCast;
+use mcastingpin\modules\v1\models\CastingpinPull;
 use mcastingpin\modules\v1\models\CastingpinUser;
 
 /**
@@ -173,17 +174,16 @@ class CastingpinactorController extends BaseController
     public function actionDetails(){
 
         if ((\Yii::$app->request->isPost)) {
-            $cast_id = \Yii::$app->request->post('cast_id');
-            $data =  CastingpinActor::find()->where(['open_id'=>$cast_id])->select(['height','stage_name','phone','cover_video','cover_img','profile'
-                ,'speciality','occupation','woman','id','open_id','invite','invite_number','follow_number'])->asArray()->one();
-            //查看是否被关注
-
-            $is_follow =   CastingpinCarefor::find()->where(['actor_id'=>$this->uid,'arranger_id'=>$data['id']])->select('status')->one();
-           if (empty($is_follow)){
-               $data['status']  = 0;
-           }else{
-               $data['status']  = $is_follow['status'];
-           }
+        $cast_id = \Yii::$app->request->post('cast_id');
+        $data =  CastingpinActor::find()->where(['open_id'=>$cast_id])->select(['height','stage_name','phone','cover_video','cover_img','profile'
+        ,'speciality','occupation','woman','id','open_id','invite','invite_number','follow_number','weight','style'])->asArray()->one();
+        //查看是否被关注
+        $is_follow =   CastingpinCarefor::find()->where(['actor_id'=>$this->uid,'arranger_id'=>$data['id']])->select('status')->one();
+        if (empty($is_follow)){
+        $data['status']  = 0;
+         }else{
+         $data['status']  = $is_follow['status'];
+         }
 
             return HttpCode::renderJSON($data, 'ok', '200');
         }else{
@@ -330,28 +330,38 @@ class CastingpinactorController extends BaseController
        * 我关注（粉丝）
        */
     public function actionFoluser(){
-        $type = \Yii::$app->request->post('type');
-        if ($type == 0){
-            //关注
-            $data =   CastingpinUser::findBySql("SELECT open_id,avatar_url,nick_name,IF(capacity = 1,'统筹','艺人') as capacity,id FROM  castingpin_user WHERE  id  in(SELECT arranger_id FROM castingpin_carefor WHERE actor_id = $this->uid and  status = 1)")->asArray()->all();
-            if (!empty($data)){
-                foreach ($data as $key => $value){
-                    $data[$key]['pro_id'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['id'])->one()['id'];
-                    $data[$key]['stage_name'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['stage_name'])->one()['stage_name'];
-                    $data[$key]['occupation'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['occupation'])->one()['occupation'];
-                }
-            }else{
-                $data = [];
-            }
+        $type = \Yii::$app->request->post('type')??0;
+        $status = \Yii::$app->request->post('status')??0;
+        if ($status == 0){
+         //我的收藏
+
+               CastingpinPull::find()->where()->select([''])->one();
+
+
 
         }else{
-            //粉丝
-            $data =   CastingpinUser::findBySql("SELECT open_id,avatar_url,nick_name,IF(capacity = 1,'统筹','艺人') as capacity,id FROM  castingpin_user WHERE  id in(SELECT actor_id FROM castingpin_carefor WHERE arranger_id = $this->uid  and status = 1)")->asArray()->all();
-            foreach ($data as $key => $value){
-                $data[$key]['position'] = CastingpinArranger::find()->where(['open_id'=>$value['open_id']])->select(['position'])->one()['position'];
+            if ($type == 0){
+                //关注
+                $data =   CastingpinUser::findBySql("SELECT open_id,avatar_url,nick_name,IF(capacity = 1,'统筹','艺人') as capacity,id FROM  castingpin_user WHERE  id  in(SELECT arranger_id FROM castingpin_carefor WHERE actor_id = $this->uid and  status = 1)")->asArray()->all();
+                if (!empty($data)){
+                    foreach ($data as $key => $value){
+                        $data[$key]['pro_id'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['id'])->one()['id'];
+                        $data[$key]['stage_name'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['stage_name'])->one()['stage_name'];
+                        $data[$key]['occupation'] = CastingpinActor::find()->where(['open_id'=>$value['open_id']])->select(['occupation'])->one()['occupation'];
+                    }
+                }else{
+                    $data = [];
+                }
+            }else{
+                //粉丝
+                $data =   CastingpinUser::findBySql("SELECT open_id,avatar_url,nick_name,IF(capacity = 1,'统筹','艺人') as capacity,id FROM  castingpin_user WHERE  id in(SELECT actor_id FROM castingpin_carefor WHERE arranger_id = $this->uid  and status = 1)")->asArray()->all();
+                foreach ($data as $key => $value){
+                    $data[$key]['position'] = CastingpinArranger::find()->where(['open_id'=>$value['open_id']])->select(['position'])->one()['position'];
 
+                }
             }
         }
+
         return  HttpCode::jsonObj($data,'ok','201');
     }
 
