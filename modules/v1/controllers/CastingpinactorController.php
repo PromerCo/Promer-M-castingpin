@@ -154,9 +154,7 @@ class CastingpinactorController extends BaseController
              }else{
                     $actor = CastingpinActor::find()->where(['occupation'=>$occupation])->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
              }
-
-
-
+            
              foreach ($actor as $key=>$value){
                      $actor[$key]['ava_url'] = CastingpinUser::find()->where(['open_id'=>$value['open_id']])->select(['avatar_url'])->one()['avatar_url'];
                     if (empty($value['cover_img'])){
