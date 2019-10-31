@@ -150,13 +150,13 @@ class CastingpinactorController extends BaseController
                 return  HttpCode::jsonObj([],'请先授权','419');
             } else {
             if ($occupation == 100200){
-                    $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
+                    $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id','avatar_url'])->asArray()->all();
              }else{
-                    $actor = CastingpinActor::find()->where(['occupation'=>$occupation])->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
+                    $actor = CastingpinActor::find()->where(['occupation'=>$occupation])->select(['id','cover_img','cover_video','open_id','avatar_url'])->asArray()->all();
              }
-            
+
              foreach ($actor as $key=>$value){
-                     $actor[$key]['ava_url'] = CastingpinUser::find()->where(['open_id'=>$value['open_id']])->select(['avatar_url'])->one()['avatar_url'];
+                     $actor[$key]['avatar_url'] = CastingpinUser::find()->where(['open_id'=>$value['open_id']])->select(['avatar_url'])->one()['avatar_url'];
                     if (empty($value['cover_img'])){
                            unset($actor[$key]);
                     }
