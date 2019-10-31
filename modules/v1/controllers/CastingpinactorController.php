@@ -181,13 +181,13 @@ class CastingpinactorController extends BaseController
         //查看是否被关注
         $is_follow =   CastingpinCarefor::find()->where(['actor_id'=>$this->uid,'arranger_id'=>$data['id']])->select('status')->one();
         //关注我的人（粉丝）
-            $data['avatar_url'] = CastingpinUser::find()->where(['open_id'=>$data['open_id']])->select(['avatar_url'])->one()['avatar_url'];
+
         if (empty($is_follow)){
         $data['status']  = 0;
          }else{
          $data['status']  = $is_follow['status'];
          }
-
+            $data['avatar_url'] = CastingpinUser::find()->where(['open_id'=>$cast_id])->select(['avatar_url'])->one()['avatar_url'];
             return HttpCode::renderJSON($data, 'ok', '200');
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
