@@ -9,6 +9,7 @@ use mcastingpin\modules\v1\models\CastingpinActor;
 use mcastingpin\modules\v1\models\CastingpinArranger;
 use mcastingpin\modules\v1\models\CastingpinCarefor;
 use mcastingpin\modules\v1\models\CastingpinCast;
+use mcastingpin\modules\v1\models\CastingpinNotice;
 use mcastingpin\modules\v1\models\CastingpinPull;
 use mcastingpin\modules\v1\models\CastingpinUser;
 
@@ -342,11 +343,12 @@ class CastingpinactorController extends BaseController
         $status = \Yii::$app->request->post('status')??0;
         if ($status == 0){
          //我的收藏
-
-               CastingpinPull::find()->where()->select([''])->one();
-
-
-
+               $actor_id  = CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one()['id'];
+               $sc_data =   CastingpinNotice::findBySql("SELECT castingpin_notice.id,castingpin_notice.occupation,castingpin_notice.title,
+                castingpin_notice.style FROM  castingpin_notice 
+                LEFT JOIN castingpin_pull ON castingpin_pull.notice_id = castingpin_notice.id
+                WHERE castingpin_pull.is_collect=1 AND castingpin_pull.actor_id = $actor_id");
+                return  HttpCode::jsonObj($sc_data,'ok','201');
         }else{
             if ($type == 0){
                 //关注
