@@ -347,7 +347,7 @@ class CastingpinactorController extends BaseController
                $sc_data =   CastingpinNotice::findBySql("SELECT castingpin_notice.id,castingpin_notice.occupation,castingpin_notice.title,
                 castingpin_notice.style FROM  castingpin_notice 
                 LEFT JOIN castingpin_pull ON castingpin_pull.notice_id = castingpin_notice.id
-                WHERE castingpin_pull.is_collect=1 AND castingpin_pull.actor_id = $actor_id");
+                WHERE castingpin_pull.is_collect=1 AND castingpin_pull.actor_id = $actor_id")->asArray()->all();
                 return  HttpCode::jsonObj($sc_data,'ok','201');
         }else{
             if ($type == 0){
