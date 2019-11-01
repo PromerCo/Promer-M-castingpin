@@ -48,7 +48,6 @@ class CastingpinnoticeController extends BaseController
                 return  HttpCode::renderJSON([],'请先完善剧组资料','415');
             }
             $data['arranger_id'] = $arranger_id['id'];
-
             }
             $notice->setAttributes($data,false);
             if (!$notice->save()){
@@ -60,15 +59,12 @@ class CastingpinnoticeController extends BaseController
             }else{
                 $transaction->commit();
                 $info['cast_id']   = $data['cast_id'];
-
                 return  HttpCode::renderJSON($info,'ok','201');
             }
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
-
-
     /*
   * 我报名(发布)的栏目
   */
@@ -91,7 +87,6 @@ class CastingpinnoticeController extends BaseController
                 break;
         }
     }
-
     /*
      * 参与报名
     */

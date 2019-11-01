@@ -341,7 +341,7 @@ class CastingpinactorController extends BaseController
     public function actionFoluser(){
         $type = \Yii::$app->request->post('type')??0;
         $status = \Yii::$app->request->post('status')??0;
-        if ($status == 0){
+        if ($status == 1){
          //我的收藏
                $actor_id  = CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one()['id'];
                $sc_data =   CastingpinNotice::findBySql("SELECT castingpin_notice.id,castingpin_notice.occupation,castingpin_notice.title,
