@@ -3,6 +3,7 @@
 namespace mcastingpin\modules\v1\controllers;
 
 use mcastingpin\common\components\RedisLock;
+use mcastingpin\common\helps\Common;
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\modules\v1\models\CastingpinActor;
 use mcastingpin\modules\v1\models\CastingpinArranger;
@@ -176,7 +177,14 @@ class CastingpinactorController extends BaseController
         if ((\Yii::$app->request->isPost)) {
         $cast_id = \Yii::$app->request->post('cast_id');
         $data =  CastingpinActor::find()->where(['open_id'=>$cast_id])->select(['height','stage_name','phone','cover_video','cover_img','profile'
-        ,'speciality','occupation','woman','id','open_id','invite','invite_number','follow_number','weight','style'])->asArray()->one();
+        ,'speciality','occupation','woman','id','open_id','invite','invite_number','follow_number','weight','style','birthday'])->asArray()->one();
+        //出生日期转年龄
+            
+        if (empty($data['birthday']) || !$data['birthday']){
+            $data['birthday']  = Common::CounTage($data['birthday']);
+        }else{
+            $data['birthday'] = 24;
+        }
 
         //查看是否被关注
         $is_follow =   CastingpinCarefor::find()->where(['actor_id'=>$this->uid,'arranger_id'=>$data['id']])->select('status')->one();
