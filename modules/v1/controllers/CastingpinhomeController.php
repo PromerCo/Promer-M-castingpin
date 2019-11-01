@@ -89,7 +89,7 @@ LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arra
 LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id
 LEFT JOIN castingpin_pull  ON castingpin_pull.notice_id = castingpin_notice.id
 LEFT JOIN castingpin_cast  ON castingpin_cast.id = castingpin_notice.cast_id
-where  castingpin_notice.id = $notice_id  AND  castingpin_notice.id=$arranger_id")->asArray()->one();
+where  castingpin_notice.id = $notice_id  AND  castingpin_notice.arranger_id=$arranger_id")->asArray()->one();
 
         $data['create_time'] = Common::time_tranx($data['create_time'],1);
         return  HttpCode::renderJSON($data,'ok','201');
