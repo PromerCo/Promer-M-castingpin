@@ -127,9 +127,6 @@ class CastingpinactorController extends BaseController
                     case 2:
                     $actor = CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['wechat','phone','corporation',
                     'cover_video','occupation','woman','university','stage_name','city','birthday','height','weight','speciality','profile','cover_img'])->asArray()->one();
-                    //地址
-
-
                     return HttpCode::renderJSON($actor, 'ok', '200');
                     break;
                 }
@@ -179,8 +176,8 @@ class CastingpinactorController extends BaseController
         $data =  CastingpinActor::find()->where(['open_id'=>$cast_id])->select(['height','stage_name','phone','cover_video','cover_img','profile'
         ,'speciality','occupation','woman','id','open_id','invite','invite_number','follow_number','weight','style','birthday'])->asArray()->one();
         //出生日期转年龄
-            
-        if (empty($data['birthday']) || !$data['birthday']){
+
+        if (!empty($data['birthday']) || !is_null($data['birthday'])){
             $data['birthday']  = Common::CounTage($data['birthday']);
         }else{
             $data['birthday'] = 24;
