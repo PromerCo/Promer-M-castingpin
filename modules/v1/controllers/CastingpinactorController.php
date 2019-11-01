@@ -149,9 +149,9 @@ class CastingpinactorController extends BaseController
                 return  HttpCode::jsonObj([],'请先授权','419');
             } else {
             if ($occupation == 100200){
-                    $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
+                    $actor = CastingpinActor::find()->select(['id','cover_img','cover_video','open_id','create_time'])->orderBy('create_time desc')->asArray()->all();
              }else{
-                    $actor = CastingpinActor::find()->where(['occupation'=>$occupation])->select(['id','cover_img','cover_video','open_id'])->asArray()->all();
+                    $actor = CastingpinActor::find()->where(['occupation'=>$occupation])->select(['id','cover_img','cover_video','open_id','create_time'])->orderBy('create_time desc')->asArray()->all();
              }
 
              foreach ($actor as $key=>$value){
