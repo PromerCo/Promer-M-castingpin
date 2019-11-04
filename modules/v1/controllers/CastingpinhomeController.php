@@ -47,6 +47,7 @@ class CastingpinhomeController extends Controller
                  $data = CastingpinNotice::findBySql("SELECT id,script,type,cover_img,city,theme,browse,arranger_id,debut_time FROM  castingpin_cast  order by debut_time desc limit $start_page,8")->asArray()->all();
              }else{
                  $arranger_id =    CastingpinCast::find()->where(['type'=>$type])->select(['id'])->asArray()->all(); //剧组ID
+
                  if ($arranger_id){
                      $first_names = array_column($arranger_id, 'id');
                      $cast_id = implode(",", $first_names);
