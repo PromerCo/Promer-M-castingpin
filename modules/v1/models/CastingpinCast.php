@@ -53,6 +53,7 @@ class CastingpinCast extends BaseModel
         return [
             'id' => 'ID',
             'open_id' => '微信OId',
+            'cover_img'=>'封面照',
             'arranger_id' => '统筹ID',
             'script' => '剧名',
             'type' => '剧型',
