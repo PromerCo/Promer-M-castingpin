@@ -62,7 +62,7 @@ LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open
              }
 
              foreach ($data as $key=>$value){
-                 $data[$key]['create_time'] = Common::time_tranx($value['create_time'],1);
+                 $data[$key]['debut_time'] = Common::time_tranx($value['debut_time'],1);
              }
           return  HttpCode::renderJSON($data,'ok','201');
 
