@@ -44,7 +44,7 @@ class CastingpinhomeController extends Controller
         $start_page = \Yii::$app->request->post('start_page')??0; //页数
 
              if($type == 100600 ){
-                 $data = CastingpinNotice::findBySql("SELECT id,script,type,cover_img,city,theme,browse,debut_time FROM  castingpin_cast  order by debut_time desc limit $start_page,8")->asArray()->all();
+                 $data = CastingpinNotice::findBySql("SELECT id,script,type,cover_img,city,theme,browse,arranger_id,debut_time FROM  castingpin_cast  order by debut_time desc limit $start_page,8")->asArray()->all();
              }else{
                  $arranger_id =    CastingpinCast::find()->where(['type'=>$type])->select(['id'])->asArray()->all(); //剧组ID
                  if ($arranger_id){
