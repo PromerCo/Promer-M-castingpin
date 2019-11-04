@@ -52,7 +52,7 @@ class CastingpincastController extends BaseController
             }else{
                 $transaction->commit();
                 $info['arranger_id']   = $notice->id;
-                return  HttpCode::renderJSON($info,'ok','201');
+                return  HttpCode::jsonObj($info,'ok','201');
             }
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
