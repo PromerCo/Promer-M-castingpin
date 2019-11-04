@@ -35,7 +35,7 @@ class CastingpinCast extends BaseModel
     public function rules()
     {
         return [
-            [['arranger_id'], 'required'],
+            [['arranger_id','script','team','profile'], 'required'],
             [['arranger_id', 'type', 'theme'], 'integer'],
             [['team', 'profile'], 'string'],
             [['create_time', 'update_time'], 'safe'],
