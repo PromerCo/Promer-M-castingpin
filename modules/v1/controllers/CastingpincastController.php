@@ -145,7 +145,44 @@ WHERE castingpin_arranger.id = $arranger_id")->asArray()->one();
     * 详情
    */
     public function actionFollow(){
+        if ((\Yii::$app->request->isPost)) {
+            $arranger_id    = \Yii::$app->request->post('arranger_id');
+            $follow_status  =\Yii::$app->request->post('follow_status');
+            $uid = $this->uid;
+            if (empty($arranger_id) || empty($follow_status)){
+                return  HttpCode::renderJSON([],'参数不能为空','419');
+            }
+            $user_ids =  CastingpinUser::findBySql("SELECT castingpin_user.id FROM castingpin_user
+LEFT JOIN castingpin_arranger ON  castingpin_arranger.open_id = castingpin_user.open_id
+WHERE castingpin_arranger.id = $arranger_id")->asArray()->one();
+            //1.查看用户是否关注过
+           $is_follow =   CastingpinCarefor::find()->where(['actor_id'=>$uid,'arranger_id'=>$user_ids['id']])->count();
+            $transaction = \Yii::$app->db->beginTransaction();
+           if (!$is_follow){
+               $is_creat =   \Yii::$app->db->createCommand()->insert('castingpin_carefor', [
+                   'status' => $follow_status,
+                   'arranger_id' => $user_ids['id'],
+                   'actor_id'=>$this->uid
+               ])->execute();
+               if (!$is_creat){
+                   return  HttpCode::renderJSON([],'关注失败','416');
+               }
+           }else{
+              $is_success =  CastingpinCarefor::updateAll([
+                   'status'=>$follow_status,'update_time'=>date('Y-m-d H:i:s',time())
+               ],['arranger_id'=>$user_ids['id'],'actor_id'=>$this->uid]);
+               $transaction->commit();
+               if (!$is_success){
+                   return  HttpCode::renderJSON($follow_status,'关注失败','416');
+               }
+               return  HttpCode::renderJSON($follow_status,'ok','201');
+           }
 
+
+
+        }else{
+            return  HttpCode::renderJSON([],'请求方式出错','418');
+        }
 
     }
 
