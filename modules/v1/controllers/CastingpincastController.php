@@ -116,7 +116,7 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
             return  HttpCode::renderJSON([],'参数不能为空','419');
         }
         //剧组列表
-        $cast_list = CastingpinCast::find()->where(['id'=>$cast_id])->select(['script','city','profile','cover_img','team','debut_time','id','browse','arranger_id'])->asArray()->one();//
+        $cast_list = CastingpinCast::find()->where(['id'=>$cast_id])->andWhere('<>','open_id',$this->openId)->select(['script','city','profile','cover_img','team','debut_time','id','browse','arranger_id'])->asArray()->one();//
         //通告列表
         $cast_list['notice'] = CastingpinNotice::find()->where(['cast_id'=>$cast_list['id']])->select(['title','id','cast_id','occupation','age','convene','bystander_number','shoot_time'])->asArray()->all();
         //浏览量
