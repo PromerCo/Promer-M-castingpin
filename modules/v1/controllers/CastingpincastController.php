@@ -129,13 +129,11 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
         $transaction = \Yii::$app->db->beginTransaction();
         // 1.我是否关注过   2. 关注他的总人数
         $uid = $this->uid;
-        //查看是否关注
-        $cast_list['follow_status'] =  CastingpinCarefor::find()->where(['actor_id'=>$uid,'arranger_id'=>$arranger_id,'status'=>'1'])->count();
-        return  HttpCode::renderJSON($uid.$arranger_id,'ok','201');
-
         $user_ids =  CastingpinUser::findBySql("SELECT castingpin_user.id FROM castingpin_user
 LEFT JOIN castingpin_arranger ON  castingpin_arranger.open_id = castingpin_user.open_id
 WHERE castingpin_arranger.id = $arranger_id")->asArray()->one();
+        //查看是否关注
+        $cast_list['follow_status'] =  CastingpinCarefor::find()->where(['actor_id'=>$uid,'arranger_id'=>$user_ids['id'],'status'=>'1'])->count();
         $cast_list['follow_counts'] =  CastingpinCarefor::find()->where(['arranger_id'=>$user_ids['id'],'status'=>'1'])->count();
         //查看当前剧组浏览量
         $follow_number = $cast_list['browse']; //浏览量
