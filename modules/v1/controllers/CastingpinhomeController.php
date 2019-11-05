@@ -76,10 +76,16 @@ LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open
          //剧组ID
          $cast_id    = \Yii::$app->request->post('cast_id');
          //剧组列表
-         $cast_list = CastingpinCast::find()->where(['id'=>$cast_id])->select(['script','city','profile','cover_img','team','debut_time','id'])->asArray()->one();//
+         $cast_list = CastingpinCast::find()->where(['id'=>$cast_id])->select(['script','city','profile','cover_img','team','debut_time','id','browse'])->asArray()->one();//
          //通告列表
          $cast_list['notice'] = CastingpinNotice::find()->where(['cast_id'=>$cast_list['id']])->select(['title','id','cast_id','occupation','age','convene','bystander_number','shoot_time'])->asArray()->all();
-//       $data['create_time'] = Common::time_tranx($cast_list['create_time'],1);
-        return  HttpCode::renderJSON($cast_list,'ok','201');
+         //浏览量
+         $transaction = \Yii::$app->db->beginTransaction();
+         //查看当前剧组浏览量
+         $follow_number = $cast_list['browse']; //浏览量
+         CastingpinCast::updateAll(['browse'=>$follow_number+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$cast_id]);
+         $transaction->commit();
+         $cast_list['browse'] = $cast_list['browse']+1;
+         return  HttpCode::renderJSON($cast_list,'ok','201');
     }
 }
