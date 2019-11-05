@@ -131,6 +131,7 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
         $uid = $this->uid;
         //查看是否关注
         $cast_list['follow_status'] =  CastingpinCarefor::find()->where(['actor_id'=>$uid,'arranger_id'=>$arranger_id,'status'=>'1'])->count();
+        return  HttpCode::renderJSON($uid.$arranger_id,'ok','201');
 
         $user_ids =  CastingpinUser::findBySql("SELECT castingpin_user.id FROM castingpin_user
 LEFT JOIN castingpin_arranger ON  castingpin_arranger.open_id = castingpin_user.open_id
