@@ -123,7 +123,8 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
        foreach ($cast_list['notice'] as $key => $value){
            $cast_list['notice'][$key]['shoot_time'] =  date("Y/m/d",strtotime($value['shoot_time']));
        }
-
+       //其它组讯
+        $cast_list['cast_list'] = CastingpinCast::findBySql("SELECT cover_img,script FROM castingpin_cast WHERE arranger_id = $arranger_id AND  id != $cast_id")->asArray()->all();
 
         $transaction = \Yii::$app->db->beginTransaction();
         // 1.我是否关注过   2. 关注他的总人数
@@ -134,7 +135,6 @@ WHERE castingpin_arranger.id = $arranger_id")->asArray()->one();
         $cast_list['follow_counts'] =  CastingpinCarefor::find()->where(['arranger_id'=>$user_ids['id'],'status'=>'1'])->count();
         //查看当前剧组浏览量
         $follow_number = $cast_list['browse']; //浏览量
-
         CastingpinCast::updateAll(['browse'=>$follow_number+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$cast_id]);
         $transaction->commit();
         $cast_list['browse'] = $cast_list['browse']+1;
