@@ -116,7 +116,7 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
             return  HttpCode::renderJSON([],'参数不能为空','419');
         }
         //剧组列表
-        $cast_list = CastingpinCast::find()->where(['id'=>$cast_id])->select(['script','city','profile','cover_img','team','debut_time','id','browse'])->asArray()->one();//
+        $cast_list = CastingpinCast::find()->where(['id'=>$cast_id])->select(['script','city','profile','cover_img','team','debut_time','id','browse','arranger_id'])->asArray()->one();//
         //通告列表
         $cast_list['notice'] = CastingpinNotice::find()->where(['cast_id'=>$cast_list['id']])->select(['title','id','cast_id','occupation','age','convene','bystander_number','shoot_time'])->asArray()->all();
         //浏览量
@@ -125,7 +125,6 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
        }
        //其它组讯
         $cast_list['cast_list'] = CastingpinCast::findBySql("SELECT cover_img,script FROM castingpin_cast WHERE arranger_id = $arranger_id AND  id != $cast_id")->asArray()->all();
-
         $transaction = \Yii::$app->db->beginTransaction();
         // 1.我是否关注过   2. 关注他的总人数
         $uid = $this->uid;
@@ -142,7 +141,13 @@ WHERE castingpin_arranger.id = $arranger_id")->asArray()->one();
         $cast_list['browse'] = $cast_list['browse']+1;
         return  HttpCode::renderJSON($cast_list,'ok','201');
     }
+    /*
+    * 详情
+   */
+    public function actionFollow(){
 
+
+    }
 
 
 
