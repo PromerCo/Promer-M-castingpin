@@ -75,6 +75,9 @@ LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open
          $cast_id    = \Yii::$app->request->post('cast_id');
          //统筹ID
          $arranger_id = \Yii::$app->request->post('arranger_id');
+         if (empty($arranger_id) || empty($cast_id)){
+             return  HttpCode::renderJSON([],'参数不能为空','419');
+         }
          //剧组列表
          $cast_list = CastingpinCast::find()->where(['id'=>$cast_id])->select(['script','city','profile','cover_img','team','debut_time','id','browse'])->asArray()->one();//
          //通告列表
@@ -86,6 +89,7 @@ LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open
          $user_ids =  CastingpinUser::findBySql("SELECT castingpin_user.id FROM castingpin_user
 LEFT JOIN castingpin_arranger ON  castingpin_arranger.open_id = castingpin_user.open_id
 WHERE castingpin_arranger.id = $arranger_id")->asArray()->one();
+
          $cast_list['follow_counts'] =  CastingpinCarefor::find()->where(['arranger_id'=>$user_ids['id'],'status'=>'1'])->count();
          //查看当前剧组浏览量
          $follow_number = $cast_list['browse']; //浏览量
