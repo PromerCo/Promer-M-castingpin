@@ -120,8 +120,10 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
         //通告列表
         $cast_list['notice'] = CastingpinNotice::find()->where(['cast_id'=>$cast_list['id']])->select(['title','id','cast_id','occupation','age','convene','bystander_number','shoot_time'])->asArray()->all();
         //浏览量
+       foreach ($cast_list['notice'] as $key => $value){
+           $cast_list['notice'][$key]['shoot_time'] =  date("Y/m/d H:i:s",strtotime($value['shoot_time']));
+       }
 
-        $cast_list['notice']['shoot_time'] =  date("Y/m/d H:i:s",strtotime($cast_list['notice']['shoot_time']));
 
         $transaction = \Yii::$app->db->beginTransaction();
         // 1.我是否关注过   2. 关注他的总人数
