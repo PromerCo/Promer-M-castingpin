@@ -166,6 +166,9 @@ WHERE castingpin_arranger.id = $arranger_id")->asArray()->one();
                ])->execute();
                if (!$is_creat){
                    return  HttpCode::renderJSON([],'关注失败','416');
+               }else{
+                   $transaction->commit();
+                   return  HttpCode::renderJSON($follow_status,'ok','201');
                }
            }else{
               $is_success =  CastingpinCarefor::updateAll([
