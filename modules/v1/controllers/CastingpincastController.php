@@ -147,10 +147,10 @@ WHERE castingpin_arranger.id = $arranger_id")->asArray()->one();
     public function actionFollow(){
         if ((\Yii::$app->request->isPost)) {
             $arranger_id    = \Yii::$app->request->post('arranger_id');
-            $follow_status  =\Yii::$app->request->post('follow_status');
+            $follow_status  =\Yii::$app->request->post('follow_status')??0;
             $uid = $this->uid;
-            if (empty($arranger_id) || empty($follow_status)){
-                return  HttpCode::renderJSON([],'参数不能为空','419');
+            if (empty($arranger_id)){
+                return  HttpCode::renderJSON([],'统筹Id不能为空','419');
             }
             $user_ids =  CastingpinUser::findBySql("SELECT castingpin_user.id FROM castingpin_user
 LEFT JOIN castingpin_arranger ON  castingpin_arranger.open_id = castingpin_user.open_id
