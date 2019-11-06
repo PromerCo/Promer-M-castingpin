@@ -104,7 +104,7 @@ class CastingpinnoticeController extends BaseController
                     $data = CastingpinNotice::find()->where(['id'=>$notice_id])->select(['enroll','convene','enroll_number'])->asArray()->one();
                     $enroll =$data['enroll']; //入伍人
                     $enroll_number =$data['enroll_number']; //入伍人数
-                    $convene =$data['convene']; //召集人数
+
                     //查看用户是否填写资料
                     $means =    CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id','wechat'])->asArray()->one();
                     if (!$means){
@@ -124,11 +124,6 @@ class CastingpinnoticeController extends BaseController
                         ])->execute();
                     }
                     $transaction = \Yii::$app->db->beginTransaction();
-                    //报名人数是否达到
-                    if ($enroll_number > $convene ){
-                        RedisLock::unlock($key);  //清空KEY
-                        return  HttpCode::renderJSON([],'报名人数已达到','200');
-                    }
                     //用户是否报名
                     $open_id =  $this->openId;
                     $enrolls =     CastingpinPull::findBySql('SELECT castingpin_pull.is_enroll,castingpin_pull.id as pull_id FROM castingpin_notice
