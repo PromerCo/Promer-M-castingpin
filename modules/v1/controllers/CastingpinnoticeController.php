@@ -252,7 +252,7 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
             $notice_id = \Yii::$app->request->post('notice_id');
             $actor_id = CastingpinActor::find()->where(['open_id' => $open_id])->select(['id'])->asArray()->one();
             if (empty($actor_id['id'])) {
-                return HttpCode::jsonObj([], '资料不全', '416');
+                return HttpCode::jsonObj([], '请切换身份', '416');
             }
             $transaction = \Yii::$app->db->beginTransaction();
             /*
@@ -261,6 +261,7 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
             $is_update = CastingpinPull::updateAll(['is_collect' => $collect, 'update_time' => date('Y-m-d H:i:s', time())], [
                 'actor_id' => $actor_id['id'],
                 'notice_id'=>$notice_id
+
             ]);
 
             if ($is_update){
@@ -333,6 +334,9 @@ FROM castingpin_notice
 LEFT JOIN  castingpin_cast ON castingpin_notice.cast_id = castingpin_cast.id
 LEFT JOIN  castingpin_pull ON castingpin_pull.notice_id = castingpin_notice.id
 WHERE  castingpin_notice.id = $notice_id")->asArray()->one();
+
+                $NoticeList['enroll_count'] = CastingpinPull::find()->where(['notice_id'=>$notice_id,'is_collect'=>'1'])->count();
+
                 $NoticeList['shoot_time'] =  date("Y/m/d",strtotime($NoticeList['shoot_time']));
                 $transaction->commit();
                 return  HttpCode::jsonObj($NoticeList,'ok','200');
