@@ -43,7 +43,7 @@ class CastingpinhomeController extends Controller
         $type =  \Yii::$app->request->post('type')??100600;  //剧组ID
         $start_page = \Yii::$app->request->post('start_page')??0; //页数
              if($type == 100600 ){
-                 $data = CastingpinNotice::findBySql("SELECT id,script,type,cover_img,city,theme,browse,arranger_id,debut_time FROM  castingpin_cast  order by debut_time desc limit $start_page,8")->asArray()->all();
+                 $data = CastingpinCast::findBySql("SELECT id,script,type,cover_img,city,theme,browse,arranger_id,debut_time FROM  castingpin_cast  order by debut_time desc limit $start_page,8")->asArray()->all();
              }else{
                  $arranger_id =    CastingpinCast::find()->where(['type'=>$type])->select(['id'])->asArray()->all(); //剧组ID
 
@@ -54,7 +54,7 @@ class CastingpinhomeController extends Controller
 castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
 FROM castingpin_notice 
 LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
-LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.cast_id in ($cast_id) order by castingpin_notice.create_time desc limit $start_page,8")->asArray()->all();
+LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.cast_id in ($cast_id) order by castingpin_notice.create_time desc limit $start_page,10")->asArray()->all();
                  }else{
                      $data = [];
                  }

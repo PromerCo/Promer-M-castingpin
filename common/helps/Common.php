@@ -78,26 +78,47 @@ class Common extends Controller
         return $result;
     }
 
-    public  static  function time_tranx($time){
+    public  static  function time_tranx($time,$type=0){
         date_default_timezone_set("PRC");
         $time = strtotime($time);
 
-        $t= time()-$time;
-
-        $f=array(
-            '31536000'=>'年',
-            '2592000'=>'个月',
-            '604800'=>'星期',
-            '86400'=>'天',
-            '3600'=>'小时',
-            '60'=>'分钟',
-            '1'=>'秒'
-        );
-        foreach ($f as $k=>$v)    {
-            if (0 !=$c=floor($t/(int)$k)) {
-                return $c.$v.'前';
+        if ($type == 1){
+            $t = time()-$time;
+            $f=array(
+                '31536000'=>'年',
+                '2592000'=>'个月',
+                '604800'=>'星期',
+                '86400'=>'天',
+                '3600'=>'小时',
+                '60'=>'分钟',
+                '1'=>'秒'
+            );
+            foreach ($f as $k=>$v)    {
+                if (0 !=$c=floor($t/(int)$k)) {
+                    return $c.$v;
+                }
+            }
+        }else{
+            $t = $time-time();
+            if ($t<0){
+                return '活动已结束';
+            }
+            $f=array(
+                '31536000'=>'年',
+                '2592000'=>'个月',
+                '604800'=>'星期',
+                '86400'=>'天',
+                '3600'=>'小时',
+                '60'=>'分钟',
+                '1'=>'秒'
+            );
+            foreach ($f as $k=>$v)    {
+                if (0 !=$c=floor($t/(int)$k)) {
+                    return $c.$v.'后结束';
+                }
             }
         }
+
     }
 
     /*
