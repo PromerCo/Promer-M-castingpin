@@ -108,16 +108,16 @@ class CastingpinnoticeController extends BaseController
                     //查看用户是否填写资料
                     $means =    CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id','wechat'])->asArray()->one();
                     if (!$means){
-                        return  HttpCode::renderJSON([],'请先填写资料','417');
+                        return  HttpCode::renderJSON([],'没有填写资料','416');
                     }
                     //假如用户填写资料
                     $is_pull =   CastingpinPull::find()->where(['notice_id'=>$notice_id,'actor_id'=>$means['id']])->asArray()->count(); //接单
                     $material =  CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['capacity'])->asArray()->one();  //身份标识（0 未填写资料 1 统筹 2 艺人
                     if ($material['capacity'] != 2){
-                        return  HttpCode::renderJSON([],'您不是艺人身份','417');
+                        return  HttpCode::renderJSON([],'切换身份','417');
                     }
                     if (!$is_pull){
-                       $pull_inster =  \Yii::$app->db->createCommand()->insert('castingpin_pull', [
+                        \Yii::$app->db->createCommand()->insert('castingpin_pull', [
                         'bystander_frequency' => '1',
                         'actor_id' => $means['id'],
                         'notice_id'=>$notice_id
@@ -179,68 +179,6 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
         }
     }
 
- /*
- * 记录用户浏览量
- */
-    public function actionPageviews(){
-
-        $notice_id =  \Yii::$app->request->post('notice_id');  //发布活动ID
-        /*
-          * 查看用户是否浏览
-        */
-        if (empty($notice_id)){
-            return  HttpCode::renderJSON([],'参数不能为空','406');
-        }
-        $bystander = CastingpinNotice::find()->where(['id'=>$notice_id])->select(['bystander','bystander_number'])->asArray()->one();
-        $bystander_number = $bystander['bystander_number'];
-        $transaction = \Yii::$app->db->beginTransaction();
-        if (!$bystander['bystander']){
-            /*
-             * 没有人浏览 （新增一条）
-             */
-            //存储 ID （转json）
-            $bystander_add['open_id'] = $this->openId;
-            $bystander_add = json_encode($bystander_add);
-            $json_msg   = '['.$bystander_add.']';
-            CastingpinNotice::updateAll(['bystander_number'=>$bystander_number+1,'bystander'=>$json_msg,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$notice_id]);
-        }else{
-            $bystander = $bystander['bystander'];
-            $bystander = json_decode($bystander);
-            $uids      = json_decode($bystander,true);
-            $serach_user =  Common::deep_in_array($this->openId,$uids);  // 搜索用户
-
-            if (!$serach_user){
-                $bm = str_replace(array('[',']'), array('', ''), $bystander);
-                $bystander_add['uid'] = $this->openId;
-                $bystander_add = json_encode($bystander_add);
-                $json_msg   = '['.$bm.','.$bystander_add.']';
-                // 用户不存在  （插入一条）
-                CastingpinNotice::updateAll(['bystander_number'=>$bystander_number+1,'bystander'=>$json_msg,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$notice_id]);
-            }
-        }
-        $actor_id =  CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one()['id'];
-
-        if (empty($actor_id)){
-            return  HttpCode::renderJSON([],'资料未填写,不记录','200');
-        }
-
-        $create_pull =   CastingpinPull::find()->where(['actor_id'=>$actor_id,'notice_id'=>$notice_id])->select(['bystander_frequency','is_enroll','is_success','id'])->asArray()->one();
-
-        if ($create_pull){
-            $result =  CastingpinPull::updateAll(['bystander_frequency'=>$create_pull['bystander_frequency']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$create_pull['id']]);
-        }else{
-            $result =   \Yii::$app->db->createCommand()->insert('castingpin_pull', [
-                'bystander_frequency' => '1',
-                'actor_id' => $actor_id,
-                'notice_id'=>$notice_id
-            ])->execute();
-        }
-
-        if ($result){
-            $transaction->commit();
-            return  HttpCode::renderJSON([],'ok','201');
-        }
-    }
 
   /*
   * 收藏
