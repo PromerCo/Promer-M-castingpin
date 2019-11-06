@@ -321,12 +321,13 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
                         'notice_id'=>$notice_id
                     ])->execute();
                 }
-                
+
             }
             if ($result){
                 $NoticeList =  CastingpinNotice::findBySql("SELECT castingpin_cast.cover_img,castingpin_cast.script,
 castingpin_notice.title,castingpin_notice.shoot_time,castingpin_notice.`profile`,castingpin_notice.age,castingpin_notice.convene,
 castingpin_notice.enroll_number,castingpin_notice.enroll,castingpin_pull.is_enroll,castingpin_cast.debut_time,castingpin_cast.city,
+castingpin_notice.id,
 castingpin_notice.expire_time,castingpin_pull.is_collect,castingpin_pull.enroll_time
 FROM castingpin_notice 
 LEFT JOIN  castingpin_cast ON castingpin_notice.cast_id = castingpin_cast.id
