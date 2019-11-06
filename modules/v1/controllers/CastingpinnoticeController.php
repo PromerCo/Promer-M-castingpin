@@ -265,13 +265,23 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
             if ($result){
                 $NoticeList =  CastingpinNotice::findBySql("SELECT castingpin_cast.cover_img,castingpin_cast.script,
 castingpin_notice.title,castingpin_notice.shoot_time,castingpin_notice.`profile`,castingpin_notice.age,castingpin_notice.convene,
-castingpin_notice.enroll_number,castingpin_notice.enroll,castingpin_pull.is_enroll,castingpin_cast.debut_time,castingpin_cast.city,
+castingpin_notice.enroll_number,castingpin_notice.enroll,castingpin_cast.debut_time,castingpin_cast.city,
 castingpin_notice.id,
-castingpin_notice.expire_time,castingpin_pull.is_collect,castingpin_pull.enroll_time
+castingpin_notice.expire_time
 FROM castingpin_notice 
 LEFT JOIN  castingpin_cast ON castingpin_notice.cast_id = castingpin_cast.id
-LEFT JOIN  castingpin_pull ON castingpin_pull.notice_id = castingpin_notice.id
 WHERE  castingpin_notice.id = $notice_id")->asArray()->one();
+
+                $open_id = $this->openId;
+                //是否报名
+
+                 $cast_pull  =   CastingpinPull::findBySql('SELECT castingpin_pull.is_enroll,castingpin_pull.is_collect  FROM castingpin_notice
+LEFT JOIN castingpin_pull ON castingpin_notice.id = castingpin_pull.notice_id
+LEFT JOIN castingpin_actor ON   castingpin_actor.id = castingpin_pull.actor_id
+WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'.$open_id.'"')->asArray()->one();
+                $NoticeList['is_enroll']  = $cast_pull['is_enroll'];
+                $NoticeList['is_collect'] = $cast_pull['is_collect'];
+
 
                 $NoticeList['enroll_count'] = CastingpinPull::find()->where(['notice_id'=>$notice_id,'is_collect'=>'1'])->count();
                 $NoticeList['shoot_time'] =  date("Y/m/d",strtotime($NoticeList['shoot_time']));
