@@ -336,7 +336,6 @@ LEFT JOIN  castingpin_pull ON castingpin_pull.notice_id = castingpin_notice.id
 WHERE  castingpin_notice.id = $notice_id")->asArray()->one();
 
                 $NoticeList['enroll_count'] = CastingpinPull::find()->where(['notice_id'=>$notice_id,'is_collect'=>'1'])->count();
-
                 $NoticeList['shoot_time'] =  date("Y/m/d",strtotime($NoticeList['shoot_time']));
                 $transaction->commit();
                 return  HttpCode::jsonObj($NoticeList,'ok','200');
