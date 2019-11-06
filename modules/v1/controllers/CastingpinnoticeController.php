@@ -280,7 +280,51 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
     public function actionNotice(){
         if ((\Yii::$app->request->isPost)) {
             $notice_id = \Yii::$app->request->post('notice_id');  //通告Id
-            $NoticeList =  CastingpinNotice::findBySql("SELECT castingpin_cast.cover_img,castingpin_cast.script,
+            if (empty($notice_id)){
+                return  HttpCode::renderJSON([],'参数不能为空','406');
+            }
+            $bystander = CastingpinNotice::find()->where(['id'=>$notice_id])->select(['bystander','bystander_number'])->asArray()->one();
+            $bystander_number = $bystander['bystander_number'];
+            $transaction = \Yii::$app->db->beginTransaction();
+            if (!$bystander['bystander']){
+                /*
+                 * 没有人浏览 （新增一条）
+                 */
+                $bystander_add['open_id'] = $this->openId;
+                $bystander_add = json_encode($bystander_add);
+                $json_msg   = '['.$bystander_add.']';
+                CastingpinNotice::updateAll(['bystander_number'=>$bystander_number+1,'bystander'=>$json_msg,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$notice_id]);
+            }else{
+                $bystander = $bystander['bystander'];
+                $bystander = json_decode($bystander);
+                $uids      = json_decode($bystander,true);
+                $serach_user =  Common::deep_in_array($this->openId,$uids);  // 搜索用户
+                if (!$serach_user){
+                    $bm = str_replace(array('[',']'), array('', ''), $bystander);
+                    $bystander_add['uid'] = $this->openId;
+                    $bystander_add = json_encode($bystander_add);
+                    $json_msg   = '['.$bm.','.$bystander_add.']';
+                    // 用户不存在  （插入一条）
+                    CastingpinNotice::updateAll(['bystander_number'=>$bystander_number+1,'bystander'=>$json_msg,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$notice_id]);
+                }
+            }
+            //艺人Id
+            $actor_id    =   CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one()['id'];
+            if (!empty($actor_id)){
+                  $create_pull =   CastingpinPull::find()->where(['actor_id'=>$actor_id,'notice_id'=>$notice_id])->select(['bystander_frequency','is_enroll','is_success','id'])->asArray()->one();
+                if ($create_pull){
+                    $result =  CastingpinPull::updateAll(['bystander_frequency'=>$create_pull['bystander_frequency']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$create_pull['id']]);
+                }else{
+                    $result =   \Yii::$app->db->createCommand()->insert('castingpin_pull', [
+                        'bystander_frequency' => '1',
+                        'actor_id' => $actor_id,
+                        'notice_id'=>$notice_id
+                    ])->execute();
+                }
+                
+            }
+            if ($result){
+                $NoticeList =  CastingpinNotice::findBySql("SELECT castingpin_cast.cover_img,castingpin_cast.script,
 castingpin_notice.title,castingpin_notice.shoot_time,castingpin_notice.`profile`,castingpin_notice.age,castingpin_notice.convene,
 castingpin_notice.enroll_number,castingpin_notice.enroll,castingpin_pull.is_enroll,castingpin_cast.debut_time,castingpin_cast.city,
 castingpin_notice.expire_time,castingpin_pull.is_collect,castingpin_pull.enroll_time
@@ -288,8 +332,12 @@ FROM castingpin_notice
 LEFT JOIN  castingpin_cast ON castingpin_notice.cast_id = castingpin_cast.id
 LEFT JOIN  castingpin_pull ON castingpin_pull.notice_id = castingpin_notice.id
 WHERE  castingpin_notice.id = $notice_id")->asArray()->one();
-            $NoticeList['shoot_time'] =  date("Y/m/d",strtotime($NoticeList['shoot_time']));
-            return  HttpCode::jsonObj($NoticeList,'ok','200');
+                $NoticeList['shoot_time'] =  date("Y/m/d",strtotime($NoticeList['shoot_time']));
+                $transaction->commit();
+                return  HttpCode::jsonObj($NoticeList,'ok','200');
+            }else{
+                return  HttpCode::jsonObj([],'记录浏览次数失败','416');
+            }
         }else{
             return  HttpCode::jsonObj([],'请求方式出错','418');
         }
