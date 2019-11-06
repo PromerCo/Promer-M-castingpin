@@ -258,7 +258,6 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
             /*
              * 更新收藏
              */
-
             $is_update = CastingpinPull::updateAll(['is_collect' => $collect, 'update_time' => date('Y-m-d H:i:s', time())], [
                 'actor_id' => $actor_id['id'],
                 'notice_id'=>$notice_id
@@ -274,6 +273,23 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
             return  HttpCode::jsonObj([],'请求方式出错','418');
         }
     }
+
+    /*
+     * 通告详情
+     */
+    public function actionNotice(){
+        if ((\Yii::$app->request->isPost)) {
+            $notice_id = \Yii::$app->request->post('notice_id');  //通告Id
+            $NoticeList =  CastingpinNotice::findBySql("SELECT castingpin_cast.cover_img,castingpin_cast.script,castingpin_notice.title,
+            castingpin_notice.shoot_time,castingpin_notice.`profile`,castingpin_notice.convene,castingpin_notice.enroll_number,
+            castingpin_notice.enroll FROM castingpin_notice LEFT JOIN  castingpin_cast ON castingpin_notice.cast_id = castingpin_cast.id
+            WHERE  castingpin_notice.id = $notice_id")->asArray()->one();
+            return  HttpCode::jsonObj($NoticeList,'ok','200');
+        }else{
+            return  HttpCode::jsonObj([],'请求方式出错','418');
+        }
+    }
+
 
 
 
