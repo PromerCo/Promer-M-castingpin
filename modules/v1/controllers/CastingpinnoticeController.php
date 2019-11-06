@@ -286,7 +286,7 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
                 $NoticeList['enroll_count'] = CastingpinPull::find()->where(['notice_id'=>$notice_id,'is_collect'=>'1'])->count();
                 $NoticeList['shoot_time'] =  date("Y/m/d",strtotime($NoticeList['shoot_time']));
                 $transaction->commit();
-                return  HttpCode::jsonObj($NoticeList,'ok','200');
+                return  HttpCode::renderJSON($NoticeList,'ok','200');
             }else{
                 return  HttpCode::jsonObj([],'记录浏览次数失败','416');
             }
