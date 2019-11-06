@@ -284,6 +284,7 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
             castingpin_notice.shoot_time,castingpin_notice.`profile`,castingpin_notice.convene,castingpin_notice.enroll_number,
             castingpin_notice.enroll FROM castingpin_notice LEFT JOIN  castingpin_cast ON castingpin_notice.cast_id = castingpin_cast.id
             WHERE  castingpin_notice.id = $notice_id")->asArray()->one();
+            $NoticeList['shoot_time'] =  date("Y/m/d",strtotime($NoticeList['shoot_time']));
             return  HttpCode::jsonObj($NoticeList,'ok','200');
         }else{
             return  HttpCode::jsonObj([],'请求方式出错','418');
