@@ -121,7 +121,7 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
         $cast_list['notice'] = CastingpinNotice::find()->where(['cast_id'=>$cast_list['id']])->select(['title','id','cast_id','occupation','age','convene','bystander_number','shoot_time'])->asArray()->all();
         //浏览量
        foreach ($cast_list['notice'] as $key => $value){
-           $cast_list['notice'][$key]['shoot_time'] =  date("Y/m/d",strtotime($value['shoot_time']));
+           $cast_list['notice'][$key]['shoot_time']  =  date("Y/m/d",strtotime($value['shoot_time']));
        }
        //其它组讯
         $cast_list['cast_list'] = CastingpinCast::findBySql("SELECT cover_img,script,id,arranger_id FROM castingpin_cast WHERE arranger_id = $arranger_id AND  id != $cast_id")->asArray()->all();
