@@ -42,7 +42,7 @@ class CastingpinNotice extends BaseModel
     public function rules()
     {
         return [
-            [[ 'cast_id', 'title', 'occupation', 'gender', 'convene','profile'], 'required'],
+            [[ 'cast_id', 'title', 'occupation', 'gender', 'convene'], 'required'],
 
             [['profile', 'bystander', 'enroll'], 'string'],
             [['create_time', 'update_time'], 'safe'],

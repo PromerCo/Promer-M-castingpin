@@ -71,10 +71,9 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
-
     /*
      *  通告列表(剧组对应通告)
-     */
+    */
     public function actionAnnounce(){
         if ((\Yii::$app->request->isPost)) {
             $cast_id = \Yii::$app->request->post('cast_id');
@@ -84,10 +83,9 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
-
     /*
      * 查看是否填写剧组资料
-     */
+    */
     public function actionCastms(){
         if ((\Yii::$app->request->isPost)) {
             $open_id = $this->openId;
@@ -97,13 +95,10 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
             }else{
                 return  HttpCode::renderJSON([],'ok','204');
             }
-
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
-
     }
-
     /*
     * 详情
    */
@@ -121,7 +116,7 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
         $cast_list['notice'] = CastingpinNotice::find()->where(['cast_id'=>$cast_list['id']])->select(['title','id','cast_id','occupation','age','convene','bystander_number','shoot_time'])->asArray()->all();
         //浏览量
        foreach ($cast_list['notice'] as $key => $value){
-           $cast_list['notice'][$key]['shoot_time'] =  date("Y/m/d",strtotime($value['shoot_time']));
+           $cast_list['notice'][$key]['shoot_time']  =  date("Y/m/d",strtotime($value['shoot_time']));
        }
        //其它组讯
         $cast_list['cast_list'] = CastingpinCast::findBySql("SELECT cover_img,script,id,arranger_id FROM castingpin_cast WHERE arranger_id = $arranger_id AND  id != $cast_id")->asArray()->all();
