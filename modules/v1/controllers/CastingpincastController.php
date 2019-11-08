@@ -71,9 +71,10 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
+
     /*
      *  通告列表(剧组对应通告)
-    */
+     */
     public function actionAnnounce(){
         if ((\Yii::$app->request->isPost)) {
             $cast_id = \Yii::$app->request->post('cast_id');
@@ -83,9 +84,10 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
+
     /*
      * 查看是否填写剧组资料
-    */
+     */
     public function actionCastms(){
         if ((\Yii::$app->request->isPost)) {
             $open_id = $this->openId;
@@ -95,10 +97,13 @@ open_id  where castingpin_user.open_id = "'.$this->openId.'" ')->asArray()->all(
             }else{
                 return  HttpCode::renderJSON([],'ok','204');
             }
+
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
+
     }
+
     /*
     * 详情
    */

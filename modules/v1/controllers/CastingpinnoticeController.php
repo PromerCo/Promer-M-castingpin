@@ -244,8 +244,9 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
             }
             //艺人Id
             $actor_id    =   CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['id'])->asArray()->one()['id'];
+
             if (!empty($actor_id)){
-                  $create_pull =   CastingpinPull::find()->where(['actor_id'=>$actor_id,'notice_id'=>$notice_id])->select(['bystander_frequency','is_enroll','is_success','id'])->asArray()->one();
+                    $create_pull =   CastingpinPull::find()->where(['actor_id'=>$actor_id,'notice_id'=>$notice_id])->select(['bystander_frequency','is_enroll','is_success','id'])->asArray()->one();
                 if ($create_pull){
                     $result =  CastingpinPull::updateAll(['bystander_frequency'=>$create_pull['bystander_frequency']+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$create_pull['id']]);
                 }else{
@@ -256,8 +257,10 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
                     ])->execute();
                 }
 
+            }else{
+                $result = [];
             }
-            if ($result){
+
                 $NoticeList =  CastingpinNotice::findBySql("SELECT castingpin_cast.cover_img,castingpin_cast.script,
 castingpin_notice.title,castingpin_notice.shoot_time,castingpin_notice.`profile`,castingpin_notice.age,castingpin_notice.convene,
 castingpin_notice.enroll_number,castingpin_notice.enroll,castingpin_cast.debut_time,castingpin_cast.city,
@@ -282,9 +285,7 @@ WHERE  castingpin_notice.id = "'.$notice_id.'" AND   castingpin_actor.open_id="'
                 $NoticeList['shoot_time'] =  date("Y/m/d",strtotime($NoticeList['shoot_time']));
                 $transaction->commit();
                 return  HttpCode::renderJSON($NoticeList,'ok','200');
-            }else{
-                return  HttpCode::jsonObj([],'记录浏览次数失败','416');
-            }
+
         }else{
             return  HttpCode::jsonObj([],'请求方式出错','418');
         }
