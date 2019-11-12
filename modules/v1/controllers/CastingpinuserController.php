@@ -33,6 +33,8 @@ class CastingpinuserController extends BaseController
         ];
     }
 
+
+
     /*
      * 微信授权：将用户基本信息存档
      */
@@ -126,11 +128,24 @@ class CastingpinuserController extends BaseController
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
-
-
-
-
     }
+    /*
+     *获取资料列表
+    */
+    public function actionMutis(){
+        if ((\Yii::$app->request->isPost)) {
+            $uid = $this->uid;
+            $type = CastingpinUser::find()->where(['id'=>$uid])->select('capacity')->one()['capacity'];
+            if ($type == 1){
+
+            }
+
+
+        }else{
+            return  HttpCode::renderJSON([],'请求方式出错','418');
+        }
+    }
+
 
 
 
