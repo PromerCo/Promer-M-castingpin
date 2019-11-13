@@ -129,6 +129,32 @@ class CastingpinuserController extends BaseController
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
+
+    /*
+     * 切换身份（更新）
+    */
+    public function actionIdentity(){
+        if ((\Yii::$app->request->isPost)) {
+            $type = \Yii::$app->request->post('type');
+            if (empty($type)){
+                return  HttpCode::renderJSON([],'参数不存在','412');
+            }
+            try {
+                $transaction = \Yii::$app->db->beginTransaction(); //开启事务
+                $is_success =  CastingpinUser::updateAll(['capacity'=>$type,'update_time'=>date('Y-m-d H:i:s',time())],['open_id'=>$this->openId]);
+                if ($is_success){
+                    $transaction->commit();
+                    return   HttpCode::renderJSON([],'ok','201') ; //返回对应角色数据
+                }else{
+                    return  HttpCode::renderJSON([],'更新失败','416');
+                }
+            }catch (\Exception $e) {
+                return  HttpCode::renderJSON([],$e->getMessage(),'412');
+            }
+        }else{
+            return  HttpCode::renderJSON([],'请求方式出错','418');
+        }
+    }
     /*
      *获取资料列表
     */
