@@ -42,28 +42,16 @@ class CastingpinhomeController extends Controller
     public function actionHome(){
         $type =  \Yii::$app->request->post('type')??100600;  //剧组ID
         $start_page = \Yii::$app->request->post('start_page')??0; //页数
-             if($type == 100600 ){
-                 $data = CastingpinCast::findBySql("SELECT id,script,type,cover_img,city,theme,browse,arranger_id,debut_time,create_time FROM  castingpin_cast  order by debut_time desc limit $start_page,8")->asArray()->all();
-             }else{
-                 $arranger_id =    CastingpinCast::find()->where(['type'=>$type])->select(['id'])->asArray()->all(); //剧组ID
+        $data = CastingpinCast::findBySql("SELECT id,script,type,cover_img,city,theme,browse,arranger_id,debut_time,create_time FROM  castingpin_cast where type = $type order by debut_time desc limit $start_page,8")->asArray()->all();
+        if ($data){
+            foreach ($data as $key=>$value){
+                $data[$key]['create_time'] = Common::time_tranx($value['create_time'],1);
+                $data[$key]['debut_time'] =   date('Y-m-d',strtotime($data[$key]['debut_time']));
+            }
+        }else{
+            $data = [];
+        }
 
-                 if ($arranger_id){
-                     $first_names = array_column($arranger_id, 'id');
-                     $cast_id = implode(",", $first_names);
-                     $data = CastingpinNotice::findBySql("SELECT castingpin_user.avatar_url,castingpin_notice.arranger_id,castingpin_notice.id,castingpin_notice.cast_id,castingpin_notice.title,
-castingpin_notice.occupation,castingpin_notice.age,castingpin_notice.speciality,castingpin_notice.convene,castingpin_notice.create_time
-FROM castingpin_notice 
-LEFT JOIN castingpin_arranger ON castingpin_notice.arranger_id = castingpin_arranger.id
-LEFT JOIN castingpin_user  ON castingpin_user.open_id = castingpin_arranger.open_id where castingpin_notice.cast_id in ($cast_id) order by castingpin_notice.create_time desc limit $start_page,10")->asArray()->all();
-                 }else{
-                     $data = [];
-                 }
-             }
-            //debut_time
-             foreach ($data as $key=>$value){
-                 $data[$key]['create_time'] = Common::time_tranx($value['create_time'],1);
-                 $data[$key]['debut_time'] =   date('Y-m-d',strtotime($data[$key]['debut_time']));
-             }
           return  HttpCode::renderJSON($data,'ok','201');
 
     }
