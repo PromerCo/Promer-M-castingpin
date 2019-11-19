@@ -3,6 +3,7 @@ namespace mcastingpin\modules\v1\services;
 
 use mcastingpin\modules\v1\models\CastingpinActor;
 use mcastingpin\modules\v1\models\CastingpinArranger;
+use mcastingpin\modules\v1\models\CastingpinUser;
 
 
 class CastingpinUserService {
@@ -15,6 +16,7 @@ class CastingpinUserService {
                 //position 职位
                 //city 城市
                 $data = CastingpinArranger::find()->where(['open_id'=>$openId])->select(['industry','corporation','position','city'])->asArray()->one();
+                $data['cover_img'] = CastingpinUser::find()->where(['open_id'=>$openId])->select(['avatar_url'])->asArray()->one()[0];
 
                 if (empty($data)){
                     $data['material'] = 0;
