@@ -174,15 +174,15 @@ class CastingpinuserController extends BaseController
             $capacity = CastingpinUser::find()->where(['open_id' => $this->openId])->select(['capacity'])->one();
             if ($capacity['capacity'] == 1){
             //我收藏的艺人
-            $data = CastingpinEnshrine::findBySql("SELECT id,sex,wechat,phone,occupation,invite,university,stage_name,city,cover_img FROM castingpin_actor WHERE
+            $data['list'] = CastingpinEnshrine::findBySql("SELECT id,sex,wechat,phone,occupation,invite,university,stage_name,city,cover_img FROM castingpin_actor WHERE
             open_id IN(SELECT castingpin_user.open_id FROM castingpin_enshrine LEFT JOIN castingpin_user ON castingpin_enshrine.away_id = castingpin_user.id
             WHERE castingpin_enshrine.collect_id = $uid AND castingpin_enshrine.status = 1 and castingpin_user.id <> $uid
             )")->asArray()->all();
-                $data['type']['capacity'] = 1;
+                $data['capacity'] = 1;
             return  HttpCode::renderJSON($data,'ok','201');
             }elseif ($capacity['capacity'] == 2){
             //我关注的统筹
-            $data = CastingpinArranger::findBySql("
+            $data['list'] = CastingpinArranger::findBySql("
 			SELECT  castingpin_arranger.wechat,castingpin_arranger.phone,castingpin_arranger.id,
 			castingpin_arranger.corporation,castingpin_arranger.city,castingpin_arranger.industry,
 			castingpin_user.avatar_url,castingpin_carefor.create_date 
@@ -192,7 +192,7 @@ class CastingpinuserController extends BaseController
 			WHERE   castingpin_carefor.actor_id = $uid  AND  castingpin_carefor. `status` = 1 
 			AND   castingpin_user.id <> $uid
              ")->asArray()->all();
-                $data['type']['capacity'] = 2;
+                $data['capacity'] = 2;
             return  HttpCode::renderJSON($data,'ok','201');
             }else{
                 return  HttpCode::renderJSON([],'ok','204');
