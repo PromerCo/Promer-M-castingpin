@@ -3,6 +3,7 @@ namespace mcastingpin\modules\v1\controllers;
 
 use mcastingpin\common\helps\HttpCode;
 use mcastingpin\modules\v1\models\CastingpinArranger;
+use mcastingpin\modules\v1\models\CastingpinCarefor;
 use mcastingpin\modules\v1\models\CastingpinEnshrine;
 use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\CastingpinUserService;
@@ -180,13 +181,16 @@ class CastingpinuserController extends BaseController
             return  HttpCode::renderJSON($data,'ok','201');
             }elseif ($capacity['capacity'] == 2){
             //我关注的统筹
-            $data = CastingpinArranger::findBySql("SELECT wechat,phone,id,corporation,city,industry FROM 
-            castingpin_arranger  WHERE  open_id  IN ( 
-			SELECT  castingpin_user.open_id  FROM  castingpin_carefor  
+            $data
+                = CastingpinArranger::findBySql("
+			SELECT  *  FROM  castingpin_carefor  
 			LEFT JOIN  castingpin_user  ON  castingpin_user.id = castingpin_carefor.arranger_id
+			LEFT JOIN  castingpin_arranger on castingpin_arranger.open_id = castingpin_user.open_id
 			WHERE   castingpin_carefor.actor_id = $uid  AND  castingpin_carefor. `status` = 1 
 			AND   castingpin_user.id <> $uid
-	    	)")->asArray()->all();
+	    	")->asArray()->all();
+
+
 
             return  HttpCode::renderJSON($data,'ok','201');
             }else{
