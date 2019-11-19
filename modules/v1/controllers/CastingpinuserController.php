@@ -1,10 +1,12 @@
 <?php
 namespace mcastingpin\modules\v1\controllers;
 
+use mcastingpin\common\helps\HttpCode;
+use mcastingpin\modules\v1\models\CastingpinArranger;
+use mcastingpin\modules\v1\models\CastingpinEnshrine;
 use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\CastingpinUserService;
 use mcastingpin\modules\v1\services\ParamsValidateService;
-use mcastingpin\common\helps\HttpCode;
 use mcastingpin\modules\v1\services\UserTokenService;
 use wxphone\WXBizDataCrypt;
 use yii\web\RangeNotSatisfiableHttpException;
@@ -160,17 +162,36 @@ class CastingpinuserController extends BaseController
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
     }
+
     /*
-     *获取资料列表
-    */
-    public function actionMutis(){
+     * 收藏列表
+     */
+    public function actionEnshrine(){
         if ((\Yii::$app->request->isPost)) {
+            //获取角色状态
             $uid = $this->uid;
-            $type = CastingpinUser::find()->where(['id'=>$uid])->select('capacity')->one()['capacity'];
-            if ($type == 1){
+            $capacity = CastingpinUser::find()->where(['open_id' => $this->openId])->select(['capacity'])->one();
+            if ($capacity['capacity'] == 1){
+            //我收藏的艺人
+            $data = CastingpinEnshrine::findBySql("SELECT id,sex,wechat,phone,occupation,invite,university,stage_name,city,cover_img FROM castingpin_actor WHERE
+            open_id IN(SELECT castingpin_user.open_id FROM castingpin_enshrine LEFT JOIN castingpin_user ON castingpin_enshrine.away_id = castingpin_user.id
+            WHERE castingpin_enshrine.collect_id = $uid AND castingpin_enshrine.status = 1 and castingpin_user.id <> $uid
+            )")->asArray()->all();
+            return  HttpCode::renderJSON($data,'ok','201');
+            }elseif ($capacity['capacity'] == 2){
+            //我关注的统筹
+            $data = CastingpinArranger::findBySql("SELECT wechat,phone,id,corporation,city,industry FROM 
+            castingpin_arranger  WHERE  open_id  IN ( 
+			SELECT  castingpin_user.open_id  FROM  castingpin_carefor  
+			LEFT JOIN  castingpin_user  ON  castingpin_user.id = castingpin_carefor.arranger_id
+			WHERE   castingpin_carefor.actor_id = $uid  AND  castingpin_carefor. `status` = 1 
+			AND   castingpin_user.id <> $uid
+	    	)")->asArray()->all();
 
+            return  HttpCode::renderJSON($data,'ok','201');
+            }else{
+                return  HttpCode::renderJSON([],'ok','204');
             }
-
 
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
