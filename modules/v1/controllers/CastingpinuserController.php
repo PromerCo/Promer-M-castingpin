@@ -184,7 +184,7 @@ class CastingpinuserController extends BaseController
             $data = CastingpinArranger::findBySql("
 			SELECT  castingpin_arranger.wechat,castingpin_arranger.phone,castingpin_arranger.id,
 			castingpin_arranger.corporation,castingpin_arranger.city,castingpin_arranger.industry,
-			castingpin_user.avatar_url,castingpin_carefor.create_time 
+			castingpin_user.avatar_url,castingpin_carefor.create_date 
 			FROM  castingpin_carefor  
 			LEFT JOIN  castingpin_user  ON  castingpin_user.id = castingpin_carefor.arranger_id
 			LEFT JOIN  castingpin_arranger on castingpin_arranger.open_id = castingpin_user.open_id
