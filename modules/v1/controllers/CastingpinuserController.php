@@ -181,14 +181,16 @@ class CastingpinuserController extends BaseController
             return  HttpCode::renderJSON($data,'ok','201');
             }elseif ($capacity['capacity'] == 2){
             //我关注的统筹
-            $data
-                = CastingpinArranger::findBySql("
-			SELECT  *  FROM  castingpin_carefor  
+            $data = CastingpinArranger::findBySql("
+			SELECT  castingpin_arranger.wechat,castingpin_arranger.phone,castingpin_arranger.id,
+			castingpin_arranger.corporation,castingpin_arranger.city,castingpin_arranger.industry,
+			castingpin_user.avatar_url,castingpin_carefor.create_time 
+			FROM  castingpin_carefor  
 			LEFT JOIN  castingpin_user  ON  castingpin_user.id = castingpin_carefor.arranger_id
 			LEFT JOIN  castingpin_arranger on castingpin_arranger.open_id = castingpin_user.open_id
 			WHERE   castingpin_carefor.actor_id = $uid  AND  castingpin_carefor. `status` = 1 
 			AND   castingpin_user.id <> $uid
-	    	")->asArray()->all();
+             ")->asArray()->all();
 
 
 
