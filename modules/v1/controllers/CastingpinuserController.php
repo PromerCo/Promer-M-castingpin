@@ -178,7 +178,7 @@ class CastingpinuserController extends BaseController
             open_id IN(SELECT castingpin_user.open_id FROM castingpin_enshrine LEFT JOIN castingpin_user ON castingpin_enshrine.away_id = castingpin_user.id
             WHERE castingpin_enshrine.collect_id = $uid AND castingpin_enshrine.status = 1 and castingpin_user.id <> $uid
             )")->asArray()->all();
-                $data['capacity'] = 1;
+            $data['capacity'] = 1;
             return  HttpCode::renderJSON($data,'ok','201');
             }elseif ($capacity['capacity'] == 2){
             //我关注的统筹
