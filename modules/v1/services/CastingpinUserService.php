@@ -22,7 +22,7 @@ class CastingpinUserService {
                     $data['material'] = 0;
                     $data['type'] = $type;
                 }else{
-                    $data['cover_img'] = CastingpinUser::find()->where(['open_id'=>$openId])->select(['avatar_url'])->asArray()->one()[0];
+                    $data['cover_img'] = CastingpinUser::find()->where(['open_id'=>$openId])->select(['avatar_url'])->asArray()->one();
                     $data['material'] = 1;
                     $data['type'] = $type;
                 }
