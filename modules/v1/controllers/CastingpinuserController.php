@@ -2,6 +2,7 @@
 namespace mcastingpin\modules\v1\controllers;
 
 use mcastingpin\common\helps\HttpCode;
+use mcastingpin\modules\v1\models\CastingpinActor;
 use mcastingpin\modules\v1\models\CastingpinArranger;
 use mcastingpin\modules\v1\models\CastingpinCarefor;
 use mcastingpin\modules\v1\models\CastingpinEnshrine;
@@ -9,6 +10,7 @@ use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\CastingpinUserService;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\modules\v1\services\UserTokenService;
+use Symfony\Component\Yaml\Yaml;
 use wxphone\WXBizDataCrypt;
 use yii\web\RangeNotSatisfiableHttpException;
 
@@ -198,6 +200,26 @@ class CastingpinuserController extends BaseController
                 return  HttpCode::renderJSON([],'ok','204');
             }
 
+        }else{
+            return  HttpCode::renderJSON([],'请求方式出错','418');
+        }
+    }
+
+    /*
+     * 用户详情
+    */
+    public function actionParticulars(){
+        if ((\Yii::$app->request->isPost)) {
+            $id = \Yii::$app->request->post('id');  //详情ID
+            $capacity = \Yii::$app->request->post('capacity');  //详情ID
+            if ($capacity == 1){
+                //统筹信息
+                $data = CastingpinArranger::find()->where(['id'=>$id])->select(['wechat','phone','email','industry','corporation','position','city','profile'])->one();
+            }else{
+                $data = CastingpinActor::find()->where(['id'=>$id])->select(['wechat','phone','email','occupation','follow_number','university','stage_name',
+                        'cover_img','corporation','birthday','profile','height','weight'])->one();
+            }
+            return  HttpCode::renderJSON($data,'ok','201');
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
