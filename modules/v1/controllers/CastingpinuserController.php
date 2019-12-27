@@ -10,7 +10,6 @@ use mcastingpin\modules\v1\models\CastingpinUser;
 use mcastingpin\modules\v1\services\CastingpinUserService;
 use mcastingpin\modules\v1\services\ParamsValidateService;
 use mcastingpin\modules\v1\services\UserTokenService;
-use Symfony\Component\Yaml\Yaml;
 use wxphone\WXBizDataCrypt;
 use yii\web\RangeNotSatisfiableHttpException;
 
@@ -214,11 +213,37 @@ class CastingpinuserController extends BaseController
             $capacity = \Yii::$app->request->post('capacity');  //详情ID
             if ($capacity == 1){
                 //统筹信息
-                $data = CastingpinArranger::find()->where(['id'=>$id])->select(['wechat','phone','email','industry','corporation','position','city','profile'])->one();
+                $data = CastingpinArranger::find()->where(['id'=>$id])->select(['id','wechat','phone','email','industry','corporation','position','city','profile','open_id'])->asArray()->one();
+                $data['cover_img'] = CastingpinUser::find()->where(['open_id'=>$data['open_id']])->select(['avatar_url'])->asArray()->one()['avatar_url'];
+                $user_id = CastingpinUser::find()->where(['open_id'=>$data['open_id']])->select(['id'])->asArray()->one()['id'];
+                $data['status'] =  CastingpinCarefor::find()->where(['actor_id'=>$this->uid,'arranger_id'=>$user_id,'status'=>'1'])->count();
+
+
+            }else if ($capacity == 2){
+                $data = CastingpinActor::find()->where(['id'=>$id])->select(['id','wechat','phone','email','occupation','follow_number','university','stage_name',
+                        'cover_img','corporation','birthday','profile','height','weight','open_id'])->asArray()->one();
+                $data['avatar_url'] = CastingpinUser::find()->where(['open_id'=>$data['open_id']])->select(['avatar_url'])->asArray()->one()['avatar_url'];
+                $user_id = CastingpinUser::find()->where(['open_id'=>$data['open_id']])->select(['id'])->asArray()->one()['id'];
+                $data['status'] =  CastingpinEnshrine::find()->where(['collect_id'=>$this->uid,'away_id'=>$user_id,'status'=>'1'])->count();
             }else{
-                $data = CastingpinActor::find()->where(['id'=>$id])->select(['wechat','phone','email','occupation','follow_number','university','stage_name',
-                        'cover_img','corporation','birthday','profile','height','weight'])->one();
+                $type = CastingpinUser::find()->where(['open_id' => $this->openId])->select(['capacity'])->one()['capacity'];
+                if ($type == 1){
+                    //统筹信息
+                    $data = CastingpinArranger::find()->where(['open_id'=>$this->openId])->select(['wechat','phone','email','industry','corporation','position','city','profile','open_id'])->asArray()->one();
+                    $data['cover_img'] = CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['avatar_url'])->asArray()->one()['avatar_url'];
+                    $data['capacity'] = 1;
+                    $data['show_status']   = 0;
+
+                }else{
+                    $data = CastingpinActor::find()->where(['open_id'=>$this->openId])->select(['wechat','phone','email','occupation','follow_number','university','stage_name',
+                        'cover_img','corporation','birthday','profile','height','weight','open_id'])->asArray()->one();
+                    $data['avatar_url'] = CastingpinUser::find()->where(['open_id'=>$this->openId])->select(['avatar_url'])->asArray()->one()['avatar_url'];
+                    $data['capacity'] = 2;
+                    $data['show_status']   = 0;
+
+                }
             }
+            //查看用户是否关注
             return  HttpCode::renderJSON($data,'ok','201');
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');

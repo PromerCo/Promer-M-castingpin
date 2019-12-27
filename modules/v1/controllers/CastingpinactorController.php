@@ -9,6 +9,7 @@ use mcastingpin\modules\v1\models\CastingpinActor;
 use mcastingpin\modules\v1\models\CastingpinArranger;
 use mcastingpin\modules\v1\models\CastingpinCarefor;
 use mcastingpin\modules\v1\models\CastingpinCast;
+use mcastingpin\modules\v1\models\CastingpinEnshrine;
 use mcastingpin\modules\v1\models\CastingpinNotice;
 use mcastingpin\modules\v1\models\CastingpinPull;
 use mcastingpin\modules\v1\models\CastingpinUser;
@@ -70,7 +71,7 @@ class CastingpinactorController extends BaseController
                                 $transaction->commit();
                                 return HttpCode::renderJSON([], 'ok', '200');
                             } else {
-                                return HttpCode::renderJSON([], 'update failed', '412');
+                                return HttpCode::renderJSON([], 'update failed', '200');
                             }
                         }
                         break;
@@ -93,7 +94,7 @@ class CastingpinactorController extends BaseController
                                 $transaction->commit();
                                 return HttpCode::renderJSON([], 'ok', '200');
                             } else {
-                                return HttpCode::renderJSON([], 'update failed', '412');
+                                return HttpCode::renderJSON([], 'update failed', '200');
                             }
                         }
                         break;
@@ -208,19 +209,23 @@ class CastingpinactorController extends BaseController
         if ((\Yii::$app->request->isPost)) {
 
             $yir_id = \Yii::$app->request->post('arranger_id');//被关注人ID（艺人）
-
             $status = \Yii::$app->request->post('status')??1;  //0未关注  1已关注
+            $type = \Yii::$app->request->post('type')??1;  //1 关注  2 收藏
             if (empty($yir_id)){
                 return  HttpCode::renderJSON([],'参数不能为空','406');
             }
-            $open_id =  CastingpinActor::find()->where(['id'=>$yir_id])->select(['open_id'])->asArray()->one()['open_id'];  // 艺人OpenId
+            if ($type == 2){
+            /*
+             *  CastingpinActor 修改为 CastingpinArranger
+            */
+            $open_id =  CastingpinArranger::find()->where(['id'=>$yir_id])->select(['open_id'])->asArray()->one()['open_id'];  // 艺人OpenId
             $arranger_id =   CastingpinUser::find()->where(['open_id'=>$open_id])->select(['id'])->asArray()->one()['id'];  //艺人ID
 
             $transaction = \Yii::$app->db->beginTransaction();
             //查看是否关注过
             $follow_status =   CastingpinCarefor::find()->where(['actor_id'=>$this->uid,'arranger_id'=>$arranger_id])->select(['status'])->asArray()->one();
             //查看网红关注总人数
-            $follow_number = CastingpinActor::find()->where(['id'=>$yir_id])->select(['follow_number'])->asArray()->one()['follow_number'];
+            //$follow_number = CastingpinActor::find()->where(['id'=>$yir_id])->select(['follow_number'])->asArray()->one()['follow_number'];
             if (!$follow_status){
                 //没有关注过(插入)
                 $is_success  =   \Yii::$app->db->createCommand()->insert('castingpin_carefor', [
@@ -229,7 +234,7 @@ class CastingpinactorController extends BaseController
                     'actor_id'=>$this->uid
                 ])->execute();
                 if ($is_success){
-                    CastingpinActor::updateAll(['follow_number'=>$follow_number+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$yir_id]);
+                   // CastingpinActor::updateAll(['follow_number'=>$follow_number+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$yir_id]);
                     $transaction->commit();
                     return  HttpCode::renderJSON($status,'create is success','201');
                 }else{
@@ -239,17 +244,43 @@ class CastingpinactorController extends BaseController
                 $cancel_follow =    CastingpinCarefor::updateAll(['status'=>$status,'update_time'=>date('Y-m-d H:i:s',time())],['actor_id'=>$this->uid,'arranger_id'=>$arranger_id]);
                 if ($cancel_follow){
 
-                    if ($status == 1){
-                         CastingpinActor::updateAll(['follow_number'=>intval($follow_number)+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$yir_id]);
-                    }else{
-                        CastingpinActor::updateAll(['follow_number'=>intval($follow_number)-1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$yir_id]);
-                    }
+//                    if ($status == 1){
+//                         CastingpinActor::updateAll(['follow_number'=>intval($follow_number)+1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$yir_id]);
+//                    }else{
+//                        CastingpinActor::updateAll(['follow_number'=>intval($follow_number)-1,'update_time'=>date('Y-m-d H:i:s',time())],['id'=>$yir_id]);
+//                    }
                     $transaction->commit();
                     return  HttpCode::renderJSON($status,'ok','201');
                 }else{
                     return  HttpCode::renderJSON(['关注失败'],'error','412');
                 }
             }
+            }else{
+                $open_id =  CastingpinActor::find()->where(['id'=>$yir_id])->select(['open_id'])->asArray()->one()['open_id'];  // 统筹OpenId
+                $actor_id =   CastingpinUser::find()->where(['open_id'=>$open_id])->select(['id'])->asArray()->one()['id'];  //统筹ID
+                $transaction = \Yii::$app->db->beginTransaction();
+                //查看是否收藏过
+                $follow_status =   CastingpinEnshrine::find()->where(['collect_id'=>$this->uid,'away_id'=>$actor_id])->select(['status'])->asArray()->one();
+                if (!$follow_status){
+                    //没有收藏过(插入)
+                    $is_success  =   \Yii::$app->db->createCommand()->insert('castingpin_enshrine', [
+                        'status' => $status,
+                        'away_id' => $actor_id,
+                        'collect_id'=>$this->uid
+                    ])->execute();
+                    if ($is_success){
+                        $transaction->commit();
+                        return  HttpCode::renderJSON($status,'create is success','201');
+                    }else{
+                        return  HttpCode::renderJSON([],'error','412');
+                    }
+                }else{
+                    CastingpinEnshrine::updateAll(['status'=>$status,'update_time'=>date('Y-m-d H:i:s',time())],['collect_id'=>$this->uid,'away_id'=>$actor_id]);
+                    $transaction->commit();
+                    return  HttpCode::renderJSON($status,'ok','201');
+                }
+            }
+
         }else{
             return  HttpCode::renderJSON([],'请求方式出错','418');
         }
